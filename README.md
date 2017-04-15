@@ -1,6 +1,6 @@
 # App Metrics InfluxDB Extensions
 
-[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Reporters/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Reporters?branch=master)
+[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Extensions.InfluxDB/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.InfluxDB?branch=master)
 
 |AppVeyor|Travis|
 |:--------:|:--------:|
