@@ -1,20 +1,18 @@
-# App Metrics Reporters
+# App Metrics InfluxDB Extensions
 
 [![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Reporters/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Reporters?branch=master)
 
 |AppVeyor|Travis|
 |:--------:|:--------:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/pomm2m6yfwm6twl7?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-reporters/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Reporters.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Reporters?branch=master)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/pomm2m6yfwm6twl7?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB?branch=master)|
 
 |Package|Dev Release|Pre Release|Latest Release|
 |------|:--------:|:--------:|:--------:|
 |App.Metrics.Extensions.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)
-|App.Metrics.Extensions.Reporting.Console|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Console.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Console)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Console.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Console/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Console.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Console/)
-|App.Metrics.Extensions.Reporting.TextFile|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.TextFile.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.TextFile)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.TextFile.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.TextFile/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.TextFile.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.TextFile/)|
 
 ## What is it?
 
-The repo contains reporting extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
+The repo contains InfluxDB extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
 
 ## How to build
 
