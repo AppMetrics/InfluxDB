@@ -16,7 +16,7 @@ The repo contains InfluxDB extension packages to [App Metrics](https://github.co
 
 ## How to build
 
-[AppVeyor](https://ci.appveyor.com/project/alhardy/appmetrics-reporters/branch/master) and [Travis CI](https://travis-ci.org/alhardy/AppMetrics.Reporters) builds are triggered on commits and PRs to `dev` and `master` branches.
+[AppVeyor](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/master) and [Travis CI](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB) builds are triggered on commits and PRs to `dev` and `master` branches.
 
 See the following for build arguments and running locally.
 
@@ -86,7 +86,3 @@ See the [contribution guidlines](https://github.com/alhardy/AppMetrics/blob/mast
 ## License
 
 This library is release under Apache 2.0 License ( see LICENSE ) Copyright (c) 2016 Allan Hardy
-
-----------
-
-[![](https://codescene.io/projects/868/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/868/jobs/latest-successful/results)
