@@ -36,12 +36,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Repo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.InfluxDB.Facts", "test\App.Metrics.Extensions.Reporting.InfluxDB.Facts\App.Metrics.Extensions.Reporting.InfluxDB.Facts.csproj", "{84005F55-AF0E-40F4-A596-129E19C418CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{578664D5-9B42-48DA-BBE2-F4D8E4E56260}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visualization", "visualization", "{5BC3B2AF-AFC7-4C92-BD1E-D347E83B2497}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", "{55C5B9A8-2745-4EBB-AE10-5E329C7EF29F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana-dashboards", "grafana-dashboards", "{44E50731-4AE5-456F-A84C-CE3C4C977097}"
 	ProjectSection(SolutionItems) = preProject
-		grafana\dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWeb.json = grafana\dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWeb.json
-		grafana\dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json = grafana\dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json
+		visualization\grafana-dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWeb.json = visualization\grafana-dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWeb.json
+		visualization\grafana-dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json = visualization\grafana-dashbaords\App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json
 	EndProjectSection
 EndProject
 Global
@@ -67,7 +67,7 @@ Global
 		{4199989A-27B6-4A6A-99C2-1AF6B01DA5EB} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{F07C2053-2AD0-4FA0-8265-761FCE289F59} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{84005F55-AF0E-40F4-A596-129E19C418CE} = {DD2E4647-7125-4CE3-9BA5-B45A26113A31}
-		{578664D5-9B42-48DA-BBE2-F4D8E4E56260} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
-		{55C5B9A8-2745-4EBB-AE10-5E329C7EF29F} = {578664D5-9B42-48DA-BBE2-F4D8E4E56260}
+		{5BC3B2AF-AFC7-4C92-BD1E-D347E83B2497} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
+		{44E50731-4AE5-456F-A84C-CE3C4C977097} = {5BC3B2AF-AFC7-4C92-BD1E-D347E83B2497}
 	EndGlobalSection
 EndGlobal
