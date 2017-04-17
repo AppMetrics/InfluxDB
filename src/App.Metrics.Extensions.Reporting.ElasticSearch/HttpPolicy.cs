@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
-using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB
+namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
     public class HttpPolicy
     {

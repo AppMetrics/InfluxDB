@@ -4,7 +4,7 @@
 
 using System;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
+namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     internal static class Constants
     {

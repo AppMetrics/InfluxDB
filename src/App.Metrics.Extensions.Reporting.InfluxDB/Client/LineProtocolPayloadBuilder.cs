@@ -1,33 +1,32 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="LineProtocolPayloadBuilder.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Tagging;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 {
-    public class LineProtocolPayloadBuilder : ILineProtocolPayloadBuilder
+    public class LineProtocolPayloadBuilder : IMetricPayloadBuilder<LineProtocolPayload>
     {
         private LineProtocolPayload _payload;
 
         public void Clear() { _payload = null; }
 
-        public LineProtocolPayloadBuilder Init()
+        public void Init()
         {
             _payload = new LineProtocolPayload();
-            return this;
         }
 
-        public LineProtocolPayloadBuilder Pack(string name, object value, MetricTags tags)
+        public void Pack(string name, object value, MetricTags tags)
         {
             _payload.Add(new LineProtocolPoint(name, new Dictionary<string, object> { { "value", value } }, tags));
-
-            return this;
         }
 
-        public LineProtocolPayloadBuilder Pack(
+        public void Pack(
             string name,
             IEnumerable<string> columns,
             IEnumerable<object> values,
@@ -37,8 +36,6 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                                 .ToDictionary(pair => pair.column, pair => pair.data);
 
             _payload.Add(new LineProtocolPoint(name, fields, tags));
-
-            return this;
         }
 
         public LineProtocolPayload Payload() { return _payload; }

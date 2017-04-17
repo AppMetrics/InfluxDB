@@ -2,10 +2,10 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB
+namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
     public class LoggingEvents
     {
-        public const int InfluxDbWriteError = 5000;
+        public const int ElasticSearchWriteError = 6000;
     }
 }
