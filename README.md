@@ -18,19 +18,19 @@ The repo contains InfluxDB extension packages to [App Metrics](https://github.co
 
 ![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/1.1.0-alpha/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWeb.json)
+> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/dev/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWeb.json)
 
 #### Grafana/InfluxDB OAuth2 Client Monitoring on a Web API
 
 ![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/1.1.0-alpha/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json)
+> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/dev/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json)
 
 ### Grafana/InfluxDB Web Application Setup
 
 - Download and install [InfluxDB](https://docs.influxdata.com/influxdb/v1.2/introduction/installation/). *Runs well on Windows using* `Bash on Windows on Ubuntu`
 - Create a new [InfluxDB Database](https://docs.influxdata.com/influxdb/v1.2/introduction/getting_started/). *Keep note of this for configuring the InfluxDB reporter in your web application and configuring the InfluxDB Datasource in Grafana*
-- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [InfluxDB Datasource](http://docs.grafana.org/features/datasources/influxdb/)  pointing the the Database just created and import App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/1.1.0-alpha/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWeb.json)
+- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [InfluxDB Datasource](http://docs.grafana.org/features/datasources/influxdb/)  pointing the the Database just created and import App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/dev/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWeb.json)
 - Drop in the `App.Metrics.Extensions.Mvc` and `App.Metrics.Extensions.Reporting.InfluxDB` nuget packages into your web application. 
 - Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [InfluxDB reporter configuration](https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter). *You might want to check out the [Sandbox](https://github.com/alhardy/AppMetrics/tree/1.0.0/sandbox/App.Metrics.Sandbox) or [Sample](https://github.com/alhardy/AppMetrics.Samples) projects if you get stuck*
 - Run your app and Grafana at visit `http://localhost:3000`
