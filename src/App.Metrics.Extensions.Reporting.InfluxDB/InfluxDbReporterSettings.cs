@@ -1,9 +1,11 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="InfluxDbReporterSettings.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Reporting;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
 {
@@ -52,7 +54,16 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         /// <value>
         ///     The metric name formatter.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public Func<string, string, string> MetricNameFormatter { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
+
+        /// <inheritdoc />
+        // ReSharper disable UnusedAutoPropertyAccessor.Global
+        public MetricValueDataKeys DataKeys { get; set; }
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         ///     Gets or sets the report interval for which to flush metrics to influxdb.
@@ -60,6 +71,10 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         /// <value>
         ///     The report interval.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public TimeSpan ReportInterval { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
     }
 }

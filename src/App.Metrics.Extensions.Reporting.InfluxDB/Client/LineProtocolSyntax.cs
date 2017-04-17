@@ -1,5 +1,6 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="LineProtocolSyntax.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
         public static string FormatTimestamp(DateTime utcTimestamp)
         {
             var t = utcTimestamp - Origin;
-            return ((long)(t.TotalMilliseconds * 1000000L)).ToString(CultureInfo.InvariantCulture);
+            return (t.Ticks * 100L).ToString(CultureInfo.InvariantCulture);
         }
 
         public static string FormatValue(object value)

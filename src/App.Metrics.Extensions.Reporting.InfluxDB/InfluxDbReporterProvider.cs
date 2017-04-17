@@ -1,11 +1,13 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="InfluxDbReporterProvider.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Internal;
+using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
@@ -16,23 +18,13 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
         public InfluxDbReporterProvider(InfluxDBReporterSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = new NoOpMetricsFilter();
         }
 
         public InfluxDbReporterProvider(InfluxDBReporterSettings settings, IFilterMetrics fitler)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = fitler ?? new NoOpMetricsFilter();
         }
 
@@ -46,13 +38,18 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 _settings.HttpPolicy);
             var payloadBuilder = new LineProtocolPayloadBuilder();
 
-            return new InfluxDbReporter(
-                lineProtocolClient,
+            return new ReportRunner<LineProtocolPayload>(
+                async p =>
+                {
+                    var result = await lineProtocolClient.WriteAsync(p.Payload());
+                    return result.Success;
+                },
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
                 loggerFactory,
-                _settings.MetricNameFormatter);
+                _settings.MetricNameFormatter,
+                _settings.DataKeys);
         }
     }
 }
