@@ -6,9 +6,9 @@
 |:--------:|:--------:|
 |[![Build status](https://ci.appveyor.com/api/projects/status/cdda6bfu3bput7h3?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB?branch=master)|
 
-|Package|Dev Release|Latest Release|
-|------|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)
+|Package|Dev Release|Pre-Release|Latest Release|
+|------|:--------:|:--------:|:--------:|
+|App.Metrics.Extensions.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)
 
 ## What is it?
 
