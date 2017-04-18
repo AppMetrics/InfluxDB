@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Reporting/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>git://github.com/alhardy/AppMetrics.Reporting</RepositoryUrl>    
+    <RepositoryUrl>git://github.com/alhardy/AppMetrics.Extensions.InfluxDB</RepositoryUrl>    
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
