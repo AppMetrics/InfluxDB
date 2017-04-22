@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Reporting/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>git://github.com/alhardy/AppMetrics.Reporting</RepositoryUrl>    
+    <RepositoryUrl>git://github.com/alhardy/AppMetrics.Extensions.InfluxDB</RepositoryUrl>    
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
@@ -49,8 +49,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.1.0-alpha" />
-    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0-alpha" />
+    <PackageReference Include="App.Metrics" Version="1.1.0" />
+    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
