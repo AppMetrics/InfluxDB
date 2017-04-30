@@ -18,13 +18,13 @@ The repo contains InfluxDB extension packages to [App Metrics](https://github.co
 
 ![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/dev/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWeb.json)
+> Grab the dashboard [here](https://grafana.com/dashboards/2125)
 
 #### Grafana/InfluxDB OAuth2 Client Monitoring on a Web API
 
 ![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/dev/visualization/grafana-dashbaords/App.Metrics.Sandbox-InfluxDB-GenericWebOAuth2.json)
+> Grab the dashboard [here](https://grafana.com/dashboards/2137)
 
 ### Grafana/InfluxDB Web Application Setup
 
