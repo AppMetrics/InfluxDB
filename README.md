@@ -1,18 +1,20 @@
-# App Metrics InfluxDB Extensions
-
-[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Extensions.InfluxDB/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.InfluxDB?branch=master)
-
-|AppVeyor|Travis|
-|:--------:|:--------:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/cdda6bfu3bput7h3?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB?branch=master)|
-
-|Package|Dev Release|Pre-Release|Latest Release|
-|------|:--------:|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.InfluxDB.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)
+# App Metrics InfluxDB Extensions <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
+[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/influxdb.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
 The repo contains InfluxDB extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
+
+## Latest Builds, Packages & Repo Stats
+
+|Branch|AppVeyor|Travis|Coverage|
+|------|:--------:|:--------:|:--------:|
+|dev|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-influxdb/dev.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.InfluxDB/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB)|[![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics/dev.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.InfluxDB?branch=dev)
+|master|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-influxdb/master.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.InfluxDB/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB)| [![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.InfluxDB/master.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.InfluxDB?branch=master)|
+
+|Package|Dev Release|PreRelease|Latest Release|
+|------|:--------:|:--------:|:--------:|
+|App.Metrics.Extensions.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.InfluxDB/)
 
 #### Grafana/InfluxDB Web Monitoring
 
