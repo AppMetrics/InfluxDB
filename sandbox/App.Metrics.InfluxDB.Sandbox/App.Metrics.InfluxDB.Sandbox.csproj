@@ -9,7 +9,7 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>        
-    <PackageReference Include="App.Metrics" Version="1.1.0" />        
+    <PackageReference Include="App.Metrics" Version="1.1.1" />        
     <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0" />        
     <PackageReference Include="App.Metrics.Extensions.Middleware" Version="1.1.0" />        
     <PackageReference Include="App.Metrics.Extensions.Mvc" Version="1.1.0" />        

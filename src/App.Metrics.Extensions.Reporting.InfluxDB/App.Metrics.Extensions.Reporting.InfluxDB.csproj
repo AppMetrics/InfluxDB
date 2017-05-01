@@ -14,9 +14,9 @@
     <AssemblyName>App.Metrics.Extensions.Reporting.InfluxDB</AssemblyName>
     <PackageId>App.Metrics.Extensions.Reporting.InfluxDB</PackageId>
     <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;InfluxDB</PackageTags>
-    <PackageIconUrl>https://alhardy.github.io/app-metrics-docs/logo.png</PackageIconUrl>
-    <PackageProjectUrl>https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Reporting/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>http://app-metrics.io/logo.png</PackageIconUrl>
+    <PackageProjectUrl>http://app-metrics.io/reporting/influxdb.html</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/alhardy/AppMetrics.Extensions.InfluxDB</RepositoryUrl>    
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
