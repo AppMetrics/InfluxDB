@@ -98,7 +98,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             catch (Exception ex)
             {
                 Interlocked.Increment(ref _failureAttempts);
-                _logger.LogError(LoggingEvents.InfluxDbWriteError, "Failed to write to InfluxDB", ex);
+                _logger.LogError(LoggingEvents.InfluxDbWriteError, ex, "Failed to write to InfluxDB");
                 return new LineProtocolWriteResult(false, ex.ToString());
             }
         }
