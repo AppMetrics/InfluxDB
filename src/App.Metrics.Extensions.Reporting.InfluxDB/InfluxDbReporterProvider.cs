@@ -36,7 +36,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 loggerFactory,
                 _settings.InfluxDbSettings,
                 _settings.HttpPolicy);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
 
             return new ReportRunner<LineProtocolPayload>(
                 async p =>
@@ -47,9 +47,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
-                loggerFactory,
-                _settings.MetricNameFormatter,
-                _settings.DataKeys);
+                loggerFactory);
         }
     }
 }

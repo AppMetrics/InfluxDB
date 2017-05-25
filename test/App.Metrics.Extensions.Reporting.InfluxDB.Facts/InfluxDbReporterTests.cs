@@ -31,6 +31,8 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         private const string MultidimensionalMetricNameSuffix = "|host:server1,env:staging";
         private readonly IReservoir _defaultReservoir = new DefaultForwardDecayingReservoir();
         private readonly MetricTags _tags = new MetricTags(new[] { "host", "env" }, new[] { "server1", "staging" });
+        private readonly InfluxDBReporterSettings _settings = new InfluxDBReporterSettings();
+
 
         [Fact]
         public void can_clear_payload()
@@ -46,7 +48,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -72,7 +74,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 MetricTags.Empty,
                 false);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -92,7 +94,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 _tags,
                 resetOnReporting: false);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -114,7 +116,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }),
                 false);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -136,7 +138,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 MetricTags.Concat(_tags, new MetricTags("anothertag", "thevalue")),
                 resetOnReporting: false);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -160,7 +162,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -184,7 +186,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -209,7 +211,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 MetricTags.Concat(_tags, counterTags));
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -234,7 +236,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 Unit.None,
                 MetricTags.Empty,
                 reportItemPercentages: false);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -257,7 +259,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -277,7 +279,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 _tags);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -296,7 +298,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 Unit.None,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -315,7 +317,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 Unit.None,
                 _tags);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -335,7 +337,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(histogram.Value),
                 Unit.None,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -358,7 +360,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(histogram.Value),
                 Unit.None,
                 _tags);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -383,7 +385,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -405,7 +407,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 _tags);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -430,7 +432,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -456,7 +458,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 _tags);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -482,7 +484,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 TimeUnit.Milliseconds,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -508,7 +510,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
                 TimeUnit.Milliseconds,
                 TimeUnit.Milliseconds,
                 _tags);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
@@ -549,16 +551,13 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         {
             var reportInterval = TimeSpan.FromSeconds(1);
             var loggerFactory = new LoggerFactory();
-            var settings = new InfluxDBReporterSettings();
 
             return new ReportRunner<LineProtocolPayload>(
                 p => AppMetricsTaskCache.SuccessTask,
                 payloadBuilder,
                 reportInterval,
                 "InfluxDB Reporter",
-                loggerFactory,
-                settings.MetricNameFormatter,
-                settings.DataKeys);
+                loggerFactory);
         }
     }
 }

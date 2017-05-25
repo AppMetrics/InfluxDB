@@ -29,6 +29,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             MetricNameFormatter = (metricContext, metricName) => metricContext.IsMissing()
                 ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
                 : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
+            DataKeys = new MetricValueDataKeys();
         }
 
         /// <summary>

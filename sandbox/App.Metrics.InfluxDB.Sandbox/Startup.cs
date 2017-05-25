@@ -81,7 +81,9 @@ namespace App.Metrics.InfluxDB.Sandbox
                                      globalTags.Add("version", info.EntryAssemblyVersion);
                                  });
                          }).
-                     AddJsonSerialization().
+                     AddJsonMetricsSerialization().
+                     AddAsciiHealthSerialization().
+                     AddAsciiMetricsTextSerialization().
                      AddReporting(
                          factory =>
                          {
