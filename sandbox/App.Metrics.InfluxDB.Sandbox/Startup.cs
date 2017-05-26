@@ -83,7 +83,7 @@ namespace App.Metrics.InfluxDB.Sandbox
                          }).
                      AddJsonMetricsSerialization().
                      AddAsciiHealthSerialization().
-                     AddAsciiMetricsTextSerialization().
+                     AddInfluxDBLineProtocolMetricsTextSerialization().
                      AddReporting(
                          factory =>
                          {

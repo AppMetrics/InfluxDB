@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\App.Metrics.Extensions.Reporting.InfluxDB\App.Metrics.Extensions.Reporting.InfluxDB.csproj" />
+    <ProjectReference Include="..\..\src\App.Metrics.Formatters.InfluxDB\App.Metrics.Formatters.InfluxDB.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json">
