@@ -22,17 +22,7 @@ namespace App.Metrics.Formatting.InfluxDB
             _payload = new LineProtocolPayload();
 
             DataKeys = dataKeys ?? new MetricValueDataKeys();
-
-            if (metricNameFormatter == null)
-            {
-                _metricNameFormatter = (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)
-                    ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
-                    : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
-            }
-            else
-            {
-                _metricNameFormatter = metricNameFormatter;
-            }
+            _metricNameFormatter = metricNameFormatter ?? Constants.InfluxDBDefaults.MetricNameFormatter;
         }
 
         /// <inheritdoc />

@@ -15,8 +15,9 @@ namespace App.Metrics.Formatters.InfluxDB
     public class LineProtocolTextResponseWriter : IMetricsTextResponseWriter
     {
         /// <inheritdoc />
-        public string ContentType => "text/plain";
+        public string ContentType => "text/plain; app.metrics=vnd.app.metrics.v1.metrics.influxdb; influx=lineprotocol-1.2.x;";
 
+        /// <inheritdoc />
         public Task WriteAsync(HttpContext context, MetricsDataValueSource metricsData, CancellationToken token = default(CancellationToken))
         {
             var payloadBuilder = new LineProtocolPayloadBuilder();

@@ -10,7 +10,7 @@
     <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
     <AssemblyName>App.Metrics.Formatters.InfluxDB</AssemblyName>
     <PackageId>App.Metrics.Formatters.InfluxDB</PackageId>
-    <PackageTags>Metrics;Monitoring;Instrumentation</PackageTags>
+    <PackageTags>Metrics;Monitoring;Instrumentation;InfluxDB</PackageTags>
     <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>
 
