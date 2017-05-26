@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
+namespace App.Metrics.Formatting.InfluxDB
 {
     public class LineProtocolPayload
     {

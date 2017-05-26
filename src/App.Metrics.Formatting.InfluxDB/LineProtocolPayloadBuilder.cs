@@ -10,17 +10,29 @@ using App.Metrics.Reporting;
 using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Tagging;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
+namespace App.Metrics.Formatting.InfluxDB
 {
     public class LineProtocolPayloadBuilder : IMetricPayloadBuilder<LineProtocolPayload>
     {
         private readonly Func<string, string, string> _metricNameFormatter;
         private LineProtocolPayload _payload;
 
-        public LineProtocolPayloadBuilder(MetricValueDataKeys dataKeys, Func<string, string, string> metricNameFormatter)
+        public LineProtocolPayloadBuilder(MetricValueDataKeys dataKeys = null, Func<string, string, string> metricNameFormatter = null)
         {
-            DataKeys = dataKeys;
-            _metricNameFormatter = metricNameFormatter;
+            _payload = new LineProtocolPayload();
+
+            DataKeys = dataKeys ?? new MetricValueDataKeys();
+
+            if (metricNameFormatter == null)
+            {
+                _metricNameFormatter = (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)
+                    ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
+                    : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
+            }
+            else
+            {
+                _metricNameFormatter = metricNameFormatter;
+            }
         }
 
         /// <inheritdoc />

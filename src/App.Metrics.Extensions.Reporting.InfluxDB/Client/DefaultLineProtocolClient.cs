@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Metrics.Formatting.InfluxDB;
 using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB.Client

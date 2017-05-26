@@ -10,6 +10,7 @@ using App.Metrics.Apdex;
 using App.Metrics.Core;
 using App.Metrics.Counter;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Formatting.InfluxDB;
 using App.Metrics.Gauge;
 using App.Metrics.Histogram;
 using App.Metrics.Infrastructure;

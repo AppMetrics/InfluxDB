@@ -2,29 +2,15 @@
 <!--EXTERNAL_PROPERTIES: DefineConstants-->
 <Project Sdk="Microsoft.NET.Sdk">
 
+	<Import Project="..\..\build\common.props" />
+
   <PropertyGroup>
-    <Description>Provides InfluxDB reporting capability to App Metrics</Description>
-    <Copyright>Allan Hardy 2016</Copyright>
-    <AssemblyTitle>App.Metrics.Extensions.Reporting.InfluxDB</AssemblyTitle>
-    <Authors>Allan Hardy</Authors>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Provides InfluxDB reporting capability to App Metrics</Description>    
+    <AssemblyTitle>App.Metrics.Extensions.Reporting.InfluxDB</AssemblyTitle>    
+    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>           
     <AssemblyName>App.Metrics.Extensions.Reporting.InfluxDB</AssemblyName>
     <PackageId>App.Metrics.Extensions.Reporting.InfluxDB</PackageId>
-    <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;InfluxDB</PackageTags>
-    <PackageIconUrl>http://app-metrics.io/logo.png</PackageIconUrl>
-    <PackageProjectUrl>http://app-metrics.io/reporting/influxdb.html</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>git://github.com/alhardy/AppMetrics.Extensions.InfluxDB</RepositoryUrl>    
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
-    <DebugType>full</DebugType>
+    <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;InfluxDB</PackageTags>    
     <VersionPrefix>1.2.0</VersionPrefix>
   </PropertyGroup>
 
@@ -50,7 +36,6 @@
 
   <ItemGroup>
     <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0517" />
-    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
@@ -63,6 +48,10 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App.Metrics.Formatting.InfluxDB\App.Metrics.Formatting.InfluxDB.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@
 
 using System;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Formatting.InfluxDB;
 using FluentAssertions;
 using Xunit;
 
