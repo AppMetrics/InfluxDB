@@ -83,12 +83,14 @@ namespace App.Metrics.Formatting.InfluxDB
                 textWriter.Write(LineProtocolSyntax.FormatValue(f.Value));
             }
 
+            textWriter.Write(' ');
+
             if (UtcTimestamp == null)
             {
+                textWriter.Write(LineProtocolSyntax.FormatTimestamp(DateTime.UtcNow));
                 return;
             }
 
-            textWriter.Write(' ');
             textWriter.Write(LineProtocolSyntax.FormatTimestamp(UtcTimestamp.Value));
         }
     }
