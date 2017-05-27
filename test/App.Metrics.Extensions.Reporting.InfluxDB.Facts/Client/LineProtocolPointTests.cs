@@ -46,7 +46,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
 
-            point.Format(textWriter);
+            point.Format(textWriter, false);
 
             textWriter.ToString().Should().Be("measurement key=\"value\"");
         }

@@ -22,7 +22,7 @@ namespace App.Metrics.Formatting.InfluxDB
             _points.Add(point);
         }
 
-        public void Format(TextWriter textWriter)
+        public void Format(TextWriter textWriter, bool writeTimestamp = true)
         {
             if (textWriter == null)
             {
@@ -33,7 +33,7 @@ namespace App.Metrics.Formatting.InfluxDB
 
             foreach (var point in points)
             {
-                point.Format(textWriter);
+                point.Format(textWriter, writeTimestamp);
                 textWriter.Write('\n');
             }
         }

@@ -65,5 +65,12 @@ namespace App.Metrics.Formatting.InfluxDB
             _payload.Format(result);
             return result.ToString();
         }
+
+        public string PayloadFormatted(bool writeTimestamp)
+        {
+            var result = new StringWriter();
+            _payload.Format(result, writeTimestamp);
+            return result.ToString();
+        }
     }
 }

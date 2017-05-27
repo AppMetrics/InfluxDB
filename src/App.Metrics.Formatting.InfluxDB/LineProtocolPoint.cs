@@ -52,7 +52,7 @@ namespace App.Metrics.Formatting.InfluxDB
 
         public DateTime? UtcTimestamp { get; }
 
-        public void Format(TextWriter textWriter)
+        public void Format(TextWriter textWriter, bool writeTimestamp = true)
         {
             if (textWriter == null)
             {
@@ -81,6 +81,11 @@ namespace App.Metrics.Formatting.InfluxDB
                 textWriter.Write(LineProtocolSyntax.EscapeName(f.Key));
                 textWriter.Write('=');
                 textWriter.Write(LineProtocolSyntax.FormatValue(f.Value));
+            }
+
+            if (!writeTimestamp)
+            {
+                return;
             }
 
             textWriter.Write(' ');
