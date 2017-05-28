@@ -2,7 +2,7 @@
 <!--EXTERNAL_PROPERTIES: DefineConstants-->
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\build\common.props" />
+  <Import Project="../../build/common.props" />
 
   <PropertyGroup>
     <Description>App Metrics Middleware Response Formatter. Allows metrics data to be formatted in InfluxDB formats e.g. Line Protocol</Description>
