@@ -9,7 +9,7 @@
 #tool "nuget:?package=JetBrains.ReSharper.CommandLineTools"
 #tool "nuget:?package=coveralls.io"
 #tool "nuget:?package=gitreleasemanager"
-#tool "nuget:?package=ReportGenerator"
+// #tool "nuget:?package=ReportGenerator"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -29,6 +29,7 @@ var buildNumber                 = HasArgument("BuildNumber") ? Argument<int>("Bu
                                   EnvironmentVariable("BuildNumber") != null ? int.Parse(EnvironmentVariable("BuildNumber")) : 0;
 var gitUser						= HasArgument("GitUser") ? Argument<string>("GitUser") : EnvironmentVariable("GitUser");
 var gitPassword					= HasArgument("GitPassword") ? Argument<string>("GitPassword") : EnvironmentVariable("GitPassword");
+var generateHtmlCoverageReport	= false;
 
 //////////////////////////////////////////////////////////////////////
 // DEFINE FILES & DIRECTORIES
@@ -231,7 +232,7 @@ Task("RunTests")
 });
 
 Task("HtmlCoverageReport")    
-    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows())    
+    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && generateHtmlCoverageReport)    
     .IsDependentOn("RunTests")
     .Does(() => 
 {
