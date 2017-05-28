@@ -173,7 +173,7 @@ Task("Pack")
     }
 	else if  (!AppVeyor.Environment.Repository.Tag.IsTag)
 	{
-        versionSuffix = "-" + buildNumber.ToString("D4");
+        versionSuffix = buildNumber.ToString("D4");
 	}
 
 	Context.Information("Packing using versionSuffix: " + versionSuffix);
