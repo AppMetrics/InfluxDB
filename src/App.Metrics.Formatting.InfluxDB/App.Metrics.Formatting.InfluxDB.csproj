@@ -2,7 +2,7 @@
 <!--EXTERNAL_PROPERTIES: DefineConstants-->
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../../build/common.props" />
+  <Import Project="..\..\build\common.props" />
 
   <PropertyGroup>
     <Description>App Metrics Formatting, formatting metrics data to InfluxDB formats e.g. Line Protocol</Description>
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0524" />    
+    <PackageReference Include="App.Metrics" Version="1.2.0-*" />    
   </ItemGroup>
 
 </Project>
