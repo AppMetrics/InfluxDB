@@ -11,7 +11,7 @@
     <AssemblyName>App.Metrics.Extensions.Reporting.InfluxDB</AssemblyName>
     <PackageId>App.Metrics.Extensions.Reporting.InfluxDB</PackageId>
     <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;InfluxDB</PackageTags>    
-    <VersionPrefix>1.2.0-alpha</VersionPrefix>
+    <VersionPrefix>1.2.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
