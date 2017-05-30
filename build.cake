@@ -107,7 +107,7 @@ Task("Restore")
 {	
 	var settings = new DotNetCoreRestoreSettings
     {        
-        Sources = new [] { "https://api.nuget.org/v3/index.json", "https://www.myget.org/F/alhardy/api/v3/index.json" }	
+        Sources = new [] { @"""C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\""", "https://api.nuget.org/v3/index.json", "https://www.myget.org/F/alhardy/api/v3/index.json" }	
     };
 
 	DotNetCoreRestore(solutionFile, settings);
@@ -123,7 +123,7 @@ Task("Build")
 	Context.Information("Building using versionSuffix: " + versionSuffix);
 
 	// Workaround to fixing pre-release version package references - https://github.com/NuGet/Home/issues/4337
-	settings.ArgumentCustomization = args=>args.Append("/t:Restore /p:RestoreSources=https://api.nuget.org/v3/index.json;https://www.myget.org/F/alhardy/api/v3/index.json;" + @"""C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\""");
+	settings.ArgumentCustomization = args=>args.Append("/t:Restore /p:RestoreSources=" + @"""C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"""+ https://api.nuget.org/v3/index.json;https://www.myget.org/F/alhardy/api/v3/index.json;");
 
 	if (IsRunningOnWindows())
 	{
