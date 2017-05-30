@@ -107,7 +107,7 @@ Task("Restore")
 {	
 	var settings = new DotNetCoreRestoreSettings
     {        
-        Sources = new [] { @"""C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\""", "https://api.nuget.org/v3/index.json", "https://www.myget.org/F/alhardy/api/v3/index.json" }	
+        Sources = new [] { "https://api.nuget.org/v3/index.json", "https://www.myget.org/F/alhardy/api/v3/index.json" }	
     };
 
 	DotNetCoreRestore(solutionFile, settings);
