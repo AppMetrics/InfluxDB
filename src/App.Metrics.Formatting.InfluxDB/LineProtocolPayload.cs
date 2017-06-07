@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
+namespace App.Metrics.Formatting.InfluxDB
 {
     public class LineProtocolPayload
     {
@@ -22,7 +22,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             _points.Add(point);
         }
 
-        public void Format(TextWriter textWriter)
+        public void Format(TextWriter textWriter, bool writeTimestamp = true)
         {
             if (textWriter == null)
             {
@@ -33,7 +33,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
             foreach (var point in points)
             {
-                point.Format(textWriter);
+                point.Format(textWriter, writeTimestamp);
                 textWriter.Write('\n');
             }
         }

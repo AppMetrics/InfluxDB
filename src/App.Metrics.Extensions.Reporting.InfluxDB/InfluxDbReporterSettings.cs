@@ -6,6 +6,7 @@ using System;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Reporting;
+using InfluxDBConstants = App.Metrics.Formatting.InfluxDB.Constants.InfluxDBDefaults;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
 {
@@ -26,9 +27,8 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                              Timeout = Constants.DefaultTimeout
                          };
             ReportInterval = TimeSpan.FromSeconds(5);
-            MetricNameFormatter = (metricContext, metricName) => metricContext.IsMissing()
-                ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
-                : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
+            MetricNameFormatter = InfluxDBConstants.MetricNameFormatter;
+            DataKeys = new MetricValueDataKeys();
         }
 
         /// <summary>

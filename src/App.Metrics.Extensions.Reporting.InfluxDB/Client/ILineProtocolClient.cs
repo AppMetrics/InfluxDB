@@ -4,6 +4,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using App.Metrics.Formatting.InfluxDB;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 {

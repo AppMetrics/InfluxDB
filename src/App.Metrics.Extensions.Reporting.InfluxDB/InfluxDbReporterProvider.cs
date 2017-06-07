@@ -6,6 +6,7 @@ using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Formatting.InfluxDB;
 using App.Metrics.Internal;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 loggerFactory,
                 _settings.InfluxDbSettings,
                 _settings.HttpPolicy);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
 
             return new ReportRunner<LineProtocolPayload>(
                 async p =>
@@ -47,9 +48,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
-                loggerFactory,
-                _settings.MetricNameFormatter,
-                _settings.DataKeys);
+                loggerFactory);
         }
     }
 }

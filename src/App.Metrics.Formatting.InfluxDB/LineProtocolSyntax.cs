@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
+namespace App.Metrics.Formatting.InfluxDB
 {
     internal class LineProtocolSyntax
     {

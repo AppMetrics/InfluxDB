@@ -1,5 +1,4 @@
 ﻿using System;
-using App.Metrics.Configuration;
 using App.Metrics.Extensions.Reporting.InfluxDB;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Filtering;
@@ -69,28 +68,17 @@ namespace App.Metrics.InfluxDB.Sandbox
             var reportFilter = new DefaultMetricsFilter();
             reportFilter.WithHealthChecks(false);
 
-            services.AddMetrics(
-                         Configuration.GetSection("AppMetrics"),
-                         options =>
-                         {
-                             options.WithGlobalTags(
-                                 (globalTags, info) => { globalTags.Add("app", info.EntryAssemblyName); });
-                         }).
-                     AddJsonSerialization().
+            services.AddMetrics(Configuration.GetSection("AppMetrics")).
+                     AddAsciiHealthSerialization().
+                     AddInfluxDBLineProtocolMetricsSerialization().
+                     AddInfluxDBLineProtocolMetricsTextSerialization().
                      AddReporting(
                          factory =>
                          {
                              factory.AddInfluxDb(
                                  new InfluxDBReporterSettings
                                  {
-                                     HttpPolicy = new HttpPolicy
-                                                  {
-                                                      FailuresBeforeBackoff = 3,
-                                                      BackoffPeriod = TimeSpan.FromSeconds(30),
-                                                      Timeout = TimeSpan.FromSeconds(10)
-                                                  },
-                                     InfluxDbSettings = new InfluxDBSettings(InfluxDbDatabase, InfluxDbUri),
-                                     ReportInterval = TimeSpan.FromSeconds(5)
+                                     InfluxDbSettings = new InfluxDBSettings(InfluxDbDatabase, InfluxDbUri)
                                  },
                                  reportFilter);
                          }).

@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using App.Metrics.Tagging;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
+namespace App.Metrics.Formatting.InfluxDB
 {
     public class LineProtocolPoint
     {
@@ -52,7 +52,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
         public DateTime? UtcTimestamp { get; }
 
-        public void Format(TextWriter textWriter)
+        public void Format(TextWriter textWriter, bool writeTimestamp = true)
         {
             if (textWriter == null)
             {
@@ -83,12 +83,19 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                 textWriter.Write(LineProtocolSyntax.FormatValue(f.Value));
             }
 
-            if (UtcTimestamp == null)
+            if (!writeTimestamp)
             {
                 return;
             }
 
             textWriter.Write(' ');
+
+            if (UtcTimestamp == null)
+            {
+                textWriter.Write(LineProtocolSyntax.FormatTimestamp(DateTime.UtcNow));
+                return;
+            }
+
             textWriter.Write(LineProtocolSyntax.FormatTimestamp(UtcTimestamp.Value));
         }
     }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Formatting.InfluxDB;
 using App.Metrics.Tagging;
 using FluentAssertions;
 using Xunit;
@@ -45,7 +46,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
 
-            point.Format(textWriter);
+            point.Format(textWriter, false);
 
             textWriter.ToString().Should().Be("measurement key=\"value\"");
         }

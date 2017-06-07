@@ -1,198 +1,18 @@
 {
-    "id": 16,
-    "title": "App.Metrics.Sandbox - InfluxDB - Generic Web",
-    "tags": [
-        "influxdb"
-    ],
-    "style": "dark",
-    "timezone": "browser",
-    "editable": true,
-    "sharedCrosshair": true,
-    "hideControls": false,
-    "time": {
-        "from": "now-15m",
-        "to": "now"
-    },
-    "timepicker": {
-        "refresh_intervals": [
-            "5s",
-            "10s",
-            "30s",
-            "1m",
-            "5m",
-            "15m",
-            "30m",
-            "1h",
-            "2h",
-            "1d"
-        ],
-        "time_options": [
-            "5m",
-            "15m",
-            "1h",
-            "6h",
-            "12h",
-            "24h",
-            "2d",
-            "7d",
-            "30d"
-        ]
-    },
-    "templating": {
-        "list": [
-            {
-                "allValue": null,
-                "current": {
-                    "text": "stage",
-                    "value": "stage"
-                },
-                "datasource": "$datasource",
-                "hide": 0,
-                "includeAll": false,
-                "label": null,
-                "multi": false,
-                "name": "environment",
-                "options": [],
-                "query": "SHOW TAG VALUES WITH KEY = \"env\"",
-                "refresh": 2,
-                "regex": "",
-                "sort": 1,
-                "tagValuesQuery": null,
-                "tagsQuery": null,
-                "type": "query"
-            },
-            {
-                "allValue": null,
-                "current": {
-                    "value": [
-                        "App.Metrics.Sandbox"
-                    ],
-                    "text": "App.Metrics.Sandbox"
-                },
-                "datasource": "$datasource",
-                "hide": 0,
-                "includeAll": false,
-                "label": null,
-                "multi": false,
-                "name": "application",
-                "options": [],
-                "query": "SHOW TAG VALUES WITH KEY = \"app\"",
-                "refresh": 2,
-                "regex": "",
-                "sort": 1,
-                "tagValuesQuery": null,
-                "tagsQuery": null,
-                "type": "query"
-            },
-            {
-                "current": {
-                    "text": "AppMetricsSandbox",
-                    "value": "AppMetricsSandbox"
-                },
-                "hide": 0,
-                "label": null,
-                "name": "datasource",
-                "options": [],
-                "query": "influxdb",
-                "refresh": 1,
-                "regex": "",
-                "type": "datasource"
-            },
-            {
-                "auto": false,
-                "auto_count": 30,
-                "auto_min": "10s",
-                "current": {
-                    "text": "30s",
-                    "value": "30s"
-                },
-                "hide": 0,
-                "label": null,
-                "name": "summarize",
-                "options": [
-                    {
-                        "text": "5s",
-                        "value": "5s",
-                        "selected": false
-                    },
-                    {
-                        "text": "10s",
-                        "value": "10s",
-                        "selected": false
-                    },
-                    {
-                        "text": "30s",
-                        "value": "30s",
-                        "selected": true
-                    },
-                    {
-                        "text": "1m",
-                        "value": "1m",
-                        "selected": false
-                    },
-                    {
-                        "text": "10m",
-                        "value": "10m",
-                        "selected": false
-                    },
-                    {
-                        "text": "30m",
-                        "value": "30m",
-                        "selected": false
-                    },
-                    {
-                        "text": "1h",
-                        "value": "1h",
-                        "selected": false
-                    },
-                    {
-                        "text": "6h",
-                        "value": "6h",
-                        "selected": false
-                    },
-                    {
-                        "text": "12h",
-                        "value": "12h",
-                        "selected": false
-                    },
-                    {
-                        "text": "1d",
-                        "value": "1d",
-                        "selected": false
-                    },
-                    {
-                        "text": "7d",
-                        "value": "7d",
-                        "selected": false
-                    },
-                    {
-                        "text": "14d",
-                        "value": "14d",
-                        "selected": false
-                    },
-                    {
-                        "text": "30d",
-                        "value": "30d",
-                        "selected": false
-                    }
-                ],
-                "query": "5s,10s,30s,1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
-                "refresh": 2,
-                "type": "interval"
-            }
-        ]
-    },
     "annotations": {
         "list": []
     },
-    "refresh": "5s",
-    "schemaVersion": 13,
-    "version": 50,
-    "links": [],
+    "editable": true,
     "gnetId": null,
+    "graphTooltip": 1,
+    "hideControls": false,
+    "id": 8,
+    "links": [],
+    "refresh": "5s",
     "rows": [
         {
-            "title": "Overview",
+            "collapse": true,
+            "height": "250",
             "panels": [
                 {
                     "cacheTimeout": null,
@@ -295,6 +115,12 @@
                                     "key": "env",
                                     "operator": "=~",
                                     "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -399,6 +225,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -493,6 +325,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -612,6 +450,12 @@
                                     "key": "env",
                                     "operator": "=~",
                                     "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -794,6 +638,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -956,6 +806,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1026,7 +882,7 @@
                     "points": false,
                     "renderer": "flot",
                     "seriesOverrides": [],
-                    "span": 4,
+                    "span": 6,
                     "stack": false,
                     "steppedLine": false,
                     "targets": [
@@ -1076,6 +932,12 @@
                                     "key": "env",
                                     "operator": "=~",
                                     "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1118,84 +980,6 @@
                 },
                 {
                     "aliasColors": {},
-                    "cacheTimeout": null,
-                    "combine": {
-                        "label": "Others",
-                        "threshold": 0
-                    },
-                    "datasource": "$datasource",
-                    "editable": true,
-                    "error": false,
-                    "fontSize": "80%",
-                    "format": "percent",
-                    "height": "250px",
-                    "id": 4,
-                    "interval": "",
-                    "legend": {
-                        "percentage": true,
-                        "show": true,
-                        "sort": null,
-                        "sortDesc": null,
-                        "values": true
-                    },
-                    "legendType": "Right side",
-                    "links": [],
-                    "maxDataPoints": 3,
-                    "nullPointMode": "connected",
-                    "pieType": "pie",
-                    "span": 3,
-                    "strokeWidth": 1,
-                    "targets": [
-                        {
-                            "alias": "$tag_http_status_code",
-                            "dsType": "influxdb",
-                            "groupBy": [
-                                {
-                                    "params": [
-                                        "http_status_code"
-                                    ],
-                                    "type": "tag"
-                                }
-                            ],
-                            "measurement": "application.httprequests__errors",
-                            "policy": "default",
-                            "refId": "A",
-                            "resultFormat": "time_series",
-                            "select": [
-                                [
-                                    {
-                                        "params": [
-                                            "value"
-                                        ],
-                                        "type": "field"
-                                    },
-                                    {
-                                        "params": [],
-                                        "type": "sum"
-                                    }
-                                ]
-                            ],
-                            "tags": [
-                                {
-                                    "key": "app",
-                                    "operator": "=~",
-                                    "value": "/^$application$/"
-                                },
-                                {
-                                    "condition": "AND",
-                                    "key": "env",
-                                    "operator": "=~",
-                                    "value": "/^$environment$/"
-                                }
-                            ]
-                        }
-                    ],
-                    "title": "Errors",
-                    "type": "grafana-piechart-panel",
-                    "valueName": "current"
-                },
-                {
-                    "aliasColors": {},
                     "bars": false,
                     "datasource": "$datasource",
                     "decimals": 2,
@@ -1225,7 +1009,7 @@
                     "points": false,
                     "renderer": "flot",
                     "seriesOverrides": [],
-                    "span": 5,
+                    "span": 6,
                     "stack": false,
                     "steppedLine": false,
                     "targets": [
@@ -1317,6 +1101,12 @@
                                     "key": "env",
                                     "operator": "=~",
                                     "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1356,18 +1146,206 @@
                             "show": true
                         }
                     ]
+                },
+                {
+                    "aliasColors": {},
+                    "cacheTimeout": null,
+                    "combine": {
+                        "label": "Others",
+                        "threshold": 0
+                    },
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "fontSize": "80%",
+                    "format": "percent",
+                    "height": "250px",
+                    "id": 4,
+                    "interval": "",
+                    "legend": {
+                        "percentage": true,
+                        "show": true,
+                        "sort": null,
+                        "sortDesc": null,
+                        "values": true
+                    },
+                    "legendType": "Right side",
+                    "links": [],
+                    "maxDataPoints": 3,
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "span": 5,
+                    "strokeWidth": 1,
+                    "targets": [
+                        {
+                            "alias": "$tag_http_status_code",
+                            "dsType": "influxdb",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "http_status_code"
+                                    ],
+                                    "type": "tag"
+                                }
+                            ],
+                            "measurement": "application.httprequests__errors",
+                            "policy": "default",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "sum"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
+                                }
+                            ]
+                        }
+                    ],
+                    "title": "Errors",
+                    "type": "grafana-piechart-panel",
+                    "valueName": "current"
+                },
+                {
+                    "columns": [
+                        {
+                            "text": "Total",
+                            "value": "total"
+                        }
+                    ],
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "filterNull": true,
+                    "fontSize": "100%",
+                    "id": 24,
+                    "interval": "",
+                    "links": [],
+                    "pageSize": 20,
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                        "col": 1,
+                        "desc": true
+                    },
+                    "span": 7,
+                    "styles": [
+                        {
+                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                            "pattern": "Time",
+                            "type": "date"
+                        },
+                        {
+                            "colorMode": null,
+                            "colors": [
+                                "rgba(245, 54, 54, 0.9)",
+                                "rgba(237, 129, 40, 0.89)",
+                                "rgba(50, 172, 45, 0.97)"
+                            ],
+                            "decimals": 0,
+                            "pattern": "/.*/",
+                            "thresholds": [],
+                            "type": "number",
+                            "unit": "none"
+                        }
+                    ],
+                    "targets": [
+                        {
+                            "alias": "$tag_exception",
+                            "dsType": "influxdb",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "$interval"
+                                    ],
+                                    "type": "time"
+                                },
+                                {
+                                    "params": [
+                                        "exception"
+                                    ],
+                                    "type": "tag"
+                                }
+                            ],
+                            "measurement": "application.httprequests__exceptions",
+                            "policy": "default",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "last"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
+                                }
+                            ]
+                        }
+                    ],
+                    "title": "Uncaught Exceptions Thrown",
+                    "transform": "timeseries_aggregations",
+                    "type": "table"
                 }
             ],
-            "showTitle": true,
-            "titleSize": "h6",
-            "height": "250",
             "repeat": null,
-            "repeatRowId": null,
             "repeatIteration": null,
-            "collapse": true
+            "repeatRowId": null,
+            "showTitle": true,
+            "title": "Overview",
+            "titleSize": "h6"
         },
         {
-            "title": "Endpoints",
+            "collapse": false,
+            "height": "300",
             "panels": [
                 {
                     "aliasColors": {},
@@ -1457,6 +1435,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1590,6 +1574,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1640,6 +1630,7 @@
                     "datasource": "$datasource",
                     "editable": true,
                     "error": false,
+                    "filterNull": false,
                     "fontSize": "100%",
                     "id": 10,
                     "interval": "",
@@ -1651,7 +1642,7 @@
                         "col": 1,
                         "desc": true
                     },
-                    "span": 4,
+                    "span": 6,
                     "styles": [
                         {
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1725,6 +1716,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1743,109 +1740,7 @@
                     "datasource": "$datasource",
                     "editable": true,
                     "error": false,
-                    "fontSize": "100%",
-                    "id": 11,
-                    "interval": "",
-                    "links": [],
-                    "pageSize": null,
-                    "scroll": true,
-                    "showHeader": true,
-                    "sort": {
-                        "col": null,
-                        "desc": false
-                    },
-                    "span": 4,
-                    "styles": [
-                        {
-                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                            "pattern": "Time",
-                            "type": "date"
-                        },
-                        {
-                            "colorMode": null,
-                            "colors": [
-                                "rgba(245, 54, 54, 0.9)",
-                                "rgba(237, 129, 40, 0.89)",
-                                "rgba(50, 172, 45, 0.97)"
-                            ],
-                            "decimals": 0,
-                            "pattern": "/.*/",
-                            "thresholds": [],
-                            "type": "number",
-                            "unit": "percent"
-                        }
-                    ],
-                    "targets": [
-                        {
-                            "alias": "$tag_route",
-                            "dsType": "influxdb",
-                            "groupBy": [
-                                {
-                                    "params": [
-                                        "$interval"
-                                    ],
-                                    "type": "time"
-                                },
-                                {
-                                    "params": [
-                                        "route"
-                                    ],
-                                    "type": "tag"
-                                },
-                                {
-                                    "params": [
-                                        "null"
-                                    ],
-                                    "type": "fill"
-                                }
-                            ],
-                            "measurement": "application.httprequests__one_minute_error_percentage_rate_per_endpoint",
-                            "policy": "default",
-                            "refId": "A",
-                            "resultFormat": "time_series",
-                            "select": [
-                                [
-                                    {
-                                        "params": [
-                                            "value"
-                                        ],
-                                        "type": "field"
-                                    },
-                                    {
-                                        "params": [],
-                                        "type": "last"
-                                    }
-                                ]
-                            ],
-                            "tags": [
-                                {
-                                    "key": "app",
-                                    "operator": "=~",
-                                    "value": "/^$application$/"
-                                },
-                                {
-                                    "condition": "AND",
-                                    "key": "env",
-                                    "operator": "=~",
-                                    "value": "/^$environment$/"
-                                }
-                            ]
-                        }
-                    ],
-                    "title": "Error Request Percentage / Endpoint",
-                    "transform": "timeseries_aggregations",
-                    "type": "table"
-                },
-                {
-                    "columns": [
-                        {
-                            "text": "Current",
-                            "value": "current"
-                        }
-                    ],
-                    "datasource": "$datasource",
-                    "editable": true,
-                    "error": false,
+                    "filterNull": false,
                     "fontSize": "100%",
                     "id": 12,
                     "interval": "",
@@ -1854,10 +1749,10 @@
                     "scroll": true,
                     "showHeader": true,
                     "sort": {
-                        "col": null,
-                        "desc": false
+                        "col": 1,
+                        "desc": true
                     },
-                    "span": 4,
+                    "span": 6,
                     "styles": [
                         {
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1931,6 +1826,12 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -1938,18 +1839,238 @@
                     "title": "Throughput / Endpoint",
                     "transform": "timeseries_aggregations",
                     "type": "table"
+                },
+                {
+                    "columns": [
+                        {
+                            "text": "Current",
+                            "value": "current"
+                        }
+                    ],
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "filterNull": false,
+                    "fontSize": "100%",
+                    "id": 11,
+                    "interval": "",
+                    "links": [],
+                    "pageSize": null,
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                        "col": null,
+                        "desc": false
+                    },
+                    "span": 6,
+                    "styles": [
+                        {
+                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                            "pattern": "Time",
+                            "type": "date"
+                        },
+                        {
+                            "colorMode": null,
+                            "colors": [
+                                "rgba(245, 54, 54, 0.9)",
+                                "rgba(237, 129, 40, 0.89)",
+                                "rgba(50, 172, 45, 0.97)"
+                            ],
+                            "decimals": 0,
+                            "pattern": "/.*/",
+                            "thresholds": [],
+                            "type": "number",
+                            "unit": "percent"
+                        }
+                    ],
+                    "targets": [
+                        {
+                            "alias": "$tag_route",
+                            "dsType": "influxdb",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "$interval"
+                                    ],
+                                    "type": "time"
+                                },
+                                {
+                                    "params": [
+                                        "route"
+                                    ],
+                                    "type": "tag"
+                                },
+                                {
+                                    "params": [
+                                        "null"
+                                    ],
+                                    "type": "fill"
+                                }
+                            ],
+                            "measurement": "application.httprequests__one_minute_error_percentage_rate_per_endpoint",
+                            "policy": "default",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "last"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
+                                }
+                            ]
+                        }
+                    ],
+                    "title": "Error Request Percentage / Endpoint",
+                    "transform": "timeseries_aggregations",
+                    "type": "table"
+                },
+                {
+                    "columns": [
+                        {
+                            "text": "Total",
+                            "value": "total"
+                        }
+                    ],
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "filterNull": false,
+                    "fontSize": "100%",
+                    "id": 25,
+                    "interval": "",
+                    "links": [],
+                    "pageSize": null,
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                        "col": 1,
+                        "desc": true
+                    },
+                    "span": 6,
+                    "styles": [
+                        {
+                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                            "pattern": "Time",
+                            "type": "date"
+                        },
+                        {
+                            "colorMode": null,
+                            "colors": [
+                                "rgba(245, 54, 54, 0.9)",
+                                "rgba(237, 129, 40, 0.89)",
+                                "rgba(50, 172, 45, 0.97)"
+                            ],
+                            "decimals": 0,
+                            "pattern": "/.*/",
+                            "thresholds": [],
+                            "type": "number",
+                            "unit": "none"
+                        }
+                    ],
+                    "targets": [
+                        {
+                            "alias": "$tag_route [$tag_exception]",
+                            "dsType": "influxdb",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "$interval"
+                                    ],
+                                    "type": "time"
+                                },
+                                {
+                                    "params": [
+                                        "route"
+                                    ],
+                                    "type": "tag"
+                                },
+                                {
+                                    "params": [
+                                        "exception"
+                                    ],
+                                    "type": "tag"
+                                }
+                            ],
+                            "measurement": "application.httprequests__exceptions",
+                            "policy": "default",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "last"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
+                                }
+                            ]
+                        }
+                    ],
+                    "title": "Uncaught Exceptions Thrown / Endpoint",
+                    "transform": "timeseries_aggregations",
+                    "type": "table"
                 }
             ],
-            "showTitle": true,
-            "titleSize": "h6",
-            "height": "300",
             "repeat": null,
-            "repeatRowId": null,
             "repeatIteration": null,
-            "collapse": true
+            "repeatRowId": null,
+            "showTitle": true,
+            "title": "Endpoints",
+            "titleSize": "h6"
         },
         {
-            "title": "Health",
+            "collapse": false,
+            "height": "250",
             "panels": [
                 {
                     "columns": [
@@ -1961,9 +2082,11 @@
                     "datasource": "$datasource",
                     "editable": true,
                     "error": false,
+                    "filterNull": false,
                     "fontSize": "100%",
                     "hideTimeOverride": true,
                     "id": 22,
+                    "interval": "",
                     "links": [],
                     "pageSize": null,
                     "scroll": true,
@@ -2049,16 +2172,21 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
                     ],
-                    "timeFrom": "$health_duration",
+                    "timeFrom": null,
                     "title": "Results",
                     "transform": "timeseries_aggregations",
                     "transparent": true,
-                    "type": "table",
-                    "interval": ""
+                    "type": "table"
                 },
                 {
                     "cacheTimeout": null,
@@ -2176,12 +2304,18 @@
                                     "key": "app",
                                     "operator": "=~",
                                     "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
                     ],
                     "thresholds": "0.5,1",
-                    "timeFrom": "$health_duration",
+                    "timeFrom": null,
                     "title": "",
                     "transparent": true,
                     "type": "singlestat",
@@ -2206,16 +2340,16 @@
                     "valueName": "current"
                 }
             ],
-            "showTitle": true,
-            "titleSize": "h6",
-            "height": "250",
             "repeat": null,
-            "repeatRowId": null,
             "repeatIteration": null,
-            "collapse": false
+            "repeatRowId": null,
+            "showTitle": true,
+            "title": "Health",
+            "titleSize": "h6"
         },
         {
-            "title": "PUT & POST Request Size",
+            "collapse": false,
+            "height": "300",
             "panels": [
                 {
                     "aliasColors": {},
@@ -2357,6 +2491,12 @@
                                     "key": "env",
                                     "operator": "=~",
                                     "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -2536,6 +2676,12 @@
                                     "key": "env",
                                     "operator": "=~",
                                     "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "server",
+                                    "operator": "=~",
+                                    "value": "/^$server$/"
                                 }
                             ]
                         }
@@ -2577,13 +2723,218 @@
                     ]
                 }
             ],
-            "showTitle": true,
-            "titleSize": "h6",
-            "height": "300",
             "repeat": null,
-            "repeatRowId": null,
             "repeatIteration": null,
-            "collapse": true
+            "repeatRowId": null,
+            "showTitle": true,
+            "title": "PUT & POST Request Size",
+            "titleSize": "h6"
         }
-    ]
+    ],
+    "schemaVersion": 14,
+    "style": "dark",
+    "tags": [
+        "influxdb"
+    ],
+    "templating": {
+        "list": [
+            {
+                "allValue": null,
+                "current": {
+                    "text": "stage",
+                    "value": "stage"
+                },
+                "datasource": "$datasource",
+                "hide": 0,
+                "includeAll": false,
+                "label": null,
+                "multi": false,
+                "name": "environment",
+                "options": [],
+                "query": "SHOW TAG VALUES WITH KEY = \"env\"",
+                "refresh": 2,
+                "regex": "",
+                "sort": 1,
+                "tagValuesQuery": null,
+                "tags": [],
+                "tagsQuery": null,
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "App.Metrics.InfluxDB.Sandbox",
+                    "value": "App.Metrics.InfluxDB.Sandbox"
+                },
+                "datasource": "$datasource",
+                "hide": 0,
+                "includeAll": false,
+                "label": null,
+                "multi": false,
+                "name": "application",
+                "options": [],
+                "query": "SHOW TAG VALUES WITH KEY = \"app\"",
+                "refresh": 2,
+                "regex": "",
+                "sort": 1,
+                "tagValuesQuery": null,
+                "tags": [],
+                "tagsQuery": null,
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "current": {
+                    "text": "AppMetricsSandbox",
+                    "value": "AppMetricsSandbox"
+                },
+                "hide": 0,
+                "label": null,
+                "name": "datasource",
+                "options": [],
+                "query": "influxdb",
+                "refresh": 1,
+                "regex": "",
+                "type": "datasource"
+            },
+            {
+                "auto": false,
+                "auto_count": 30,
+                "auto_min": "10s",
+                "current": {
+                    "text": "5s",
+                    "value": "5s"
+                },
+                "hide": 0,
+                "label": null,
+                "name": "summarize",
+                "options": [
+                    {
+                        "selected": true,
+                        "text": "5s",
+                        "value": "5s"
+                    },
+                    {
+                        "selected": false,
+                        "text": "10s",
+                        "value": "10s"
+                    },
+                    {
+                        "selected": false,
+                        "text": "30s",
+                        "value": "30s"
+                    },
+                    {
+                        "selected": false,
+                        "text": "1m",
+                        "value": "1m"
+                    },
+                    {
+                        "selected": false,
+                        "text": "10m",
+                        "value": "10m"
+                    },
+                    {
+                        "selected": false,
+                        "text": "30m",
+                        "value": "30m"
+                    },
+                    {
+                        "selected": false,
+                        "text": "1h",
+                        "value": "1h"
+                    },
+                    {
+                        "selected": false,
+                        "text": "6h",
+                        "value": "6h"
+                    },
+                    {
+                        "selected": false,
+                        "text": "12h",
+                        "value": "12h"
+                    },
+                    {
+                        "selected": false,
+                        "text": "1d",
+                        "value": "1d"
+                    },
+                    {
+                        "selected": false,
+                        "text": "7d",
+                        "value": "7d"
+                    },
+                    {
+                        "selected": false,
+                        "text": "14d",
+                        "value": "14d"
+                    },
+                    {
+                        "selected": false,
+                        "text": "30d",
+                        "value": "30d"
+                    }
+                ],
+                "query": "5s,10s,30s,1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+                "refresh": 2,
+                "type": "interval"
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "All",
+                    "value": "$__all"
+                },
+                "datasource": "$datasource",
+                "hide": 0,
+                "includeAll": true,
+                "label": null,
+                "multi": true,
+                "name": "server",
+                "options": [],
+                "query": "SHOW TAG VALUES WITH KEY = \"server\"",
+                "refresh": 2,
+                "regex": "",
+                "sort": 0,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            }
+        ]
+    },
+    "time": {
+        "from": "now-5m",
+        "to": "now"
+    },
+    "timepicker": {
+        "refresh_intervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+        ],
+        "time_options": [
+            "5m",
+            "15m",
+            "1h",
+            "6h",
+            "12h",
+            "24h",
+            "2d",
+            "7d",
+            "30d"
+        ]
+    },
+    "timezone": "browser",
+    "title": "App Metrics - Web Monitoring - InfluxDB",
+    "version": 20
 }
