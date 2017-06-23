@@ -3,9 +3,9 @@
 // </copyright>
 
 using System;
+using App.Metrics.Builder;
 using App.Metrics.Core.Configuration;
 using App.Metrics.Core.Filtering;
-using App.Metrics.Reporting.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;

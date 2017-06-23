@@ -1,18 +1,19 @@
-﻿// <copyright file="InfluxDbReporterExtensions.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDbReporterBuilderExtensions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
 using App.Metrics.Filters;
+using App.Metrics.Reporting;
 using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
 using Microsoft.Extensions.Logging;
 
 // ReSharper disable CheckNamespace
-namespace App.Metrics.Reporting.Interfaces
+namespace App.Metrics.Builder
     // ReSharper restore CheckNamespace
 {
-    public static class InfluxDbReporterExtensions
+    public static class InfluxDbReporterBuilderExtensions
     {
         public static IReportFactory AddInfluxDb(
             this IReportFactory factory,

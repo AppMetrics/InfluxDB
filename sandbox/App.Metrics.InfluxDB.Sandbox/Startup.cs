@@ -9,7 +9,6 @@ using App.Metrics.Core.Filtering;
 using App.Metrics.InfluxDB.Sandbox.JustForTesting;
 using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
-using App.Metrics.Reporting.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
