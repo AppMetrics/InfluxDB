@@ -1,9 +1,10 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="InfluxDbReporterExtensionsTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
-using App.Metrics.Configuration;
-using App.Metrics.Filtering;
+using App.Metrics.Core.Configuration;
+using App.Metrics.Core.Filtering;
 using App.Metrics.Reporting;
 using App.Metrics.Reporting.Interfaces;
 using FluentAssertions;
@@ -16,7 +17,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Extensions
     public class InfluxDbReporterExtensionsTests
     {
         [Fact]
-        public void can_add_influxdb_provider_with_custom_settings()
+        public void Can_add_influxdb_provider_with_custom_settings()
         {
             var factory = SetupReportFactory();
             var settings = new InfluxDBReporterSettings
@@ -26,13 +27,13 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Extensions
                                                 BackoffPeriod = TimeSpan.FromMinutes(1)
                                             }
                            };
-            Action action = () => { factory.AddInfluxDb(settings); };
+            Action action = () => { factory.AddInfluxDb(settings, new LoggerFactory()); };
 
             action.ShouldNotThrow();
         }
 
         [Fact]
-        public void can_add_influxdb_provider_with_custom_settings_and_filter()
+        public void Can_add_influxdb_provider_with_custom_settings_and_filter()
         {
             var factory = SetupReportFactory();
 
@@ -43,27 +44,27 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Extensions
                                                 BackoffPeriod = TimeSpan.FromMinutes(1)
                                             }
                            };
-            Action action = () => { factory.AddInfluxDb(settings, new DefaultMetricsFilter()); };
+            Action action = () => { factory.AddInfluxDb(settings, new LoggerFactory(), new DefaultMetricsFilter()); };
 
             action.ShouldNotThrow();
         }
 
         [Fact]
-        public void can_add_influxdb_provider_with_filter()
+        public void Can_add_influxdb_provider_with_filter()
         {
             var factory = SetupReportFactory();
 
-            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost"), new DefaultMetricsFilter()); };
+            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost"), new LoggerFactory(), new DefaultMetricsFilter()); };
 
             action.ShouldNotThrow();
         }
 
         [Fact]
-        public void can_add_influxdb_provider_without_filter()
+        public void Can_add_influxdb_provider_without_filter()
         {
             var factory = SetupReportFactory();
 
-            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost")); };
+            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost"), new LoggerFactory()); };
 
             action.ShouldNotThrow();
         }
@@ -72,7 +73,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Extensions
         {
             var metricsMock = new Mock<IMetrics>();
             var options = new AppMetricsOptions();
-            return new ReportFactory(options, metricsMock.Object, new LoggerFactory());
+            return new ReportFactory(metricsMock.Object, new LoggerFactory());
         }
     }
 }

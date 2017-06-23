@@ -1,21 +1,20 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="LineProtocolPayloadTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Formatting.InfluxDB;
-using App.Metrics.Tagging;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Client
 {
     public class LineProtocolPayloadTests
     {
         [Fact]
-        public void can_format_payload()
+        public void Can_format_payload()
         {
             var textWriter = new StringWriter();
             var payload = new LineProtocolPayload();
@@ -37,13 +36,12 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
 
             payload.Format(textWriter);
 
-            textWriter.ToString().Should()
-                      .Be(
-                          "measurement key=\"value\" 1483232461000000000\nmeasurement field1key=\"field1value\",field2key=2i,field3key=f 1483318861000000000\n");
+            textWriter.ToString().Should().Be(
+                "measurement key=\"value\" 1483232461000000000\nmeasurement field1key=\"field1value\",field2key=2i,field3key=f 1483318861000000000\n");
         }
 
         [Fact]
-        public void when_null_point_ignore_and_dont_throw()
+        public void When_null_point_ignore_and_dont_throw()
         {
             var payload = new LineProtocolPayload();
 
@@ -53,7 +51,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void when_null_text_writer_ignore_and_dont_throw()
+        public void When_null_text_writer_ignore_and_dont_throw()
         {
             var payload = new LineProtocolPayload();
             var fields = new Dictionary<string, object> { { "key", "value" } };

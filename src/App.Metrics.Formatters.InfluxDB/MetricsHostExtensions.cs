@@ -2,8 +2,8 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-using App.Metrics.Extensions.Middleware.Abstractions;
 using App.Metrics.Formatters.InfluxDB;
+using App.Metrics.Middleware;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // ReSharper disable CheckNamespace

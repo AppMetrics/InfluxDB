@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26606.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
 EndProject
@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		AppMetrics.ruleset = AppMetrics.ruleset
 		appveyor.yml = appveyor.yml
 		stylecop.json = stylecop.json
+		version.props = version.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DD2E4647-7125-4CE3-9BA5-B45A26113A31}"
@@ -55,6 +56,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{28CE67A4-2662-43AA-B42E-B3C8F33DF31B}"
 	ProjectSection(SolutionItems) = preProject
 		build\common.props = build\common.props
+		build\dependencies.props = build\dependencies.props
 	EndProjectSection
 EndProject
 Global

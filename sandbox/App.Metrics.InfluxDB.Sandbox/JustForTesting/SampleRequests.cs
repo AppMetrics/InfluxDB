@@ -1,7 +1,12 @@
-﻿using System;
+﻿// <copyright file="SampleRequests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
+
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Metrics.Core.Scheduling;
 using App.Metrics.Scheduling;
 
 namespace App.Metrics.InfluxDB.Sandbox.JustForTesting

@@ -1,13 +1,13 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="LineProtocolSyntaxTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
-using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Formatting.InfluxDB;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Client
 {
     public class LineProtocolSyntaxTests
     {
@@ -18,10 +18,13 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         [InlineData("te=st", "te\\=st")]
         [InlineData("te st", "te\\ st")]
         [InlineData("te,st", "te\\,st")]
-        public void can_escape_name(string nameOrKey, string expected) { LineProtocolSyntax.EscapeName(nameOrKey).Should().Be(expected); }
+        public void Can_escape_name(string nameOrKey, string expected)
+        {
+            LineProtocolSyntax.EscapeName(nameOrKey).Should().Be(expected);
+        }
 
         [Fact]
-        public void can_format_timespan()
+        public void Can_format_timespan()
         {
             var value = TimeSpan.FromMinutes(1);
 
@@ -29,7 +32,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void can_format_timestamp()
+        public void Can_format_timestamp()
         {
             var dateTime = new DateTime(2017, 01, 01, 1, 1, 1, DateTimeKind.Utc);
             LineProtocolSyntax.FormatTimestamp(dateTime).Should().Be("1483232461000000000");
@@ -48,6 +51,9 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         [InlineData((double)1, "1")]
         [InlineData(true, "t")]
         [InlineData(false, "f")]
-        public void can_format_value(object value, string expected) { LineProtocolSyntax.FormatValue(value).Should().Be(expected); }
+        public void Can_format_value(object value, string expected)
+        {
+            LineProtocolSyntax.FormatValue(value).Should().Be(expected);
+        }
     }
 }

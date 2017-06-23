@@ -1,9 +1,9 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="InfluxDbReporterProviderTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
-using App.Metrics.Filtering;
-using App.Metrics.Internal;
+using App.Metrics.Core.Filtering;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -13,25 +13,25 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
     public class InfluxDbReporterProviderTests
     {
         [Fact]
-        public void can_create_metric_reporter()
+        public void Can_create_metric_reporter()
         {
-            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings(), new DefaultMetricsFilter());
+            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings(), new LoggerFactory(), new DefaultMetricsFilter());
 
-            var reporter = provider.CreateMetricReporter("influx", new LoggerFactory());
+            var reporter = provider.CreateMetricReporter("influx");
 
             reporter.Should().NotBeNull();
         }
 
         [Fact]
-        public void defaults_filter_to_no_op()
+        public void Defaults_filter_to_no_op()
         {
-            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings());
+            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings(), new LoggerFactory());
 
             provider.Filter.Should().BeOfType<NoOpMetricsFilter>();
         }
 
         [Fact]
-        public void filter_is_not_required()
+        public void Filter_is_not_required()
         {
             Action action = () =>
             {
@@ -43,11 +43,11 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void settings_are_required()
+        public void Settings_are_required()
         {
             Action action = () =>
             {
-                var provider = new InfluxDbReporterProvider(null);
+                var provider = new InfluxDbReporterProvider(null, new LoggerFactory());
             };
 
             action.ShouldThrow<ArgumentNullException>();

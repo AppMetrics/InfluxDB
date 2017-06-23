@@ -80,7 +80,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
             try
             {
-                var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken).ConfigureAwait(false);
+                var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -116,7 +116,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             client.BaseAddress = influxDbSettings.BaseAddress;
             client.Timeout = httpPolicy.Timeout;
 
-            if (influxDbSettings.UserName.IsMissing() || influxDbSettings.Password.IsMissing())
+            if (string.IsNullOrWhiteSpace(influxDbSettings.UserName) || string.IsNullOrWhiteSpace(influxDbSettings.Password))
             {
                 return client;
             }

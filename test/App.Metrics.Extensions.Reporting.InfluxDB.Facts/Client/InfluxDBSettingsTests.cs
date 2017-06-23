@@ -1,19 +1,20 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="InfluxDBSettingsTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Client
 {
     // ReSharper disable InconsistentNaming
     public class InfluxDBSettingsTests
         // ReSharper restore InconsistentNaming
     {
         [Fact]
-        public void base_address_cannot_be_null()
+        public void Case_address_cannot_be_null()
         {
             Action action = () =>
             {
@@ -28,7 +29,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void can_generate_influx_write_endpoint()
+        public void Can_generate_influx_write_endpoint()
         {
             var settings = new InfluxDBSettings("testdb", new Uri("http://localhost"))
                            {
@@ -40,7 +41,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void database_cannot_be_empty()
+        public void Database_cannot_be_empty()
         {
             Action action = () =>
             {
@@ -55,7 +56,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void database_cannot_be_null()
+        public void Database_cannot_be_null()
         {
             Action action = () =>
             {
@@ -70,7 +71,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void database_cannot_be_whitespace()
+        public void Database_cannot_be_whitespace()
         {
             Action action = () =>
             {

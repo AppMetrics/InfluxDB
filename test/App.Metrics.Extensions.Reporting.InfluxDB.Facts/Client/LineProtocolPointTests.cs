@@ -1,21 +1,20 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="LineProtocolPointTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Formatting.InfluxDB;
-using App.Metrics.Tagging;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Client
 {
     public class LineProtocolPointTests
     {
         [Fact]
-        public void at_least_one_field_is_required()
+        public void At_least_one_field_is_required()
         {
             var fields = new Dictionary<string, object>();
             Action action = () =>
@@ -27,7 +26,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void can_format_payload_correctly()
+        public void Can_format_payload_correctly()
         {
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object> { { "key", "value" } };
@@ -40,7 +39,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void can_format_payload_correctly_without_providing_timestamp()
+        public void Can_format_payload_correctly_without_providing_timestamp()
         {
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object> { { "key", "value" } };
@@ -52,7 +51,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void can_format_payload_with_multiple_fields_correctly()
+        public void Can_format_payload_with_multiple_fields_correctly()
         {
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object>
@@ -66,12 +65,11 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
 
             point.Format(textWriter);
 
-            textWriter.ToString().Should()
-                      .Be("measurement field1key=\"field1value\",field2key=2i,field3key=f 1483232461000000000");
+            textWriter.ToString().Should().Be("measurement field1key=\"field1value\",field2key=2i,field3key=f 1483232461000000000");
         }
 
         [Fact]
-        public void can_format_payload_with_tags_correctly()
+        public void Can_format_payload_with_tags_correctly()
         {
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object> { { "key", "value" } };
@@ -85,7 +83,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void field_key_cannot_be_empty()
+        public void Field_key_cannot_be_empty()
         {
             var fields = new Dictionary<string, object> { { string.Empty, "value" } };
             Action action = () =>
@@ -97,7 +95,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         }
 
         [Fact]
-        public void measurement_is_required()
+        public void Measurement_is_required()
         {
             var fields = new Dictionary<string, object> { { "key", "value" } };
             Action action = () =>
@@ -112,7 +110,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         [InlineData(DateTimeKind.Unspecified, false)]
         [InlineData(DateTimeKind.Local, false)]
         [InlineData(DateTimeKind.Utc, true)]
-        public void time_stamp_should_be_utc(DateTimeKind dateTimeKind, bool expected)
+        public void Time_stamp_should_be_utc(DateTimeKind dateTimeKind, bool expected)
         {
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, dateTimeKind);

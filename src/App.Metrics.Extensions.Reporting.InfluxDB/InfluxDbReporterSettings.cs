@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Reporting;
 using InfluxDBConstants = App.Metrics.Formatting.InfluxDB.Constants.InfluxDBDefaults;

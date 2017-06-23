@@ -3,38 +3,43 @@
 // </copyright>
 
 using System;
-using App.Metrics.Abstractions.Filtering;
-using App.Metrics.Abstractions.Reporting;
+using App.Metrics.Core.Filtering;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Filters;
 using App.Metrics.Formatting.InfluxDB;
-using App.Metrics.Internal;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
 {
     public class InfluxDbReporterProvider : IReporterProvider
     {
+        private readonly ILoggerFactory _loggerFactory;
         private readonly InfluxDBReporterSettings _settings;
 
-        public InfluxDbReporterProvider(InfluxDBReporterSettings settings)
+        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
             Filter = new NoOpMetricsFilter();
         }
 
-        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, IFilterMetrics fitler)
+        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, ILoggerFactory loggerFactory, IFilterMetrics fitler)
         {
+            _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
             Filter = fitler ?? new NoOpMetricsFilter();
         }
 
         public IFilterMetrics Filter { get; }
 
-        public IMetricReporter CreateMetricReporter(string name, ILoggerFactory loggerFactory)
+        public IMetricReporter CreateMetricReporter(string name)
         {
             var lineProtocolClient = new DefaultLineProtocolClient(
-                loggerFactory,
+                _loggerFactory,
                 _settings.InfluxDbSettings,
                 _settings.HttpPolicy);
             var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
@@ -48,7 +53,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
-                loggerFactory);
+                _loggerFactory);
         }
     }
 }

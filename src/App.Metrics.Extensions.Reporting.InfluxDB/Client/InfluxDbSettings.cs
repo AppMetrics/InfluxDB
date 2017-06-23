@@ -17,7 +17,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                 throw new ArgumentNullException(nameof(database));
             }
 
-            if (database.IsMissing())
+            if (string.IsNullOrWhiteSpace(database))
             {
                 throw new ArgumentException("A database must be specified", nameof(database));
             }
@@ -69,12 +69,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             {
                 var endpoint = $"write?db={Uri.EscapeDataString(Database)}";
 
-                if (RetensionPolicy.IsPresent())
+                if (!string.IsNullOrWhiteSpace(RetensionPolicy))
                 {
                     endpoint += $"&rp={Uri.EscapeDataString(RetensionPolicy)}";
                 }
 
-                if (Consistenency.IsPresent())
+                if (!string.IsNullOrWhiteSpace(Consistenency))
                 {
                     endpoint += $"&consistency={Uri.EscapeDataString(Consistenency)}";
                 }

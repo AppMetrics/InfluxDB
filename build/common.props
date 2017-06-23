@@ -1,4 +1,7 @@
 <Project>
+  <Import Project="dependencies.props" />
+  <Import Project="..\version.props" />
+  
 	<PropertyGroup>
 		<Copyright>Allan Hardy 2016</Copyright>
 		<Authors>Allan Hardy</Authors>
@@ -15,7 +18,6 @@
 		<GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
 		<GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
 		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>		
-		<DebugType>full</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>

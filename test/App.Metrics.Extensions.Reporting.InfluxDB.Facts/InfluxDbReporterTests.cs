@@ -1,24 +1,27 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="InfluxDbReporterTests.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using App.Metrics.Abstractions.Reporting;
-using App.Metrics.Abstractions.ReservoirSampling;
 using App.Metrics.Apdex;
 using App.Metrics.Core;
+using App.Metrics.Core.Apdex;
+using App.Metrics.Core.Counter;
+using App.Metrics.Core.Gauge;
+using App.Metrics.Core.Histogram;
+using App.Metrics.Core.Infrastructure;
+using App.Metrics.Core.Meter;
+using App.Metrics.Core.ReservoirSampling.ExponentialDecay;
+using App.Metrics.Core.Timer;
 using App.Metrics.Counter;
-using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Formatting.InfluxDB;
 using App.Metrics.Gauge;
 using App.Metrics.Histogram;
-using App.Metrics.Infrastructure;
 using App.Metrics.Meter;
 using App.Metrics.Reporting;
-using App.Metrics.Reporting.Abstractions;
-using App.Metrics.ReservoirSampling.ExponentialDecay;
-using App.Metrics.Tagging;
+using App.Metrics.ReservoirSampling;
 using App.Metrics.Timer;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -31,12 +34,11 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
     {
         private const string MultidimensionalMetricNameSuffix = "|host:server1,env:staging";
         private readonly IReservoir _defaultReservoir = new DefaultForwardDecayingReservoir();
-        private readonly MetricTags _tags = new MetricTags(new[] { "host", "env" }, new[] { "server1", "staging" });
         private readonly InfluxDBReporterSettings _settings = new InfluxDBReporterSettings();
-
+        private readonly MetricTags _tags = new MetricTags(new[] { "host", "env" }, new[] { "server1", "staging" });
 
         [Fact]
-        public void can_clear_payload()
+        public void Can_clear_payload()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -65,7 +67,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_apdex()
+        public void Can_report_apdex()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -81,11 +83,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", apdexValueSource);
 
-            payloadBuilder.PayloadFormatted(false).Should().Be("test__test_apdex,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+            payloadBuilder.PayloadFormatted(false).Should().Be(
+                "test__test_apdex,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
         }
 
         [Fact]
-        public void can_report_apdex__when_multidimensional()
+        public void Can_report_apdex__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -103,11 +106,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
 
             payloadBuilder.PayloadFormatted(false).
                            Should().
-                           Be("test__test_apdex,host=server1,env=staging,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+                           Be(
+                               "test__test_apdex,host=server1,env=staging,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
         }
 
         [Fact]
-        public void can_report_apdex_with_tags()
+        public void Can_report_apdex_with_tags()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -125,11 +129,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
 
             payloadBuilder.PayloadFormatted(false).
                            Should().
-                           Be("test__test_apdex,key1=value1,key2=value2,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+                           Be(
+                               "test__test_apdex,key1=value1,key2=value2,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
         }
 
         [Fact]
-        public void can_report_apdex_with_tags_when_multidimensional()
+        public void Can_report_apdex_with_tags_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -152,7 +157,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_counter_with_items()
+        public void Can_report_counter_with_items()
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
@@ -176,7 +181,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_counter_with_items_and_tags()
+        public void Can_report_counter_with_items_and_tags()
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
@@ -200,7 +205,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_counter_with_items_tags_when_multidimensional()
+        public void Can_report_counter_with_items_tags_when_multidimensional()
         {
             var counterTags = new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" });
             var metricsMock = new Mock<IMetrics>();
@@ -225,7 +230,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_counter_with_items_with_option_not_to_report_percentage()
+        public void Can_report_counter_with_items_with_option_not_to_report_percentage()
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
@@ -250,7 +255,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_counters()
+        public void Can_report_counters()
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
@@ -270,7 +275,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_counters__when_multidimensional()
+        public void Can_report_counters__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
@@ -290,7 +295,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_gauges()
+        public void Can_report_gauges()
         {
             var metricsMock = new Mock<IMetrics>();
             var gauge = new FunctionGauge(() => 1);
@@ -309,7 +314,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_gauges__when_multidimensional()
+        public void Can_report_gauges__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var gauge = new FunctionGauge(() => 1);
@@ -328,7 +333,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_histograms()
+        public void Can_report_histograms()
         {
             var metricsMock = new Mock<IMetrics>();
             var histogram = new DefaultHistogramMetric(_defaultReservoir);
@@ -351,7 +356,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_histograms_when_multidimensional()
+        public void Can_report_histograms_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var histogram = new DefaultHistogramMetric(_defaultReservoir);
@@ -374,7 +379,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_meters()
+        public void Can_report_meters()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -392,11 +397,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", meterValueSource);
 
-            payloadBuilder.PayloadFormatted(false).Should().Be("test__test_meter,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0\n");
+            payloadBuilder.PayloadFormatted(false).Should().Be(
+                "test__test_meter,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0\n");
         }
 
         [Fact]
-        public void can_report_meters_when_multidimensional()
+        public void Can_report_meters_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -416,11 +422,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
 
             payloadBuilder.PayloadFormatted(false).
                            Should().
-                           Be("test__test_meter,host=server1,env=staging,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0\n");
+                           Be(
+                               "test__test_meter,host=server1,env=staging,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0\n");
         }
 
         [Fact]
-        public void can_report_meters_with_items()
+        public void Can_report_meters_with_items()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -446,7 +453,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_meters_with_items_tags_when_multidimensional()
+        public void Can_report_meters_with_items_tags_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -472,7 +479,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_timers()
+        public void Can_report_timers()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -498,7 +505,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void can_report_timers__when_multidimensional()
+        public void Can_report_timers__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -524,20 +531,20 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public async Task on_end_report_clears_playload()
+        public async Task On_end_report_clears_playload()
         {
             var metricsMock = new Mock<IMetrics>();
             var payloadBuilderMock = new Mock<IMetricPayloadBuilder<LineProtocolPayload>>();
             payloadBuilderMock.Setup(p => p.Clear());
             var reporter = CreateReporter(payloadBuilderMock.Object);
 
-            await reporter.EndAndFlushReportRunAsync(metricsMock.Object).ConfigureAwait(false);
+            await reporter.EndAndFlushReportRunAsync(metricsMock.Object);
 
             payloadBuilderMock.Verify(p => p.Clear(), Times.Once);
         }
 
         [Fact]
-        public void when_disposed_clears_playload()
+        public void When_disposed_clears_playload()
         {
             var payloadBuilderMock = new Mock<IMetricPayloadBuilder<LineProtocolPayload>>();
             payloadBuilderMock.Setup(p => p.Clear());
@@ -554,7 +561,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
             var loggerFactory = new LoggerFactory();
 
             return new ReportRunner<LineProtocolPayload>(
-                p => AppMetricsTaskCache.SuccessTask,
+                p => Task.FromResult(true),
                 payloadBuilder,
                 reportInterval,
                 "InfluxDB Reporter",

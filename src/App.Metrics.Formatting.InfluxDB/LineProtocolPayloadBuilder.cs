@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using App.Metrics.Reporting;
-using App.Metrics.Reporting.Abstractions;
-using App.Metrics.Tagging;
 
 namespace App.Metrics.Formatting.InfluxDB
 {
