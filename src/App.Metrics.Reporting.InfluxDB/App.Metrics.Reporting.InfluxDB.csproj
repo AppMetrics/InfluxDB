@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\build\common.props" />
+
+  <PropertyGroup>
+    <Description>Provides InfluxDB reporting capability to App Metrics</Description>    
+    <AssemblyTitle>App.Metrics.Reporting.InfluxDB</AssemblyTitle>    
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>           
+    <PackageTags>appmetrics;reporting;influxdb</PackageTags>
+    <!--Required for OpenCover-->
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App.Metrics.Formatters.InfluxDB\App.Metrics.Formatters.InfluxDB.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.Reporting" Version="$(AppMetricsReportingVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(AspNetCoreVersion)" />
+  </ItemGroup>
+
+</Project>

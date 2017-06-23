@@ -33,9 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{4199989A-27B
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.InfluxDB", "src\App.Metrics.Extensions.Reporting.InfluxDB\App.Metrics.Extensions.Reporting.InfluxDB.csproj", "{F07C2053-2AD0-4FA0-8265-761FCE289F59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Reporting.InfluxDB", "src\App.Metrics.Reporting.InfluxDB\App.Metrics.Reporting.InfluxDB.csproj", "{F07C2053-2AD0-4FA0-8265-761FCE289F59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.InfluxDB.Facts", "test\App.Metrics.Extensions.Reporting.InfluxDB.Facts\App.Metrics.Extensions.Reporting.InfluxDB.Facts.csproj", "{84005F55-AF0E-40F4-A596-129E19C418CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Reporting.InfluxDB.Facts", "test\App.Metrics.Reporting.InfluxDB.Facts\App.Metrics.Reporting.InfluxDB.Facts.csproj", "{84005F55-AF0E-40F4-A596-129E19C418CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visualization", "visualization", "{5BC3B2AF-AFC7-4C92-BD1E-D347E83B2497}"
 EndProject
@@ -49,9 +49,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{B0E3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.InfluxDB.Sandbox", "sandbox\App.Metrics.InfluxDB.Sandbox\App.Metrics.InfluxDB.Sandbox.csproj", "{4D15C49F-F4DC-4631-B8FA-1D307C461227}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.InfluxDB", "src\App.Metrics.Formatters.InfluxDB\App.Metrics.Formatters.InfluxDB.csproj", "{5ACC61B5-8285-4798-A215-B7677A59EA22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Middleware.Formatters.InfluxDB", "src\App.Metrics.Middleware.Formatters.InfluxDB\App.Metrics.Middleware.Formatters.InfluxDB.csproj", "{5ACC61B5-8285-4798-A215-B7677A59EA22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatting.InfluxDB", "src\App.Metrics.Formatting.InfluxDB\App.Metrics.Formatting.InfluxDB.csproj", "{A1659468-1D7F-4DAB-8487-4E14DC9D92BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.InfluxDB", "src\App.Metrics.Formatters.InfluxDB\App.Metrics.Formatters.InfluxDB.csproj", "{A1659468-1D7F-4DAB-8487-4E14DC9D92BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{28CE67A4-2662-43AA-B42E-B3C8F33DF31B}"
 	ProjectSection(SolutionItems) = preProject

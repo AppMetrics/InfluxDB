@@ -34,7 +34,12 @@ var skipHtmlCoverageReport		= HasArgument("SkipHtmlCoverageReport") ? Argument<b
 //////////////////////////////////////////////////////////////////////
 // DEFINE FILES & DIRECTORIES
 //////////////////////////////////////////////////////////////////////
-var packDirs                    = new [] { Directory("./src/App.Metrics.Extensions.Reporting.InfluxDB"), Directory("./src/App.Metrics.Formatters.InfluxDB"), Directory("./src/App.Metrics.Formatting.InfluxDB") };
+var packDirs                    = new [] 
+										{ 
+											Directory("./src/App.Metrics.Reporting.InfluxDB"), 
+											Directory("./src/App.Metrics.Middleware.Formatters.InfluxDB"), 
+											Directory("./src/App.Metrics.Formatters.InfluxDB") 
+										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
 var testResultsDir              = (DirectoryPath) artifactsDir.Combine("test-results");
 var coverageResultsDir          = (DirectoryPath) artifactsDir.Combine("coverage");

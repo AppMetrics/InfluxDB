@@ -3,20 +3,17 @@
   <Import Project="..\..\build\common.props" />
 
   <PropertyGroup>
-    <Description>App Metrics Middleware Response Formatter. Allows metrics data to be formatted in InfluxDB formats e.g. Line Protocol</Description>
+    <Description>App Metrics Formatting, formatting metrics data to InfluxDB formats e.g. Line Protocol</Description>
     <AssemblyTitle>App.Metrics.Formatters.InfluxDB</AssemblyTitle>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>    
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageTags>appmetrics;influxdb</PackageTags>
     <!--Required for OpenCover-->
     <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App.Metrics.Formatting.InfluxDB\App.Metrics.Formatting.InfluxDB.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="App.Metrics.Middleware.Abstractions" Version="$(AppMetricsMiddlewareVersion)" />
+    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
   </ItemGroup>
 
 </Project>
