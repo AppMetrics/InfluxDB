@@ -14,31 +14,28 @@ namespace App.Metrics.Reporting.InfluxDB
 {
     public class InfluxDbReporterProvider : IReporterProvider
     {
-        private readonly ILoggerFactory _loggerFactory;
         private readonly InfluxDBReporterSettings _settings;
 
-        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, ILoggerFactory loggerFactory)
+        public InfluxDbReporterProvider(InfluxDBReporterSettings settings)
         {
-            _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             Filter = new NoOpMetricsFilter();
         }
 
-        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, ILoggerFactory loggerFactory, IFilterMetrics fitler)
+        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, IFilterMetrics filter)
         {
-            _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
-            Filter = fitler ?? new NoOpMetricsFilter();
+            Filter = filter ?? new NoOpMetricsFilter();
         }
 
         public IFilterMetrics Filter { get; }
 
-        public IMetricReporter CreateMetricReporter(string name)
+        public IMetricReporter CreateMetricReporter(string name, ILoggerFactory loggerFactory)
         {
             var lineProtocolClient = new DefaultLineProtocolClient(
-                _loggerFactory,
+                loggerFactory,
                 _settings.InfluxDbSettings,
                 _settings.HttpPolicy);
             var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
@@ -52,7 +49,7 @@ namespace App.Metrics.Reporting.InfluxDB
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
-                _loggerFactory);
+                loggerFactory);
         }
     }
 }

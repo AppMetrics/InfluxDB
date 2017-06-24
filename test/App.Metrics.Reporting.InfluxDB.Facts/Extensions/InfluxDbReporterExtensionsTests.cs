@@ -26,7 +26,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Extensions
                                                 BackoffPeriod = TimeSpan.FromMinutes(1)
                                             }
                            };
-            Action action = () => { factory.AddInfluxDb(settings, new LoggerFactory()); };
+            Action action = () => { factory.AddInfluxDb(settings); };
 
             action.ShouldNotThrow();
         }
@@ -43,7 +43,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Extensions
                                                 BackoffPeriod = TimeSpan.FromMinutes(1)
                                             }
                            };
-            Action action = () => { factory.AddInfluxDb(settings, new LoggerFactory(), new DefaultMetricsFilter()); };
+            Action action = () => { factory.AddInfluxDb(settings, new DefaultMetricsFilter()); };
 
             action.ShouldNotThrow();
         }
@@ -53,7 +53,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Extensions
         {
             var factory = SetupReportFactory();
 
-            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost"), new LoggerFactory(), new DefaultMetricsFilter()); };
+            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost"), new DefaultMetricsFilter()); };
 
             action.ShouldNotThrow();
         }
@@ -63,7 +63,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Extensions
         {
             var factory = SetupReportFactory();
 
-            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost"), new LoggerFactory()); };
+            Action action = () => { factory.AddInfluxDb("test", new Uri("http://localhost")); };
 
             action.ShouldNotThrow();
         }

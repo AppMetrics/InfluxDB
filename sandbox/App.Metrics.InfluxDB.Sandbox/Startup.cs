@@ -95,7 +95,6 @@ namespace App.Metrics.InfluxDB.Sandbox
                                  {
                                      InfluxDbSettings = new InfluxDBSettings(InfluxDbDatabase, InfluxDbUri)
                                  },
-                                 new LoggerFactory(),
                                  reportFilter);
                          }).
                      AddHealthChecks(

@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
+using App.Metrics.Core.Filtering;
 using App.Metrics.Filters;
 using App.Metrics.Reporting;
 using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
-using Microsoft.Extensions.Logging;
 
 // ReSharper disable CheckNamespace
 namespace App.Metrics.Builder
@@ -18,10 +18,10 @@ namespace App.Metrics.Builder
         public static IReportFactory AddInfluxDb(
             this IReportFactory factory,
             InfluxDBReporterSettings settings,
-            ILoggerFactory loggerFactory,
             IFilterMetrics filter = null)
         {
-            factory.AddProvider(new InfluxDbReporterProvider(settings, loggerFactory, filter));
+            filter = filter ?? new NoOpMetricsFilter();
+            factory.AddProvider(new InfluxDbReporterProvider(settings, filter));
             return factory;
         }
 
@@ -29,15 +29,15 @@ namespace App.Metrics.Builder
             this IReportFactory factory,
             string database,
             Uri baseAddress,
-            ILoggerFactory loggerFactory,
             IFilterMetrics filter = null)
         {
+            filter = filter ?? new NoOpMetricsFilter();
             var settings = new InfluxDBReporterSettings
                            {
                                InfluxDbSettings = new InfluxDBSettings(database, baseAddress)
                            };
 
-            factory.AddInfluxDb(settings, loggerFactory, filter);
+            factory.AddInfluxDb(settings, filter);
             return factory;
         }
     }

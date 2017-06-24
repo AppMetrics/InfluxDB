@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <PackageReference Include="App.Metrics.Reporting" Version="$(AppMetricsReportingVersion)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(AspNetCoreVersion)" />
   </ItemGroup>
 
 </Project>

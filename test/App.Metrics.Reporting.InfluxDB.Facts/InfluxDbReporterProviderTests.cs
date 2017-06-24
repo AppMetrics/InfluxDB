@@ -15,9 +15,9 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [Fact]
         public void Can_create_metric_reporter()
         {
-            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings(), new LoggerFactory(), new DefaultMetricsFilter());
+            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings(), new DefaultMetricsFilter());
 
-            var reporter = provider.CreateMetricReporter("influx");
+            var reporter = provider.CreateMetricReporter("influx", new LoggerFactory());
 
             reporter.Should().NotBeNull();
         }
@@ -25,7 +25,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [Fact]
         public void Defaults_filter_to_no_op()
         {
-            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings(), new LoggerFactory());
+            var provider = new InfluxDbReporterProvider(new InfluxDBReporterSettings());
 
             provider.Filter.Should().BeOfType<NoOpMetricsFilter>();
         }
@@ -47,7 +47,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         {
             Action action = () =>
             {
-                var provider = new InfluxDbReporterProvider(null, new LoggerFactory());
+                var provider = new InfluxDbReporterProvider(null);
             };
 
             action.ShouldThrow<ArgumentNullException>();
