@@ -22,7 +22,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\App.Metrics.Reporting.InfluxDB\App.Metrics.Reporting.InfluxDB.csproj" />
-    <ProjectReference Include="..\..\src\App.Metrics.Middleware.Formatters.InfluxDB\App.Metrics.Middleware.Formatters.InfluxDB.csproj" />
+    <ProjectReference Include="..\..\src\App.Metrics.AspNetCore.Formatters.InfluxDB\App.Metrics.AspNetCore.Formatters.InfluxDB.csproj" />
   </ItemGroup>
   
   <ItemGroup>

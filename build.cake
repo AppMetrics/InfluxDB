@@ -37,7 +37,7 @@ var skipHtmlCoverageReport		= HasArgument("SkipHtmlCoverageReport") ? Argument<b
 var packDirs                    = new [] 
 										{ 
 											Directory("./src/App.Metrics.Reporting.InfluxDB"), 
-											Directory("./src/App.Metrics.Middleware.Formatters.InfluxDB"), 
+											Directory("./src/App.Metrics.AspNetCore.Formatters.InfluxDB"), 
 											Directory("./src/App.Metrics.Formatters.InfluxDB") 
 										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");

@@ -15,7 +15,7 @@ This repo contains InfluxDB extension packages to [App Metrics](https://github.c
 |Package|Dev Release|PreRelease|Latest Release|
 |------|:--------:|:--------:|:--------:|
 |App.Metrics.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Reporting.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Reporting.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Reporting.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.InfluxDB/)
-|App.Metrics.Middleware.Formatters.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Middleware.Formatters.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Middleware.Formatters.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Middleware.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Middleware.Formatters.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Middleware.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Middleware.Formatters.InfluxDB/)
+|App.Metrics.AspNetCore.Formatters.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.AspNetCore.Formatters.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.AspNetCore.Formatters.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.AspNetCore.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.AspNetCore.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.InfluxDB/)
 |App.Metrics.Formatters.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Formatters.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Formatters.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.InfluxDB/)
 
 #### Grafana/InfluxDB Web Monitoring
@@ -83,11 +83,6 @@ Run `build.sh` from the repositories root directory. Code Coverage reports are n
 ```
 	.\build.sh --ScriptArgs '-BuildConfiguration=Release -PreReleaseSuffix=beta -BuildNumber=1'
 ```
-
-> #### Nuget Packages
-> Nuget packages won't be generated on non-windows environments by default.
-> 
-> Unfortunately there is [currently no way out-of-the-box to conditionally build & pack a project by framework](https://github.com/dotnet/roslyn-project-system/issues/1586#issuecomment-280978851). Because `App.Metrics` packages target `.NET 4.5.2` as well as `dotnet standard` there is a work around in the build script to force `dotnet standard` on build but no work around for packaging on non-windows environments. 
 
 ## Contributing
 
