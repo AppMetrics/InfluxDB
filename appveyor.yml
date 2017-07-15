@@ -2,7 +2,7 @@ version: 1.0.{build}
 image: Visual Studio 2017 Preview
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: jE+uYnSDVrBExOFkaPPHpJeKfHxVuS+lYvS+8BlcKBTSioz25h+rBq3RxMGl9JBd
+    secure: OCt+hLolAEzMwIL35182sjpOu9GcwPRUkPHBsCdGSMnoIiWByMrcoDsVIqciM0C3
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   CoverWith: OpenCover
@@ -25,11 +25,11 @@ artifacts:
 - path: artifacts/coverage/coverage.dcvr
 deploy:
 - provider: NuGet
-  server: https://www.myget.org/F/alhardy/api/v2/package
+  server: https://www.myget.org/F/appmetrics/api/v2/package
   api_key:
     secure: gIAiACgNj+JzXyLLTe3rLxZyrAB9RpC8Lw81xEjdOLXqotprqEwGiFWRipEqkpps
   skip_symbols: true
-  symbol_server: https://www.myget.org/F/alhardy/symbol
+  symbol_server: https://www.myget.org/F/appmetrics/symbol
 skip_commits:
   files:    
     - '**/*.md'
