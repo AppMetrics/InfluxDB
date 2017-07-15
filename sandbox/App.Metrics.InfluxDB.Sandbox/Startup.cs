@@ -21,7 +21,7 @@ namespace App.Metrics.InfluxDB.Sandbox
     public class Startup
     {
         private static readonly bool HaveAppRunSampleRequests = true;
-        private static readonly string InfluxDbDatabase = "AppMetricsSandbox";
+        private static readonly string InfluxDbDatabase = "appmetricssandbox";
         private static readonly Uri InfluxDbUri = new Uri("http://127.0.0.1:8086");
         private static readonly bool RunSamplesWithClientId = true;
 
@@ -44,7 +44,6 @@ namespace App.Metrics.InfluxDB.Sandbox
                                             factory =>
                                             {
                                                 factory.AddConsole();
-                                                // factory.AddDebug();
                                             }).
                                         UseIISIntegration().
                                         UseKestrel().
@@ -84,8 +83,6 @@ namespace App.Metrics.InfluxDB.Sandbox
 
             services.AddMvc(options => options.AddMetricsResourceFilter());
 
-            var reportFilter = new DefaultMetricsFilter();
-
             services.AddMetrics(Configuration.GetSection("AppMetrics")).
                      AddReporting(
                          factory =>
@@ -93,25 +90,27 @@ namespace App.Metrics.InfluxDB.Sandbox
                              factory.AddInfluxDb(
                                  new InfluxDBReporterSettings
                                  {
-                                     InfluxDbSettings = new InfluxDBSettings(InfluxDbDatabase, InfluxDbUri)
-                                 },
-                                 reportFilter);
+                                     InfluxDbSettings = new InfluxDBSettings(InfluxDbDatabase, InfluxDbUri),
+                                     ReportInterval = TimeSpan.FromSeconds(5)
+                                 });
                          }).
-                     AddHealthChecks(
-                         factory =>
-                         {
-                             factory.RegisterPingHealthCheck("google ping", "google.com", TimeSpan.FromSeconds(10));
-                             factory.RegisterHttpGetHealthCheck("github", new Uri("https://github.com/"), TimeSpan.FromSeconds(10));
-                         }).
-                     AddMetricsMiddleware(
+                         AddMetricsMiddleware(
                          Configuration.GetSection("AspNetMetrics"),
                          optionsBuilder =>
                          {
-                             optionsBuilder.AddJsonMetricsSerialization().
-                                            AddAsciiHealthSerialization().
-                                            AddAsciiMetricsTextSerialization().
-                                            AddAsciiEnvironmentInfoSerialization();
+                             optionsBuilder.AddMetricsInfluxDBLineProtocolFormatters().
+                                            AddMetricsTextAsciiFormatters().
+                                            AddEnvironmentAsciiFormatters();
                          });
+
+            services.
+                AddHealthChecks().
+                AddHealthCheckMiddleware(optionsBuilder => optionsBuilder.AddAsciiFormatters()).
+                AddChecks(registry =>
+                {
+                    registry.AddPingCheck("google ping", "google.com", TimeSpan.FromSeconds(10));
+                    registry.AddHttpGetCheck("github", new Uri("https://github.com/"), TimeSpan.FromSeconds(10));
+                });
         }
     }
 }

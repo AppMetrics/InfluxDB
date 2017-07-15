@@ -6,14 +6,13 @@
     <Description>App Metrics Formatting, formatting metrics data to InfluxDB formats e.g. Line Protocol</Description>
     <AssemblyTitle>App.Metrics.Formatters.InfluxDB</AssemblyTitle>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>    
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageTags>appmetrics;influxdb</PackageTags>
     <!--Required for OpenCover-->
     <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
+    <PackageReference Include="App.Metrics.Reporting.Abstractions" Version="$(AppMetricsReportingVersion)" />
   </ItemGroup>
 
 </Project>

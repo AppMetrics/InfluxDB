@@ -3,8 +3,8 @@
 // </copyright>
 
 using System;
+using App.Metrics.AspNetCore.Middleware.Options;
 using App.Metrics.InfluxDB.Sandbox.JustForTesting;
-using App.Metrics.Middleware.DependencyInjection.Options;
 
 // ReSharper disable CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection

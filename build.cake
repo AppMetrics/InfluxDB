@@ -122,7 +122,7 @@ Task("Restore")
 {	
 	var settings = new DotNetCoreRestoreSettings
     {        
-        Sources = new [] { "https://api.nuget.org/v3/index.json", "https://www.myget.org/F/alhardy/api/v3/index.json" }	
+        Sources = new [] { "https://api.nuget.org/v3/index.json", "https://www.myget.org/F/appmetrics/api/v3/index.json" }
     };
 
 	DotNetCoreRestore(solutionFile, settings);
@@ -138,7 +138,7 @@ Task("Build")
 	Context.Information("Building using versionSuffix: " + versionSuffix);
 
 	// Workaround to fixing pre-release version package references - https://github.com/NuGet/Home/issues/4337
-	settings.ArgumentCustomization = args=>args.Append("/t:Restore /p:RestoreSources=https://api.nuget.org/v3/index.json;https://www.myget.org/F/alhardy/api/v3/index.json;");
+	settings.ArgumentCustomization = args=>args.Append("/t:Restore /p:RestoreSources=https://api.nuget.org/v3/index.json;https://www.myget.org/F/appmetrics/api/v3/index.json;");
 
 
 	if (IsRunningOnWindows())
@@ -189,8 +189,8 @@ Task("Pack")
         Configuration = configuration,
         OutputDirectory = packagesDir,
         VersionSuffix = versionSuffix,
-		NoBuild = true
-    };
+		NoBuild = true		
+    };	
     
     foreach(var packDir in packDirs)
     {
@@ -319,8 +319,15 @@ Task("PublishTestResults")
 			{
 				Context.Information("Moving " + filePath.FullPath + " to " + testResultsDir);
 
-				MoveFiles(filePath.FullPath, testResultsDir);
-				MoveFile(testResultsDir + "/" + filePath.GetFilename(), testResultsDir + "/" + folderName + ".trx");
+				try
+				{
+					MoveFiles(filePath.FullPath, testResultsDir);
+					MoveFile(testResultsDir + "/" + filePath.GetFilename(), testResultsDir + "/" + folderName + ".trx");
+				}
+				catch(Exception ex)
+				{
+					Context.Information(ex.ToString());
+				}				
 			}
 		}	
 	}

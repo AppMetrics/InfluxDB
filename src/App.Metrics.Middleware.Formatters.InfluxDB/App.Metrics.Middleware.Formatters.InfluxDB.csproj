@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Middleware.Abstractions" Version="$(AppMetricsMiddlewareVersion)" />
+    <PackageReference Include="App.Metrics.AspNetCore.Abstractions" Version="$(AppMetricsAspNetCoreVersion)" />
   </ItemGroup>
 
 </Project>
