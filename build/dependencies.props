@@ -17,6 +17,5 @@
     <FluentAssertionsVersion>4.19.2</FluentAssertionsVersion>
     <FluentAssertionsJsonVersion>4.19.0</FluentAssertionsJsonVersion>
     <StyleCopAnalyzersVersion>1.0.0</StyleCopAnalyzersVersion>
-  
 </PropertyGroup>
 </Project>

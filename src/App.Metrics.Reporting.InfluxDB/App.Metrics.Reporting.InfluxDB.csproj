@@ -3,12 +3,9 @@
 	<Import Project="..\..\build\common.props" />
 
   <PropertyGroup>
-    <Description>Provides InfluxDB reporting capability to App Metrics</Description>    
-    <AssemblyTitle>App.Metrics.Reporting.InfluxDB</AssemblyTitle>    
+    <Description>Provides InfluxDB reporting capability to App Metrics</Description>        
     <TargetFrameworks>netstandard2.0</TargetFrameworks>           
-    <PackageTags>appmetrics;reporting;influxdb</PackageTags>
-    <!--Required for OpenCover-->
-    <DebugType>full</DebugType>
+    <PackageTags>appmetrics;reporting;influxdb</PackageTags>    
   </PropertyGroup>
 
   <ItemGroup>

@@ -4,11 +4,8 @@
 
   <PropertyGroup>
     <Description>App Metrics Formatting, formatting metrics data to InfluxDB formats e.g. Line Protocol</Description>
-    <AssemblyTitle>App.Metrics.Formatters.InfluxDB</AssemblyTitle>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>    
-    <PackageTags>appmetrics;influxdb</PackageTags>
-    <!--Required for OpenCover-->
-    <DebugType>full</DebugType>
+    <PackageTags>appmetrics;influxdb</PackageTags>    
   </PropertyGroup>
 
   <ItemGroup>

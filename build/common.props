@@ -3,6 +3,7 @@
   <Import Project="..\version.props" />
   
 	<PropertyGroup>
+    <Product>App Metrics</Product>
 		<Copyright>Allan Hardy 2016</Copyright>
 		<Authors>Allan Hardy</Authors>
 		<NoWarn>$(NoWarn);1701;1702;1705;CS1591;CS1570</NoWarn>
@@ -17,8 +18,14 @@
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
 		<GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>		
+		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
+    <!--Required for OpenCover-->
+    <DebugType>full</DebugType>
 	</PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework'">
+    <PackageReference Include="NETStandard.Library.NETFramework" Version="$(NETStandardLibraryNETFrameworkVersion)" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />		
