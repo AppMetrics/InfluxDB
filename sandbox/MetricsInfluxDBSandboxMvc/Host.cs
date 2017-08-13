@@ -7,7 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App.Metrics.InfluxDB.Sandbox
+namespace MetricsInfluxDBSandboxMvc
 {
     public static class Host
     {

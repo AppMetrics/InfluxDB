@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace App.Metrics.InfluxDB.Sandbox.JustForTesting
+namespace MetricsInfluxDBSandboxMvc.JustForTesting
 {
     public class RandomStatusCodeForTesting
     {

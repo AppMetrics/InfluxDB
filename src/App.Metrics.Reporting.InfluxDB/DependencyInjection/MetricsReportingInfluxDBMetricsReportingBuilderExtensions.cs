@@ -29,9 +29,8 @@ namespace Microsoft.Extensions.DependencyInjection
             Uri influxBaseUri,
             string influxDatabase)
         {
-            // TODO: refactor, this is also in AddInfluxDBLineProtocolFormatters
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Transient<IConfigureOptions<MetricsOptions>, MetricsInfluxDBLineProtocolOptionsSetup>());
+            // TODO: Refacor
+            MetricsInfluxDBMetricsCoreBuilderExtensions.AddLineProtocolFormatterServices(builder.Services);
 
             builder.Services.AddInfluxDBCore(influxBaseUri, influxDatabase);
 

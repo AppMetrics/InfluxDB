@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Scheduling;
 
-namespace App.Metrics.InfluxDB.Sandbox.JustForTesting
+namespace MetricsInfluxDBSandboxMvc.JustForTesting
 {
     public static class SampleRequests
     {

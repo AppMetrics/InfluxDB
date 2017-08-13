@@ -4,7 +4,7 @@
 
 using System;
 using App.Metrics.AspNetCore;
-using App.Metrics.InfluxDB.Sandbox.JustForTesting;
+using MetricsInfluxDBSandboxMvc.JustForTesting;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable CheckNamespace

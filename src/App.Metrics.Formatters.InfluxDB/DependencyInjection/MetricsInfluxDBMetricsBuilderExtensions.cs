@@ -11,6 +11,19 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MetricsInfluxDBMetricsBuilderExtensions
     {
+        public static IMetricsBuilder AddInfluxDBLineProtocolFormatters(this IMetricsBuilder builder)
+        {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            // TODO: Refacor
+            MetricsInfluxDBMetricsCoreBuilderExtensions.AddLineProtocolFormatterServices(builder.Services);
+
+            return builder;
+        }
+
         public static IMetricsBuilder AddInfluxDBLineProtocolOptions(
             this IMetricsBuilder builder,
             Action<MetricsInfluxDBLineProtocolOptions> setupAction)

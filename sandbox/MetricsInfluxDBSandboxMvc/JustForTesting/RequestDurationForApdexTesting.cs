@@ -4,7 +4,7 @@
 
 using System;
 
-namespace App.Metrics.InfluxDB.Sandbox.JustForTesting
+namespace MetricsInfluxDBSandboxMvc.JustForTesting
 {
     public class RequestDurationForApdexTesting
     {

@@ -4,9 +4,10 @@
 
 using System;
 using System.Threading.Tasks;
+using App.Metrics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Metrics.InfluxDB.Sandbox.Controllers
+namespace MetricsInfluxDBSandboxMvc.Controllers
 {
     [Route("api/[controller]")]
     public class ExceptionThrowingController : Controller

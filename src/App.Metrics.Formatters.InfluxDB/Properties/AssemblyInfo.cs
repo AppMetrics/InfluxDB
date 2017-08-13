@@ -4,4 +4,5 @@
 
 using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("App.Metrics.Reporting.InfluxDB")]
 [assembly: InternalsVisibleTo("App.Metrics.Reporting.InfluxDB.Facts")]

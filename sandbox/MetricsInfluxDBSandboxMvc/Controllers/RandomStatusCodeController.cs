@@ -3,10 +3,11 @@
 // </copyright>
 
 using System;
-using App.Metrics.InfluxDB.Sandbox.JustForTesting;
+using App.Metrics;
+using MetricsInfluxDBSandboxMvc.JustForTesting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Metrics.InfluxDB.Sandbox.Controllers
+namespace MetricsInfluxDBSandboxMvc.Controllers
 {
     [Route("api/[controller]")]
     public class RandomStatusCodeController : Controller

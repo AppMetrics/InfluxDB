@@ -2,7 +2,7 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-namespace App.Metrics.InfluxDB.Sandbox.Controllers
+namespace MetricsInfluxDBSandboxMvc.Controllers
 {
     // public static class Registry
     // {

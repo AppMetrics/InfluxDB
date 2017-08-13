@@ -2,14 +2,14 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-using App.Metrics.InfluxDB.Sandbox.JustForTesting;
+using MetricsInfluxDBSandboxMvc.JustForTesting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App.Metrics.InfluxDB.Sandbox
+namespace MetricsInfluxDBSandboxMvc
 {
     public class Startup
     {
