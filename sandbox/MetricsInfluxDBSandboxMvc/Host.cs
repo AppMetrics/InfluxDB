@@ -19,9 +19,9 @@ namespace MetricsInfluxDBSandboxMvc
             return WebHost.CreateDefaultBuilder(args)
                            .UseMetrics()
                            .UseMetricsReporting(
-                               options =>
+                               reportingBuilder =>
                                {
-                                   options.AddInfluxDB(InfluxDbUri, InfluxDbDatabase);
+                                   reportingBuilder.AddInfluxDB(InfluxDbUri, InfluxDbDatabase);
                                })
                            .UseStartup<Startup>()
                            .Build();

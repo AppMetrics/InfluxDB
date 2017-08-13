@@ -130,15 +130,16 @@ namespace MetricsInfluxDBSandbox
         {
             services.AddLogging();
 
-            services.AddMetrics()
-                 .AddInfluxDBLineProtocolFormatters();
+            // Add with defaults
+            // services.AddMetrics()
+            //      .AddInfluxDBLineProtocolFormatters();
 
-            // services.
-            //     AddMetricsCore().
-            //     AddInfluxDBLineProtocolFormattersCore().
-            //     AddGlobalFilter(metricsFilter).
-            //     AddClockType<SystemClock>().
-            //     AddDefaultReservoir(() => new DefaultAlgorithmRReservoir());
+            // Otherwise add core essentials
+            services.
+                AddMetricsCore().
+                AddInfluxDBLineProtocolFormattersCore().
+                AddGlobalFilter(metricsFilter).
+                AddDefaultReservoir(() => new DefaultAlgorithmRReservoir());
         }
 
         private static void Init()
