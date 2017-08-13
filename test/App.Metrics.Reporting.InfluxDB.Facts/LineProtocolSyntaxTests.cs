@@ -3,11 +3,11 @@
 // </copyright>
 
 using System;
-using App.Metrics.Formatters.InfluxDB;
+using App.Metrics.Formatters.InfluxDB.Internal;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Reporting.InfluxDB.Facts.Client
+namespace App.Metrics.Reporting.InfluxDB.Facts
 {
     public class LineProtocolSyntaxTests
     {

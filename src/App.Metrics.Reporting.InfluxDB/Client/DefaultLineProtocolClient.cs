@@ -3,13 +3,10 @@
 // </copyright>
 
 using System;
-using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using App.Metrics.Formatters.InfluxDB;
 using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Reporting.InfluxDB.Client
@@ -22,65 +19,47 @@ namespace App.Metrics.Reporting.InfluxDB.Client
         private static TimeSpan _backOffPeriod;
 
         private readonly HttpClient _httpClient;
-        private readonly InfluxDBSettings _influxDbSettings;
+        private readonly InfluxDBOptions _influxDbOptions;
         private readonly ILogger<DefaultLineProtocolClient> _logger;
 
-        public DefaultLineProtocolClient(ILoggerFactory loggerFactory, InfluxDBSettings influxDbSettings)
-            : this(
-                loggerFactory,
-                influxDbSettings,
-#pragma warning disable SA1118
-                new HttpPolicy
-                {
-                    FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,
-                    BackoffPeriod = Constants.DefaultBackoffPeriod,
-                    Timeout = Constants.DefaultTimeout
-                })
-        {
-        }
-
-#pragma warning disable SA1118
-
         public DefaultLineProtocolClient(
-            ILoggerFactory loggerFactory,
-            InfluxDBSettings influxDbSettings,
+            ILogger<DefaultLineProtocolClient> logger,
+            InfluxDBOptions influxDbOptions,
             HttpPolicy httpPolicy,
-            HttpMessageHandler httpMessageHandler = null)
+            HttpClient httpClient)
         {
-            if (influxDbSettings == null)
-            {
-                throw new ArgumentNullException(nameof(influxDbSettings));
-            }
-
             if (httpPolicy == null)
             {
                 throw new ArgumentNullException(nameof(httpPolicy));
             }
 
-            _httpClient = CreateHttpClient(influxDbSettings, httpPolicy, httpMessageHandler);
-            _influxDbSettings = influxDbSettings;
+            _influxDbOptions = influxDbOptions ?? throw new ArgumentNullException(nameof(influxDbOptions));
+            _httpClient = httpClient;
             _backOffPeriod = httpPolicy.BackoffPeriod;
             _failuresBeforeBackoff = httpPolicy.FailuresBeforeBackoff;
             _failureAttempts = 0;
-            _logger = loggerFactory.CreateLogger<DefaultLineProtocolClient>();
+            _logger = logger;
         }
 
         public async Task<LineProtocolWriteResult> WriteAsync(
-            LineProtocolPayload payload,
+            string payload,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (string.IsNullOrWhiteSpace(payload))
+            {
+                return new LineProtocolWriteResult(true);
+            }
+
             if (NeedToBackoff())
             {
                 return new LineProtocolWriteResult(false, "Too many failures in writing to InfluxDB, Circuit Opened");
             }
 
-            var payloadText = new StringWriter();
-            payload.Format(payloadText);
-            var content = new StringContent(payloadText.ToString(), Encoding.UTF8);
-
             try
             {
-                var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken);
+                var content = new StringContent(payload, Encoding.UTF8);
+
+                var response = await _httpClient.PostAsync(_influxDbOptions.Endpoint, content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -102,31 +81,6 @@ namespace App.Metrics.Reporting.InfluxDB.Client
                 _logger.LogError(LoggingEvents.InfluxDbWriteError, ex, "Failed to write to InfluxDB");
                 return new LineProtocolWriteResult(false, ex.ToString());
             }
-        }
-
-        private static HttpClient CreateHttpClient(
-            InfluxDBSettings influxDbSettings,
-            HttpPolicy httpPolicy,
-            HttpMessageHandler httpMessageHandler = null)
-        {
-            var client = httpMessageHandler == null
-                ? new HttpClient()
-                : new HttpClient(httpMessageHandler);
-
-            client.BaseAddress = influxDbSettings.BaseAddress;
-            client.Timeout = httpPolicy.Timeout;
-
-            if (string.IsNullOrWhiteSpace(influxDbSettings.UserName) || string.IsNullOrWhiteSpace(influxDbSettings.Password))
-            {
-                return client;
-            }
-
-            var byteArray = Encoding.ASCII.GetBytes($"{influxDbSettings.UserName}:{influxDbSettings.Password}");
-            client.BaseAddress = influxDbSettings.BaseAddress;
-            client.Timeout = httpPolicy.Timeout;
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
-            return client;
         }
 
         private bool NeedToBackoff()

@@ -36,14 +36,14 @@ This repo contains InfluxDB extension packages to [App Metrics](https://github.c
 - Create a new [InfluxDB Database](https://docs.influxdata.com/influxdb/v1.2/introduction/getting_started/). *Keep note of this for configuring the InfluxDB reporter in your web application and configuring the InfluxDB Datasource in Grafana*
 - Download and install [Grafana](https://grafana.com/grafana/download), then create a new [InfluxDB Datasource](http://docs.grafana.org/features/datasources/influxdb/) pointing the the Database just created and [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard) App.Metrics [web dashboard](https://grafana.com/dashboards/2125)
 - Drop in the `App.Metrics.Extensions.Mvc` and `App.Metrics.Extensions.Reporting.InfluxDB` nuget packages into your web application. 
-- Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [InfluxDB reporter configuration](http://app-metrics.io/reporting/influxdb.html). *You might want to check out the [Sandbox](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/tree/master/sandbox/App.Metrics.InfluxDB.Sandbox) project if you get stuck*
+- Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [InfluxDB reporter configuration](http://app-metrics.io/reporting/influxdb.html). *You might want to check out the [Sandbox](https://github.com/AppMetrics/InfluxDB/tree/master/sandbox/App.Metrics.InfluxDB.Sandbox) project if you get stuck*
 - Run your app and Grafana at visit `http://localhost:3000`
 
 **There is also a more detailed step-by-step guide [here](https://al-hardy.blog/2017/04/28/asp-net-core-monitoring-with-influxdb-grafana/)**
 
 ## How to build
 
-[AppVeyor](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-influxdb/branch/master) and [Travis CI](https://travis-ci.org/alhardy/AppMetrics.Extensions.InfluxDB) builds are triggered on commits and PRs to `dev` and `master` branches.
+[AppVeyor](https://ci.appveyor.com/project/alhardy/influxdb/branch/master) and [Travis CI](https://travis-ci.org/alhardy/InfluxDB) builds are triggered on commits and PRs to `dev` and `master` branches.
 
 See the following for build arguments and running locally.
 

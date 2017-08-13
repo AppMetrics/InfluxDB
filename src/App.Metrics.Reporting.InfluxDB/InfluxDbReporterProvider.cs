@@ -3,53 +3,52 @@
 // </copyright>
 
 using System;
-using App.Metrics.Core.Filtering;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using App.Metrics.Filters;
-using App.Metrics.Formatters.InfluxDB;
+using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 
-namespace App.Metrics.Reporting.InfluxDB
+// ReSharper disable CheckNamespace
+namespace App.Metrics.Reporting.Console
+    // ReSharper restore CheckNamespace
 {
     public class InfluxDbReporterProvider : IReporterProvider
     {
-        private readonly InfluxDBReporterSettings _settings;
+        private readonly IOptions<MetricsReportingInfluxDBOptions> _consoleOptionsAccessor;
+        private readonly ILineProtocolClient _lineProtocolClient;
 
-        public InfluxDbReporterProvider(InfluxDBReporterSettings settings)
+        public InfluxDbReporterProvider(
+            IOptions<MetricsReportingOptions> optionsAccessor,
+            IOptions<MetricsReportingInfluxDBOptions> consoleOptionsAccessor,
+            ILineProtocolClient lineProtocolClient)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-
-            Filter = new NoOpMetricsFilter();
+            _consoleOptionsAccessor = consoleOptionsAccessor ?? throw new ArgumentNullException(nameof(consoleOptionsAccessor));
+            _lineProtocolClient = lineProtocolClient ?? throw new ArgumentNullException(nameof(lineProtocolClient));
+            Filter = consoleOptionsAccessor.Value.Filter ?? optionsAccessor.Value.Filter;
+            ReportInterval = consoleOptionsAccessor.Value.ReportInterval;
         }
 
-        public InfluxDbReporterProvider(InfluxDBReporterSettings settings, IFilterMetrics filter)
-        {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-
-            Filter = filter ?? new NoOpMetricsFilter();
-        }
-
+        /// <inheritdoc />
         public IFilterMetrics Filter { get; }
 
-        public IMetricReporter CreateMetricReporter(string name, ILoggerFactory loggerFactory)
-        {
-            var lineProtocolClient = new DefaultLineProtocolClient(
-                loggerFactory,
-                _settings.InfluxDbSettings,
-                _settings.HttpPolicy);
-            var payloadBuilder = new LineProtocolPayloadBuilder(_settings.DataKeys, _settings.MetricNameFormatter);
+        /// <inheritdoc />
+        public TimeSpan ReportInterval { get; }
 
-            return new ReportRunner<LineProtocolPayload>(
-                async p =>
-                {
-                    var result = await lineProtocolClient.WriteAsync(p.Payload());
-                    return result.Success;
-                },
-                payloadBuilder,
-                _settings.ReportInterval,
-                name,
-                loggerFactory);
+        /// <inheritdoc />
+        public async Task<bool> FlushAsync(MetricsDataValueSource metricsData, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var stream = new MemoryStream())
+            {
+                await _consoleOptionsAccessor.Value.MetricsOutputFormatter.WriteAsync(stream, metricsData, cancellationToken);
+
+                await _lineProtocolClient.WriteAsync(Encoding.UTF8.GetString(stream.ToArray()), cancellationToken);
+            }
+
+            return true;
         }
     }
 }

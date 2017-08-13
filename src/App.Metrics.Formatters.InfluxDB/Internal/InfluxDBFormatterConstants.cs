@@ -1,14 +1,14 @@
-﻿// <copyright file="Constants.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDBFormatterConstants.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
 
-namespace App.Metrics.Formatters.InfluxDB
+namespace App.Metrics.Formatters.InfluxDB.Internal
 {
-    public static class Constants
+    public static class InfluxDBFormatterConstants
     {
-        public class InfluxDBDefaults
+        public class LineProtocol
         {
             public static readonly Func<string, string, string> MetricNameFormatter =
                 (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)

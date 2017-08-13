@@ -3,9 +3,8 @@
 // </copyright>
 
 using System;
-using App.Metrics.Reporting.InfluxDB.Client;
 
-namespace App.Metrics.Reporting.InfluxDB
+namespace App.Metrics.Reporting.InfluxDB.Client
 {
     public class HttpPolicy
     {

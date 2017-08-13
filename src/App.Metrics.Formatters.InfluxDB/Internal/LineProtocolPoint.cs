@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace App.Metrics.Formatters.InfluxDB
+namespace App.Metrics.Formatters.InfluxDB.Internal
 {
-    public class LineProtocolPoint
+    internal class LineProtocolPoint
     {
         public LineProtocolPoint(
             string measurement,
@@ -51,7 +51,7 @@ namespace App.Metrics.Formatters.InfluxDB
 
         public DateTime? UtcTimestamp { get; }
 
-        public void Format(TextWriter textWriter, bool writeTimestamp = true)
+        public void Write(TextWriter textWriter, bool writeTimestamp = true)
         {
             if (textWriter == null)
             {

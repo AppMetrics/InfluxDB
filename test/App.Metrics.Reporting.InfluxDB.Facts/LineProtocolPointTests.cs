@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using App.Metrics.Formatters.InfluxDB;
+using App.Metrics.Formatters.InfluxDB.Internal;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Reporting.InfluxDB.Facts.Client
+namespace App.Metrics.Reporting.InfluxDB.Facts
 {
     public class LineProtocolPointTests
     {
@@ -33,7 +33,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Client
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
             var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
 
-            point.Format(textWriter);
+            point.Write(textWriter);
 
             textWriter.ToString().Should().Be("measurement key=\"value\" 1483232461000000000");
         }
@@ -45,7 +45,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Client
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
 
-            point.Format(textWriter, false);
+            point.Write(textWriter, false);
 
             textWriter.ToString().Should().Be("measurement key=\"value\"");
         }
@@ -63,7 +63,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Client
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
             var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
 
-            point.Format(textWriter);
+            point.Write(textWriter);
 
             textWriter.ToString().Should().Be("measurement field1key=\"field1value\",field2key=2i,field3key=f 1483232461000000000");
         }
@@ -77,7 +77,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts.Client
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
             var point = new LineProtocolPoint("measurement", fields, tags, timestamp);
 
-            point.Format(textWriter);
+            point.Write(textWriter);
 
             textWriter.ToString().Should().Be("measurement,tagkey=tagvalue key=\"value\" 1483232461000000000");
         }

@@ -1,46 +1,13 @@
-﻿// <copyright file="InfluxDbSettings.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDBOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
 
-namespace App.Metrics.Reporting.InfluxDB.Client
+namespace App.Metrics.Reporting.InfluxDB
 {
-    // ReSharper disable InconsistentNaming
-    public class InfluxDBSettings
-        // ReSharper restore InconsistentNaming
+    public class InfluxDBOptions
     {
-        public InfluxDBSettings(string database, Uri baseAddress)
-        {
-            if (database == null)
-            {
-                throw new ArgumentNullException(nameof(database));
-            }
-
-            if (string.IsNullOrWhiteSpace(database))
-            {
-                throw new ArgumentException("A database must be specified", nameof(database));
-            }
-
-            if (baseAddress == null)
-            {
-                throw new ArgumentNullException(nameof(baseAddress));
-            }
-
-            Database = database;
-            BaseAddress = baseAddress;
-        }
-
-        internal InfluxDBSettings() { }
-
-        /// <summary>
-        ///     Gets or sets the InfluxDB host.
-        /// </summary>
-        /// <value>
-        ///     The InfluxDB host.
-        /// </value>
-        public Uri BaseAddress { get; set; }
-
         /// <summary>
         ///     Gets or sets the number of InfluxDB notes that must confirm the write
         /// </summary>
@@ -48,14 +15,6 @@ namespace App.Metrics.Reporting.InfluxDB.Client
         ///     The InfluxDB node write consistency.
         /// </value>
         public string Consistenency { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the InfluxDB database name where metrics will be persisted.
-        /// </summary>
-        /// <value>
-        ///     The InfluxDB database name.
-        /// </value>
-        public string Database { get; set; }
 
         /// <summary>
         ///     Gets formatted endpoint for writes to InfluxDB
@@ -67,7 +26,7 @@ namespace App.Metrics.Reporting.InfluxDB.Client
         {
             get
             {
-                var endpoint = $"write?db={Uri.EscapeDataString(Database)}";
+                var endpoint = $"write?db={Uri.EscapeDataString(InfluxDatabase)}";
 
                 if (!string.IsNullOrWhiteSpace(RetensionPolicy))
                 {
@@ -82,6 +41,22 @@ namespace App.Metrics.Reporting.InfluxDB.Client
                 return endpoint;
             }
         }
+
+        /// <summary>
+        ///     Gets the base URI of the InfluxDB API.
+        /// </summary>
+        /// <value>
+        ///     The base URI of the InfluxDB API where metrics are flushed.
+        /// </value>
+        public Uri InfluxBaseUri { get; internal set; }
+
+        /// <summary>
+        ///     Gets the InfluxDB database name used to report metrics.
+        /// </summary>
+        /// <value>
+        ///     The InfluxDB database name where metrics are flushed.
+        /// </value>
+        public string InfluxDatabase { get; internal set; }
 
         /// <summary>
         ///     Gets or sets the InfluxDB database password.

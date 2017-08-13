@@ -1,4 +1,4 @@
-﻿// <copyright file="LineProtocolPayload.cs" company="Allan Hardy">
+﻿// <copyright file="LineProtocolPoints.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace App.Metrics.Formatters.InfluxDB
+namespace App.Metrics.Formatters.InfluxDB.Internal
 {
-    public class LineProtocolPayload
+    internal class LineProtocolPoints
     {
         private readonly List<LineProtocolPoint> _points = new List<LineProtocolPoint>();
 
@@ -22,7 +22,7 @@ namespace App.Metrics.Formatters.InfluxDB
             _points.Add(point);
         }
 
-        public void Format(TextWriter textWriter, bool writeTimestamp = true)
+        public void Write(TextWriter textWriter, bool writeTimestamp = true)
         {
             if (textWriter == null)
             {
@@ -33,7 +33,7 @@ namespace App.Metrics.Formatters.InfluxDB
 
             foreach (var point in points)
             {
-                point.Format(textWriter, writeTimestamp);
+                point.Write(textWriter, writeTimestamp);
                 textWriter.Write('\n');
             }
         }

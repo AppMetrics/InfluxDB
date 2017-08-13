@@ -37,7 +37,6 @@ var skipHtmlCoverageReport		= HasArgument("SkipHtmlCoverageReport") ? Argument<b
 var packDirs                    = new [] 
 										{ 
 											Directory("./src/App.Metrics.Reporting.InfluxDB"), 
-											Directory("./src/App.Metrics.AspNetCore.Formatters.InfluxDB"), 
 											Directory("./src/App.Metrics.Formatters.InfluxDB") 
 										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
@@ -155,11 +154,13 @@ Task("Build")
 
 			if (parsedProject.IsLibrary() && !project.Path.ToString().Contains(".Sandbox")&& !project.Path.ToString().Contains(".Facts") && !project.Path.ToString().Contains(".Benchmarks"))
 			{				
-				settings.Framework = "netstandard2.0";				
+				settings.Framework = "netstandard2.0";	
+				settings.Runtime = "2.0.0-preview2-25407-01";
 			}
 			else
 			{
 				settings.Framework = "netcoreapp2.0";
+				settings.Runtime = "2.0.0-preview2-25407-01";
 			}
 
 			Context.Information("Building as " + settings.Framework + ": " +  project.Path.ToString());
@@ -232,6 +233,7 @@ Task("RunTests")
 		if (!IsRunningOnWindows())
         {
 			settings.Framework = "netcoreapp2.0";
+			settings.Runtime = "2.0.0-preview2-25407-01";
         }	 
 
 		DotNetCoreTest(project.FullPath, settings);

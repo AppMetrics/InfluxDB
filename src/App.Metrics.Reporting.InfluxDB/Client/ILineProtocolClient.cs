@@ -4,14 +4,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using App.Metrics.Formatters.InfluxDB;
 
 namespace App.Metrics.Reporting.InfluxDB.Client
 {
     public interface ILineProtocolClient
     {
         Task<LineProtocolWriteResult> WriteAsync(
-            LineProtocolPayload payload,
+            string payload,
             CancellationToken cancellationToken = default(CancellationToken));
     }
 }
