@@ -12,6 +12,7 @@ using App.Metrics.Reporting.Console;
 using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
 using App.Metrics.Reporting.InfluxDB.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -21,7 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
     // ReSharper restore CheckNamespace
 {
     /// <summary>
-    /// Extension methods for setting up essential App Metrics console reporting services in an <see cref="IServiceCollection"/>.
+    ///     Extension methods for setting up essential App Metrics console reporting services in an
+    ///     <see cref="IServiceCollection" />.
     /// </summary>
     public static class MetricsReportingInfluxDBServiceCollectionExtensions
     {
@@ -34,25 +36,60 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>
         ///     An <see cref="IServiceCollection" /> that can be used to further configure the App Metrics services.
         /// </returns>
-        public static IServiceCollection AddInfluxDBCore(this IServiceCollection services, Uri influxBaseUri, string influxDatabase)
+        internal static IServiceCollection AddInfluxDBCore(
+            this IServiceCollection services,
+            Uri influxBaseUri,
+            string influxDatabase)
         {
             AddInfluxDBReportingServices(services, influxBaseUri, influxDatabase);
 
             return services;
         }
 
-        // DEVNOTE: Internal for testing
+        /// <summary>
+        ///     Adds Essential App Metrics influxdb reporting metrics services to the specified <see cref="IServiceCollection" />.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+        /// <param name="configuration">The <see cref="IConfiguration" /> from where to load <see cref="MetricsReportingInfluxDBOptions" />.</param>
+        /// <returns>
+        ///     An <see cref="IServiceCollection" /> that can be used to further configure the App Metrics services.
+        /// </returns>
+        internal static IServiceCollection AddInfluxDBCore(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var influxOptions = new MetricsReportingInfluxDBOptions();
+            configuration.Bind(nameof(MetricsReportingInfluxDBOptions), influxOptions);
+
+            AddInfluxDBReportingServices(services, influxOptions.InfluxDB.InfluxBaseUri, influxOptions.InfluxDB.InfluxDatabase);
+
+            return services;
+        }
+
         internal static void AddInfluxDBReportingServices(IServiceCollection services, Uri influxBaseUri, string influxDatabase)
         {
+            if (influxBaseUri == default(Uri))
+            {
+                throw new InvalidOperationException(
+                    "MetricsReportingInfluxDBOptions.InfluxDB.InfluxBaseUri is required, check the application's startup code and/or configuration");
+            }
+
+            if (string.IsNullOrWhiteSpace(influxDatabase))
+            {
+                throw new InvalidOperationException(
+                    "MetricsReportingInfluxDBOptions.InfluxDB.InfluxDatabase is required, check the application's startup code and/or configuration");
+            }
+
             //
             // Options
             //
-            var optionsSetupDescriptor = ServiceDescriptor.Transient<IConfigureOptions<MetricsReportingInfluxDBOptions>, MetricsReportingInfluxDBOptionsSetup>(
-                provider =>
-                {
-                    var optionsAccessor = provider.GetRequiredService<IOptions<MetricsOptions>>();
-                    return new MetricsReportingInfluxDBOptionsSetup(optionsAccessor, influxBaseUri, influxDatabase);
-                });
+            var optionsSetupDescriptor =
+                ServiceDescriptor.Transient<IConfigureOptions<MetricsReportingInfluxDBOptions>, MetricsReportingInfluxDBOptionsSetup>(
+                    provider =>
+                    {
+                        var optionsAccessor = provider.GetRequiredService<IOptions<MetricsOptions>>();
+                        return new MetricsReportingInfluxDBOptionsSetup(optionsAccessor, influxBaseUri, influxDatabase);
+                    });
 
             services.TryAddEnumerable(optionsSetupDescriptor);
 
@@ -76,7 +113,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
         }
 
-        // DEVNOTE: Internal for testing
         internal static HttpClient CreateHttpClient(
             InfluxDBOptions influxDbOptions,
             HttpPolicy httpPolicy,

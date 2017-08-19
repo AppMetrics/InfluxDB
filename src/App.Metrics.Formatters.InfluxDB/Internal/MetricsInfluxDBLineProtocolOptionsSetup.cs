@@ -19,12 +19,12 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
             _lineProtocolOptions = asciiOptionsAccessor.Value ?? throw new ArgumentNullException(nameof(asciiOptionsAccessor));
         }
 
+        /// <inheritdoc/>
         public void Configure(MetricsOptions options)
         {
             var formatter = new MetricsInfluxDBLineProtocolOutputFormatter(_lineProtocolOptions);
 
             options.OutputMetricsFormatters.Add(formatter);
-            options.OutputMetricsTextFormatters.Add(formatter);
         }
     }
 }

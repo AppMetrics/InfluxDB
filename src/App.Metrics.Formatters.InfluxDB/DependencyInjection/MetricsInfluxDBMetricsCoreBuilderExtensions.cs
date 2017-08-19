@@ -3,18 +3,22 @@
 // </copyright>
 
 using System;
-using App.Metrics;
 using App.Metrics.Formatters.InfluxDB;
-using App.Metrics.Formatters.InfluxDB.Internal;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 
 // ReSharper disable CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
     // ReSharper restore CheckNamespace
 {
+    /// <summary>
+    ///     Extension methods for setting up App Metrics InfluxDB formatting services in an <see cref="IMetricsCoreBuilder" />.
+    /// </summary>
     public static class MetricsInfluxDBMetricsCoreBuilderExtensions
     {
+        /// <summary>
+        ///     Adds InfluxDB LineProtocol formatters to the specified <see cref="IMetricsCoreBuilder"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="IMetricsCoreBuilder" /> to add services to.</param>
+        /// <returns>An <see cref="IMetricsCoreBuilder"/> that can be used to further configure App Metrics services.</returns>
         public static IMetricsCoreBuilder AddInfluxDBLineProtocolFormattersCore(this IMetricsCoreBuilder builder)
         {
             if (builder == null)
@@ -22,29 +26,34 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            AddLineProtocolFormatterServices(builder.Services);
-            builder.Services.Configure<MetricsOptions>(AddDefaultFormatterOptions);
+            builder.Services.AddLineProtocolFormatterServices();
+            builder.Services.AddDefaultFormatterOptions();
 
             return builder;
         }
 
-        internal static void AddLineProtocolFormatterServices(IServiceCollection services)
+        /// <summary>
+        ///     Adds InfluxDB LineProtocol options to the specified <see cref="IMetricsCoreBuilder" />.
+        /// </summary>
+        /// <param name="builder">The <see cref="IMetricsCoreBuilder" /> to add services to.</param>
+        /// <param name="setupAction">
+        ///     An <see cref="Action" /> to configure the provided <see cref="MetricsInfluxDBLineProtocolOptions" />.
+        /// </param>
+        /// <returns>
+        ///     An <see cref="IMetricsCoreBuilder" /> that can be used to further configure App Metrics services.
+        /// </returns>
+        public static IMetricsCoreBuilder AddInfluxDBLineProtocolOptionsCore(
+            this IMetricsCoreBuilder builder,
+            Action<MetricsInfluxDBLineProtocolOptions> setupAction)
         {
-            services.TryAddEnumerable(
-                ServiceDescriptor.Transient<IConfigureOptions<MetricsOptions>, MetricsInfluxDBLineProtocolOptionsSetup>());
-        }
-
-        private static void AddDefaultFormatterOptions(MetricsOptions options)
-        {
-            if (options.DefaultOutputMetricsTextFormatter == null)
+            if (builder == null)
             {
-                options.DefaultOutputMetricsTextFormatter = options.OutputMetricsTextFormatters.GetType<MetricsInfluxDBLineProtocolOutputFormatter>();
+                throw new ArgumentNullException(nameof(builder));
             }
 
-            if (options.DefaultOutputMetricsFormatter == null)
-            {
-                options.DefaultOutputMetricsFormatter = options.OutputMetricsFormatters.GetType<MetricsInfluxDBLineProtocolOutputFormatter>();
-            }
+            builder.Services.Configure(setupAction);
+
+            return builder;
         }
     }
 }

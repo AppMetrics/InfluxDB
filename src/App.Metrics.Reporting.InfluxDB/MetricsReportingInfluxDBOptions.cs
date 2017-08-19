@@ -3,19 +3,20 @@
 // </copyright>
 
 using System;
-using App.Metrics.Filtering;
 using App.Metrics.Filters;
 using App.Metrics.Formatters;
 using App.Metrics.Reporting.InfluxDB.Client;
 
 namespace App.Metrics.Reporting.InfluxDB
 {
+    /// <summary>
+    ///     Provides programmatic configuration for InfluxDB Reporting in the App Metrics framework.
+    /// </summary>
     public class MetricsReportingInfluxDBOptions
     {
         public MetricsReportingInfluxDBOptions()
         {
             ReportInterval = TimeSpan.FromSeconds(10);
-            Filter = new NoOpMetricsFilter();
             HttpPolicy = new HttpPolicy
                          {
                              FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,

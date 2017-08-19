@@ -3,14 +3,16 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using App.Metrics;
-using App.Metrics.Filtering;
-using App.Metrics.Filters;
 using App.Metrics.Infrastructure;
-using App.Metrics.ReservoirSampling.Uniform;
+using App.Metrics.Reporting;
+using App.Metrics.Reporting.InfluxDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,23 +22,24 @@ namespace MetricsInfluxDBSandbox
     public static class Host
     {
         private static readonly Random Rnd = new Random();
+        private static readonly string InfluxDbDatabase = "metricsinfluxdbsandboxconsole";
+        private static readonly Uri InfluxDbUri = new Uri("http://127.0.0.1:8086");
 
-        public static IConfigurationRoot Configuration { get; set; }
+        public static IServiceCollection ServiceCollection { get; } = new ServiceCollection();
 
         // public static async Task Main(string[] args)
         public static void Main(string[] args)
         {
             Init();
 
-            IServiceCollection serviceCollection = new ServiceCollection();
-            var metricsFilter = new DefaultMetricsFilter();
+            ConfigureServices(ServiceCollection);
 
-            ConfigureServices(serviceCollection, metricsFilter);
-
-            var provider = serviceCollection.BuildServiceProvider();
+            var provider = ServiceCollection.BuildServiceProvider();
             var metrics = provider.GetRequiredService<IMetrics>();
             var metricsProvider = provider.GetRequiredService<IProvideMetricValues>();
             var metricsOptionsAccessor = provider.GetRequiredService<IOptions<MetricsOptions>>();
+            var influxReportingOptionsAccessor = provider.GetRequiredService<IOptions<MetricsReportingInfluxDBOptions>>();
+            var metricsReporter = provider.GetRequiredService<IMetricsReporter>();
 
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -49,17 +52,23 @@ namespace MetricsInfluxDBSandbox
 
                     RecordMetrics(metrics);
 
-                    WriteMetrics(metricsProvider, metricsFilter, metricsOptionsAccessor, cancellationTokenSource);
+                    Task.WaitAll(WriteMetricsAsync(
+                        metricsProvider,
+                        metricsReporter,
+                        metricsOptionsAccessor,
+                        influxReportingOptionsAccessor,
+                        cancellationTokenSource).ToArray());
                 });
         }
 
-        private static void WriteMetrics(
+        private static IEnumerable<Task> WriteMetricsAsync(
             IProvideMetricValues metricsProvider,
-            IFilterMetrics metricsFilter,
+            IMetricsReporter metricsReporter,
             IOptions<MetricsOptions> metricsOptionsAccessor,
+            IOptions<MetricsReportingInfluxDBOptions> influxReportingOptionsAccessor,
             CancellationTokenSource cancellationTokenSource)
         {
-            var metricsData = metricsProvider.Get(metricsFilter);
+            var metricsData = metricsProvider.Get();
 
             Console.WriteLine("Metrics Formatters");
             Console.WriteLine("-------------------------------------------");
@@ -79,20 +88,6 @@ namespace MetricsInfluxDBSandbox
                 }
             }
 
-            Console.WriteLine("Default Metrics Text Formatter");
-            Console.WriteLine("-------------------------------------------");
-            Console.WriteLine($"Formatter: {metricsOptionsAccessor.Value.DefaultOutputMetricsTextFormatter}");
-            Console.WriteLine("-------------------------------------------");
-
-            using (var stream = new MemoryStream())
-            {
-                metricsOptionsAccessor.Value.DefaultOutputMetricsTextFormatter.WriteAsync(stream, metricsData, cancellationTokenSource.Token).GetAwaiter().GetResult();
-
-                var result = Encoding.UTF8.GetString(stream.ToArray());
-
-                Console.WriteLine(result);
-            }
-
             Console.WriteLine("Default Metrics Formatter");
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine($"Formatter: {metricsOptionsAccessor.Value.DefaultOutputMetricsFormatter}");
@@ -106,6 +101,13 @@ namespace MetricsInfluxDBSandbox
 
                 Console.WriteLine(result);
             }
+
+            Console.WriteLine("Reporting Metrics");
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine($"Formatter: {influxReportingOptionsAccessor.Value.MetricsOutputFormatter}");
+            Console.WriteLine("-------------------------------------------");
+
+            return metricsReporter.RunReportsAsync(cancellationTokenSource.Token);
         }
 
         private static void RecordMetrics(IMetrics metrics)
@@ -126,27 +128,19 @@ namespace MetricsInfluxDBSandbox
             }
         }
 
-        private static void ConfigureServices(IServiceCollection services, IFilterMetrics metricsFilter)
+        private static void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging();
-
-            // Add with defaults
-            // services.AddMetrics()
-            //      .AddInfluxDBLineProtocolFormatters();
-
-            // Otherwise add core essentials
-            services.
-                AddMetricsCore().
-                AddInfluxDBLineProtocolFormattersCore().
-                AddGlobalFilter(metricsFilter).
-                AddDefaultReservoir(() => new DefaultAlgorithmRReservoir());
+            services.AddMetricsReportingCore().AddInfluxDB(InfluxDbUri, InfluxDbDatabase);
+            services.AddMetricsCore()
+                .AddClockType<StopwatchClock>()
+                .AddInfluxDBLineProtocolFormattersCore();
         }
 
         private static void Init()
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-
-            Configuration = builder.Build();
+            builder.Build();
         }
 
         private static void RunUntilEsc(TimeSpan delayBetweenRun, CancellationTokenSource cancellationTokenSource, Action action)

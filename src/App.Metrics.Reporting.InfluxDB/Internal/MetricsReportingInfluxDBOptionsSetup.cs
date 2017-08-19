@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 namespace App.Metrics.Reporting.InfluxDB.Internal
 {
     /// <summary>
-    ///     Sets up default influxdb reporting options for <see cref="MetricsReportingInfluxDBOptions"/>.
+    ///     Sets up default InfluxDB Reporting options for <see cref="MetricsReportingInfluxDBOptions"/>.
     /// </summary>
     public class MetricsReportingInfluxDBOptionsSetup : IConfigureOptions<MetricsReportingInfluxDBOptions>
     {
@@ -29,6 +29,7 @@ namespace App.Metrics.Reporting.InfluxDB.Internal
             _metricsOptionsAccessor = metricsOptionsAccessor.Value ?? throw new ArgumentNullException(nameof(metricsOptionsAccessor));
         }
 
+        /// <inheritdoc/>
         public void Configure(MetricsReportingInfluxDBOptions options)
         {
             options.InfluxDB.InfluxBaseUri = _influxBaseUri;

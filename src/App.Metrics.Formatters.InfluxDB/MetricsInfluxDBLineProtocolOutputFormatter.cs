@@ -21,10 +21,10 @@ namespace App.Metrics.Formatters.InfluxDB
 
         public MetricsInfluxDBLineProtocolOutputFormatter(MetricsInfluxDBLineProtocolOptions options) { _options = options ?? throw new ArgumentNullException(nameof(options)); }
 
-        // TODO: public string ContentType => "application/vnd.app.metrics.v1.metrics.influxdb; influx=lineprotocol-1.2.x;";
+        /// <inheritdoc/>
+        public MetricsMediaTypeValue MediaType => new MetricsMediaTypeValue("text", "vnd.appmetrics.metrics.influxdb", "v1", "plain");
 
-        public MetricsMediaTypeValue MediaType => new MetricsMediaTypeValue("application", "vnd.appmetrics.metrics", "v1", "plain");
-
+        /// <inheritdoc/>
         public Task WriteAsync(
             Stream output,
             MetricsDataValueSource metricsData,

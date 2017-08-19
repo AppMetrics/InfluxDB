@@ -6,6 +6,9 @@ using System;
 
 namespace App.Metrics.Reporting.InfluxDB
 {
+    /// <summary>
+    ///     Provides programmatic configuration for InfluxDB in the App Metrics framework.
+    /// </summary>
     public class InfluxDBOptions
     {
         /// <summary>
@@ -26,6 +29,11 @@ namespace App.Metrics.Reporting.InfluxDB
         {
             get
             {
+                if (string.IsNullOrWhiteSpace(InfluxDatabase))
+                {
+                    return null;
+                }
+
                 var endpoint = $"write?db={Uri.EscapeDataString(InfluxDatabase)}";
 
                 if (!string.IsNullOrWhiteSpace(RetensionPolicy))
@@ -43,20 +51,20 @@ namespace App.Metrics.Reporting.InfluxDB
         }
 
         /// <summary>
-        ///     Gets the base URI of the InfluxDB API.
+        ///     Gets or sets the base URI of the InfluxDB API.
         /// </summary>
         /// <value>
         ///     The base URI of the InfluxDB API where metrics are flushed.
         /// </value>
-        public Uri InfluxBaseUri { get; internal set; }
+        public Uri InfluxBaseUri { get; set; }
 
         /// <summary>
-        ///     Gets the InfluxDB database name used to report metrics.
+        ///     Gets or sets the InfluxDB database name used to report metrics.
         /// </summary>
         /// <value>
         ///     The InfluxDB database name where metrics are flushed.
         /// </value>
-        public string InfluxDatabase { get; internal set; }
+        public string InfluxDatabase { get; set; }
 
         /// <summary>
         ///     Gets or sets the InfluxDB database password.

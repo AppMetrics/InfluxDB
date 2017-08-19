@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using App.Metrics.AspNetCore;
+using App.Metrics.AspNetCore.TrackingMiddleware;
 using MetricsInfluxDBSandboxMvc.JustForTesting;
 using Microsoft.Extensions.Options;
 
@@ -21,9 +21,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<RandomStatusCodeForTesting>();
 
             services.AddTransient(
-                provider =>
+                serviceProvider =>
                 {
-                    var optionsAccessor = provider.GetRequiredService<IOptions<MetricsAspNetCoreOptions>>();
+                    var optionsAccessor = serviceProvider.GetRequiredService<IOptions<MetricsTrackingMiddlewareOptions>>();
                     return new RequestDurationForApdexTesting(optionsAccessor.Value.ApdexTSeconds);
                 });
 

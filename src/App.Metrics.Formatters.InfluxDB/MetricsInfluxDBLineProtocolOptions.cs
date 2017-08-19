@@ -7,6 +7,9 @@ using App.Metrics.Formatters.InfluxDB.Internal;
 
 namespace App.Metrics.Formatters.InfluxDB
 {
+    /// <summary>
+    ///     Provides programmatic configuration for InfluxDB's LineProtocole format in the App Metrics framework.
+    /// </summary>
     public class MetricsInfluxDBLineProtocolOptions
     {
         public MetricsInfluxDBLineProtocolOptions()
