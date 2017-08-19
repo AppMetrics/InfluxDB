@@ -58,6 +58,8 @@ namespace MetricsInfluxDBSandbox
                         metricsOptionsAccessor,
                         influxReportingOptionsAccessor,
                         cancellationTokenSource).ToArray());
+
+                    Console.WriteLine("Complete. Waiting for next run...");
                 });
         }
 
