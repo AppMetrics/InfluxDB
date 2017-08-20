@@ -32,8 +32,8 @@ namespace App.Metrics.Reporting.InfluxDB.Internal
         /// <inheritdoc/>
         public void Configure(MetricsReportingInfluxDBOptions options)
         {
-            options.InfluxDB.InfluxBaseUri = _influxBaseUri;
-            options.InfluxDB.InfluxDatabase = _influxDatabase;
+            options.InfluxDB.BaseUri = _influxBaseUri;
+            options.InfluxDB.Database = _influxDatabase;
 
             if (options.MetricsOutputFormatter == null)
             {

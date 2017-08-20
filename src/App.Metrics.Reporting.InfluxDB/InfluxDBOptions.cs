@@ -29,12 +29,12 @@ namespace App.Metrics.Reporting.InfluxDB
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(InfluxDatabase))
+                if (string.IsNullOrWhiteSpace(Database))
                 {
                     return null;
                 }
 
-                var endpoint = $"write?db={Uri.EscapeDataString(InfluxDatabase)}";
+                var endpoint = $"write?db={Uri.EscapeDataString(Database)}";
 
                 if (!string.IsNullOrWhiteSpace(RetensionPolicy))
                 {
@@ -56,7 +56,7 @@ namespace App.Metrics.Reporting.InfluxDB
         /// <value>
         ///     The base URI of the InfluxDB API where metrics are flushed.
         /// </value>
-        public Uri InfluxBaseUri { get; set; }
+        public Uri BaseUri { get; set; }
 
         /// <summary>
         ///     Gets or sets the InfluxDB database name used to report metrics.
@@ -64,7 +64,7 @@ namespace App.Metrics.Reporting.InfluxDB
         /// <value>
         ///     The InfluxDB database name where metrics are flushed.
         /// </value>
-        public string InfluxDatabase { get; set; }
+        public string Database { get; set; }
 
         /// <summary>
         ///     Gets or sets the InfluxDB database password.

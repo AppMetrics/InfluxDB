@@ -40,8 +40,8 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             var settings = new InfluxDBOptions
                     {
-                        InfluxBaseUri = new Uri("http://localhost"),
-                        InfluxDatabase = "influx"
+                        BaseUri = new Uri("http://localhost"),
+                        Database = "influx"
                     };
             var policy = new HttpPolicy();
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
@@ -63,8 +63,8 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             var settings = new InfluxDBOptions
                            {
-                               InfluxBaseUri = new Uri("http://localhost"),
-                               InfluxDatabase = "influx",
+                               BaseUri = new Uri("http://localhost"),
+                               Database = "influx",
                                UserName = "admin",
                                Password = "password"
                            };
@@ -85,8 +85,8 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             {
                 var settings = new InfluxDBOptions
                                {
-                                   InfluxBaseUri = new Uri("http://localhost"),
-                                   InfluxDatabase = "influx"
+                                   BaseUri = new Uri("http://localhost"),
+                                   Database = "influx"
                                };
 
                 var client = new DefaultLineProtocolClient(_logger, settings, null, new HttpClient());
@@ -118,8 +118,8 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var policy = new HttpPolicy { FailuresBeforeBackoff = 3, BackoffPeriod = TimeSpan.FromMinutes(1) };
             var settings = new InfluxDBOptions
                            {
-                               InfluxBaseUri = new Uri("http://localhost"),
-                               InfluxDatabase = "influx"
+                               BaseUri = new Uri("http://localhost"),
+                               Database = "influx"
                            };
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
             var influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);
@@ -161,8 +161,8 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var policy = new HttpPolicy { FailuresBeforeBackoff = 3, BackoffPeriod = TimeSpan.FromSeconds(1) };
             var settings = new InfluxDBOptions
                            {
-                               InfluxBaseUri = new Uri("http://localhost"),
-                               InfluxDatabase = "influx"
+                               BaseUri = new Uri("http://localhost"),
+                               Database = "influx"
                            };
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
             var influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);

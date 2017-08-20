@@ -8,28 +8,25 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Filters;
-using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
 using Microsoft.Extensions.Options;
 
-// ReSharper disable CheckNamespace
-namespace App.Metrics.Reporting.Console
-    // ReSharper restore CheckNamespace
+namespace App.Metrics.Reporting.InfluxDB
 {
     public class InfluxDbReporterProvider : IReporterProvider
     {
-        private readonly IOptions<MetricsReportingInfluxDBOptions> _consoleOptionsAccessor;
+        private readonly IOptions<MetricsReportingInfluxDBOptions> _influxDbOptionsAccessor;
         private readonly ILineProtocolClient _lineProtocolClient;
 
         public InfluxDbReporterProvider(
             IOptions<MetricsReportingOptions> optionsAccessor,
-            IOptions<MetricsReportingInfluxDBOptions> consoleOptionsAccessor,
+            IOptions<MetricsReportingInfluxDBOptions> influxDbReportingOptionsAccessor,
             ILineProtocolClient lineProtocolClient)
         {
-            _consoleOptionsAccessor = consoleOptionsAccessor ?? throw new ArgumentNullException(nameof(consoleOptionsAccessor));
+            _influxDbOptionsAccessor = influxDbReportingOptionsAccessor ?? throw new ArgumentNullException(nameof(influxDbReportingOptionsAccessor));
             _lineProtocolClient = lineProtocolClient ?? throw new ArgumentNullException(nameof(lineProtocolClient));
-            Filter = consoleOptionsAccessor.Value.Filter ?? optionsAccessor.Value.Filter;
-            ReportInterval = consoleOptionsAccessor.Value.ReportInterval;
+            Filter = influxDbReportingOptionsAccessor.Value.Filter ?? optionsAccessor.Value.Filter;
+            ReportInterval = influxDbReportingOptionsAccessor.Value.ReportInterval;
         }
 
         /// <inheritdoc />
@@ -43,7 +40,7 @@ namespace App.Metrics.Reporting.Console
         {
             using (var stream = new MemoryStream())
             {
-                await _consoleOptionsAccessor.Value.MetricsOutputFormatter.WriteAsync(stream, metricsData, cancellationToken);
+                await _influxDbOptionsAccessor.Value.MetricsOutputFormatter.WriteAsync(stream, metricsData, cancellationToken);
 
                 await _lineProtocolClient.WriteAsync(Encoding.UTF8.GetString(stream.ToArray()), cancellationToken);
             }

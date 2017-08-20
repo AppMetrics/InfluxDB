@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsReportingVersion)" />
+    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
   </ItemGroup>
 
 </Project>

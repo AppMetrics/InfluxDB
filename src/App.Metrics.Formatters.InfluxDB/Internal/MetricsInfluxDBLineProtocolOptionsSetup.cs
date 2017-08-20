@@ -14,9 +14,9 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
     {
         private readonly MetricsInfluxDBLineProtocolOptions _lineProtocolOptions;
 
-        public MetricsInfluxDBLineProtocolOptionsSetup(IOptions<MetricsInfluxDBLineProtocolOptions> asciiOptionsAccessor)
+        public MetricsInfluxDBLineProtocolOptionsSetup(IOptions<MetricsInfluxDBLineProtocolOptions> influxDbOptionsAccessor)
         {
-            _lineProtocolOptions = asciiOptionsAccessor.Value ?? throw new ArgumentNullException(nameof(asciiOptionsAccessor));
+            _lineProtocolOptions = influxDbOptionsAccessor.Value ?? throw new ArgumentNullException(nameof(influxDbOptionsAccessor));
         }
 
         /// <inheritdoc/>

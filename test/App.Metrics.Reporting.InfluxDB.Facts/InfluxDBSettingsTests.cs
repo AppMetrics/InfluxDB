@@ -17,8 +17,8 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         {
             var settings = new InfluxDBOptions
                            {
-                               InfluxDatabase = "testdb",
-                               InfluxBaseUri = new Uri("http://localhost"),
+                               Database = "testdb",
+                               BaseUri = new Uri("http://localhost"),
                                RetensionPolicy = "defaultrp",
                                Consistenency = "consistency"
                            };

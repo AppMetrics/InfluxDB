@@ -8,7 +8,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using App.Metrics;
 using App.Metrics.Reporting;
-using App.Metrics.Reporting.Console;
 using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
 using App.Metrics.Reporting.InfluxDB.Internal;
@@ -22,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
     // ReSharper restore CheckNamespace
 {
     /// <summary>
-    ///     Extension methods for setting up essential App Metrics console reporting services in an
+    ///     Extension methods for setting up essential App Metrics InfluxDB reporting services in an
     ///     <see cref="IServiceCollection" />.
     /// </summary>
     public static class MetricsReportingInfluxDBServiceCollectionExtensions
@@ -61,7 +60,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var influxOptions = new MetricsReportingInfluxDBOptions();
             configuration.Bind(nameof(MetricsReportingInfluxDBOptions), influxOptions);
 
-            AddInfluxDBReportingServices(services, influxOptions.InfluxDB.InfluxBaseUri, influxOptions.InfluxDB.InfluxDatabase);
+            AddInfluxDBReportingServices(services, influxOptions.InfluxDB.BaseUri, influxOptions.InfluxDB.Database);
 
             return services;
         }
@@ -71,13 +70,13 @@ namespace Microsoft.Extensions.DependencyInjection
             if (influxBaseUri == default(Uri))
             {
                 throw new InvalidOperationException(
-                    "MetricsReportingInfluxDBOptions.InfluxDB.InfluxBaseUri is required, check the application's startup code and/or configuration");
+                    "MetricsReportingInfluxDBOptions.InfluxDB.BaseUri is required, check the application's startup code and/or configuration");
             }
 
             if (string.IsNullOrWhiteSpace(influxDatabase))
             {
                 throw new InvalidOperationException(
-                    "MetricsReportingInfluxDBOptions.InfluxDB.InfluxDatabase is required, check the application's startup code and/or configuration");
+                    "MetricsReportingInfluxDBOptions.InfluxDB.Database is required, check the application's startup code and/or configuration");
             }
 
             //
@@ -96,8 +95,8 @@ namespace Microsoft.Extensions.DependencyInjection
             //
             // InfluxDB Reporting Infrastructure
             //
-            var consoleReportProviderDescriptor = ServiceDescriptor.Transient<IReporterProvider, InfluxDbReporterProvider>();
-            services.TryAddEnumerable(consoleReportProviderDescriptor);
+            var influxDbReportProviderDescriptor = ServiceDescriptor.Transient<IReporterProvider, InfluxDbReporterProvider>();
+            services.TryAddEnumerable(influxDbReportProviderDescriptor);
             services.TryAddSingleton<ILineProtocolClient>(
                 provider =>
                 {
@@ -122,7 +121,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 ? new HttpClient()
                 : new HttpClient(httpMessageHandler);
 
-            client.BaseAddress = influxDbOptions.InfluxBaseUri;
+            client.BaseAddress = influxDbOptions.BaseUri;
             client.Timeout = httpPolicy.Timeout;
 
             if (string.IsNullOrWhiteSpace(influxDbOptions.UserName) || string.IsNullOrWhiteSpace(influxDbOptions.Password))
@@ -131,7 +130,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             var byteArray = Encoding.ASCII.GetBytes($"{influxDbOptions.UserName}:{influxDbOptions.Password}");
-            client.BaseAddress = influxDbOptions.InfluxBaseUri;
+            client.BaseAddress = influxDbOptions.BaseUri;
             client.Timeout = httpPolicy.Timeout;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 

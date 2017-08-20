@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Metrics.Reporting.InfluxDB.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Reporting.InfluxDB.Client
@@ -28,14 +29,9 @@ namespace App.Metrics.Reporting.InfluxDB.Client
             HttpPolicy httpPolicy,
             HttpClient httpClient)
         {
-            if (httpPolicy == null)
-            {
-                throw new ArgumentNullException(nameof(httpPolicy));
-            }
-
             _influxDbOptions = influxDbOptions ?? throw new ArgumentNullException(nameof(influxDbOptions));
             _httpClient = httpClient;
-            _backOffPeriod = httpPolicy.BackoffPeriod;
+            _backOffPeriod = httpPolicy?.BackoffPeriod ?? throw new ArgumentNullException(nameof(httpPolicy));
             _failuresBeforeBackoff = httpPolicy.FailuresBeforeBackoff;
             _failureAttempts = 0;
             _logger = logger;
