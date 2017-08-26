@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using App.Metrics.Reporting.InfluxDB.Client;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -21,13 +20,6 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
     public class DefaultLineProtocolClientTests
     {
         private static readonly string Payload = "test__test_counter,mtype=counter,unit=none value=1i 1483232461000000000\n";
-        private readonly ILogger<DefaultLineProtocolClient> _logger;
-
-        public DefaultLineProtocolClientTests()
-        {
-            var loggerFactory = new LoggerFactory();
-            _logger = loggerFactory.CreateLogger<DefaultLineProtocolClient>();
-        }
 
         [Fact]
         public async Task Can_write_payload_successfully()
@@ -45,7 +37,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                     };
             var policy = new HttpPolicy();
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);
+            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
 
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 
@@ -71,7 +63,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             var policy = new HttpPolicy();
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);
+            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
 
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 
@@ -89,7 +81,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                                    Database = "influx"
                                };
 
-                var client = new DefaultLineProtocolClient(_logger, settings, null, new HttpClient());
+                var client = new DefaultLineProtocolClient(settings, null, new HttpClient());
             };
 
             action.ShouldThrow<ArgumentNullException>();
@@ -100,7 +92,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         {
             Action action = () =>
             {
-                var client = new DefaultLineProtocolClient(_logger, null, new HttpPolicy(), new HttpClient());
+                var client = new DefaultLineProtocolClient(null, new HttpPolicy(), new HttpClient());
             };
 
             action.ShouldThrow<ArgumentNullException>();
@@ -122,7 +114,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                                Database = "influx"
                            };
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);
+            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
 
             foreach (var attempt in Enumerable.Range(0, 10))
             {
@@ -165,7 +157,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                                Database = "influx"
                            };
             var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);
+            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
 
             foreach (var attempt in Enumerable.Range(0, 10))
             {
@@ -198,7 +190,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
 
             httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            influxClient = new DefaultLineProtocolClient(_logger, settings, policy, httpClient);
+            influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
 
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 

@@ -16,6 +16,7 @@ using App.Metrics.Reporting.InfluxDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace MetricsInfluxDBSandbox
 {
@@ -132,7 +133,12 @@ namespace MetricsInfluxDBSandbox
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.LiterateConsole()
+                .WriteTo.Seq("http://localhost:5341")
+                .CreateLogger();
+
             services.AddMetricsReportingCore().AddInfluxDB(InfluxDbUri, InfluxDbDatabase);
             services.AddMetricsCore()
                 .AddClockType<StopwatchClock>()

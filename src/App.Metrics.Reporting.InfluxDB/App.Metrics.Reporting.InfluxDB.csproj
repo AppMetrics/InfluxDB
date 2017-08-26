@@ -9,16 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>    
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\App.Metrics.Formatters.InfluxDB\App.Metrics.Formatters.InfluxDB.csproj" />
   </ItemGroup>
 

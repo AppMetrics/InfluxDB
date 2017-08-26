@@ -13,7 +13,6 @@ using App.Metrics.Reporting.InfluxDB.Client;
 using App.Metrics.Reporting.InfluxDB.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable CheckNamespace
@@ -100,12 +99,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<ILineProtocolClient>(
                 provider =>
                 {
-                    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
                     var optionsAccessor = provider.GetRequiredService<IOptions<MetricsReportingInfluxDBOptions>>();
                     var httpClient = CreateHttpClient(optionsAccessor.Value.InfluxDB, optionsAccessor.Value.HttpPolicy);
 
                     return new DefaultLineProtocolClient(
-                        loggerFactory.CreateLogger<DefaultLineProtocolClient>(),
                         optionsAccessor.Value.InfluxDB,
                         optionsAccessor.Value.HttpPolicy,
                         httpClient);

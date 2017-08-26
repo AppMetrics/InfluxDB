@@ -7,13 +7,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Metrics.Logging;
 using App.Metrics.Reporting.InfluxDB.Internal;
-using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Reporting.InfluxDB.Client
 {
     public class DefaultLineProtocolClient : ILineProtocolClient
     {
+        private static readonly ILog Logger = LogProvider.For<DefaultLineProtocolClient>();
+
         private static long _backOffTicks;
         private static long _failureAttempts;
         private static long _failuresBeforeBackoff;
@@ -21,10 +23,8 @@ namespace App.Metrics.Reporting.InfluxDB.Client
 
         private readonly HttpClient _httpClient;
         private readonly InfluxDBOptions _influxDbOptions;
-        private readonly ILogger<DefaultLineProtocolClient> _logger;
 
         public DefaultLineProtocolClient(
-            ILogger<DefaultLineProtocolClient> logger,
             InfluxDBOptions influxDbOptions,
             HttpPolicy httpPolicy,
             HttpClient httpClient)
@@ -34,7 +34,6 @@ namespace App.Metrics.Reporting.InfluxDB.Client
             _backOffPeriod = httpPolicy?.BackoffPeriod ?? throw new ArgumentNullException(nameof(httpPolicy));
             _failuresBeforeBackoff = httpPolicy.FailuresBeforeBackoff;
             _failureAttempts = 0;
-            _logger = logger;
         }
 
         public async Task<LineProtocolWriteResult> WriteAsync(
@@ -62,19 +61,19 @@ namespace App.Metrics.Reporting.InfluxDB.Client
                     Interlocked.Increment(ref _failureAttempts);
 
                     var errorMessage = $"Failed to write to InfluxDB - StatusCode: {response.StatusCode} Reason: {response.ReasonPhrase}";
-                    _logger.LogError(LoggingEvents.InfluxDbWriteError, errorMessage);
+                    Logger.Error(errorMessage);
 
                     return new LineProtocolWriteResult(false, errorMessage);
                 }
 
-                _logger.LogTrace("Successful write to InfluxDB");
+                Logger.Trace("Successful write to InfluxDB");
 
                 return new LineProtocolWriteResult(true);
             }
             catch (Exception ex)
             {
                 Interlocked.Increment(ref _failureAttempts);
-                _logger.LogError(LoggingEvents.InfluxDbWriteError, ex, "Failed to write to InfluxDB");
+                Logger.Error(ex, "Failed to write to InfluxDB");
                 return new LineProtocolWriteResult(false, ex.ToString());
             }
         }
@@ -86,7 +85,7 @@ namespace App.Metrics.Reporting.InfluxDB.Client
                 return false;
             }
 
-            _logger.LogError($"InfluxDB write backoff for {_backOffPeriod.Seconds} secs");
+            Logger.Error($"InfluxDB write backoff for {_backOffPeriod.Seconds} secs");
 
             if (Interlocked.Read(ref _backOffTicks) == 0)
             {
