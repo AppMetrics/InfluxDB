@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriterTests.cs" company="Allan Hardy">
+﻿// <copyright file="MetricSnapshotInfluxDbLineProtocolWriterTests.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -20,7 +20,7 @@ using Xunit;
 
 namespace App.Metrics.Reporting.InfluxDB.Facts
 {
-    public class MetricSnapshotInfluxDBLineProtocolWriterTests
+    public class MetricSnapshotInfluxDbLineProtocolWriterTests
     {
         private const string MultidimensionalMetricNameSuffix = "|host:server1,env:staging";
         private readonly IReservoir _defaultReservoir = new DefaultForwardDecayingReservoir();
@@ -30,6 +30,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [Fact]
         public void Can_report_apdex()
         {
+            // Arrange
             var expected =
                 "test__test_apdex,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i 1483232461000000000\n";
             var clock = new TestClock();
@@ -38,14 +39,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 "test apdex",
                 ConstantValue.Provider(apdex.Value),
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", apdexScores: apdexValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_apdex__when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_apdex,host=server1,env=staging,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i 1483232461000000000\n";
             var clock = new TestClock();
@@ -54,14 +59,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 "test apdex" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(apdex.Value),
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", apdexScores: apdexValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_apdex_with_tags()
         {
+            // Arrange
             var expected =
                 "test__test_apdex,key1=value1,key2=value2,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i 1483232461000000000\n";
             var clock = new TestClock();
@@ -70,14 +79,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 "test apdex",
                 ConstantValue.Provider(apdex.Value),
                 new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+
+            // Act
             var valueSource = CreateValueSource("test", apdexScores: apdexValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_apdex_with_tags_when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_apdex,host=server1,env=staging,anothertag=thevalue,mtype=apdex,unit=result samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i 1483232461000000000\n";
             var clock = new TestClock();
@@ -85,16 +98,19 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var apdexValueSource = new ApdexValueSource(
                 "test apdex" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(apdex.Value),
-                MetricTags.Concat(_tags, new MetricTags("anothertag", "thevalue")),
-                resetOnReporting: false);
+                MetricTags.Concat(_tags, new MetricTags("anothertag", "thevalue")));
+
+            // Act
             var valueSource = CreateValueSource("test", apdexScores: apdexValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_counter_with_items()
         {
+            // Arrange
             var expected =
                 "test__test_counter__items,item=item1:value1,mtype=counter,unit=none total=1i,percent=50 1483232461000000000\ntest__test_counter__items,item=item2:value2,mtype=counter,unit=none total=1i,percent=50 1483232461000000000\ntest__test_counter,mtype=counter,unit=none value=2i 1483232461000000000\n";
             var counter = new DefaultCounterMetric();
@@ -105,14 +121,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", counters: counterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_counter_with_items_and_tags()
         {
+            // Arrange
             var expected =
                 "test__test_counter__items,key1=value1,key2=value2,item=item1:value1,mtype=counter,unit=none total=1i,percent=50 1483232461000000000\ntest__test_counter__items,key1=value1,key2=value2,item=item2:value2,mtype=counter,unit=none total=1i,percent=50 1483232461000000000\ntest__test_counter,key1=value1,key2=value2,mtype=counter,unit=none value=2i 1483232461000000000\n";
             var counter = new DefaultCounterMetric();
@@ -123,14 +143,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+
+            // Act
             var valueSource = CreateValueSource("test", counters: counterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_counter_with_items_tags_when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_counter__items,host=server1,env=staging,key1=value1,key2=value2,item=item1:value1,mtype=counter,unit=none total=1i,percent=50 1483232461000000000\ntest__test_counter__items,host=server1,env=staging,key1=value1,key2=value2,item=item2:value2,mtype=counter,unit=none total=1i,percent=50 1483232461000000000\ntest__test_counter,host=server1,env=staging,key1=value1,key2=value2,mtype=counter,unit=none value=2i 1483232461000000000\n";
             var counterTags = new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" });
@@ -142,14 +166,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 MetricTags.Concat(_tags, counterTags));
+
+            // Act
             var valueSource = CreateValueSource("test", counters: counterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_counter_with_items_with_option_not_to_report_percentage()
         {
+            // Arrange
             var expected =
                 "test__test_counter__items,item=item1:value1,mtype=counter,unit=none total=1i 1483232461000000000\ntest__test_counter__items,item=item2:value2,mtype=counter,unit=none total=1i 1483232461000000000\ntest__test_counter,mtype=counter,unit=none value=2i 1483232461000000000\n";
             var counter = new DefaultCounterMetric();
@@ -161,14 +189,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 Unit.None,
                 MetricTags.Empty,
                 reportItemPercentages: false);
+
+            // Act
             var valueSource = CreateValueSource("test", counters: counterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_counters()
         {
+            // Arrange
             var expected = "test__test_counter,mtype=counter,unit=none value=1i 1483232461000000000\n";
             var counter = new DefaultCounterMetric();
             counter.Increment(1);
@@ -177,14 +209,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", counters: counterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_counters__when_multidimensional()
         {
+            // Arrange
             var expected = "test__test_counter,host=server1,env=staging,mtype=counter,unit=none value=1i 1483232461000000000\n";
             var counter = new DefaultCounterMetric();
             counter.Increment(1);
@@ -193,14 +229,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", counters: counterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_gauges()
         {
+            // Arrange
             var expected = "test__test_gauge,mtype=gauge,unit=none value=1 1483232461000000000\n";
             var gauge = new FunctionGauge(() => 1);
             var gaugeValueSource = new GaugeValueSource(
@@ -208,14 +248,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 Unit.None,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", gauges: gaugeValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_gauges__when_multidimensional()
         {
+            // Arrange
             var expected = "test__gauge-group,host=server1,env=staging,mtype=gauge,unit=none value=1 1483232461000000000\n";
             var gauge = new FunctionGauge(() => 1);
             var gaugeValueSource = new GaugeValueSource(
@@ -223,14 +267,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(gauge.Value),
                 Unit.None,
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", gauges: gaugeValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_histograms()
         {
+            // Arrange
             var expected =
                 "test__test_histogram,mtype=histogram,unit=none samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\" 1483232461000000000\n";
             var histogram = new DefaultHistogramMetric(_defaultReservoir);
@@ -240,14 +288,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(histogram.Value),
                 Unit.None,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", histograms: histogramValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_histograms_when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_histogram,host=server1,env=staging,mtype=histogram,unit=none samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\" 1483232461000000000\n";
             var histogram = new DefaultHistogramMetric(_defaultReservoir);
@@ -257,14 +309,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ConstantValue.Provider(histogram.Value),
                 Unit.None,
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", histograms: histogramValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_meters()
         {
+            // Arrange
             var expected = "test__test_meter,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0 1483232461000000000\n";
             var clock = new TestClock();
             var meter = new DefaultMeterMetric(clock);
@@ -275,14 +331,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", meters: meterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_meters_when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_meter,host=server1,env=staging,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0 1483232461000000000\n";
             var clock = new TestClock();
@@ -294,14 +354,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", meters: meterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_meters_with_items()
         {
+            // Arrange
             var expected =
                 "test__test_meter__items,item=item1:value1,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50 1483232461000000000\ntest__test_meter__items,item=item2:value2,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50 1483232461000000000\ntest__test_meter,mtype=meter,unit=none,unit_rate=ms count.meter=2i,rate1m=0,rate5m=0,rate15m=0 1483232461000000000\n";
             var clock = new TestClock();
@@ -314,14 +378,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", meters: meterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_meters_with_items_tags_when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_meter__items,host=server1,env=staging,item=item1:value1,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50 1483232461000000000\ntest__test_meter__items,host=server1,env=staging,item=item2:value2,mtype=meter,unit=none,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50 1483232461000000000\ntest__test_meter,host=server1,env=staging,mtype=meter,unit=none,unit_rate=ms count.meter=2i,rate1m=0,rate5m=0,rate15m=0 1483232461000000000\n";
             var clock = new TestClock();
@@ -334,14 +402,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", meters: meterValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_timers()
         {
+            // Arrange
             var expected =
                 "test__test_timer,mtype=timer,unit=none,unit_dur=ms,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\" 1483232461000000000\n";
             var clock = new TestClock();
@@ -354,14 +426,18 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 TimeUnit.Milliseconds,
                 TimeUnit.Milliseconds,
                 MetricTags.Empty);
+
+            // Act
             var valueSource = CreateValueSource("test", timers: timerValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         [Fact]
         public void Can_report_timers__when_multidimensional()
         {
+            // Arrange
             var expected =
                 "test__test_timer,host=server1,env=staging,mtype=timer,unit=none,unit_dur=ms,unit_rate=ms count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\" 1483232461000000000\n";
             var clock = new TestClock();
@@ -374,19 +450,22 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 TimeUnit.Milliseconds,
                 TimeUnit.Milliseconds,
                 _tags);
+
+            // Act
             var valueSource = CreateValueSource("test", timers: timerValueSource);
 
+            // Assert
             AssertExpectedLineProtocolString(new MetricsDataValueSource(_timestamp, new[] { valueSource }), expected);
         }
 
         private void AssertExpectedLineProtocolString(MetricsDataValueSource dataValueSource, string expected)
         {
-            var settings = new MetricsInfluxDBLineProtocolOptions();
+            var settings = new MetricsInfluxDbLineProtocolOptions();
             var serializer = new MetricSnapshotSerializer();
 
             using (var sw = new StringWriter())
             {
-                using (var packer = new MetricSnapshotInfluxDBLineProtocolWriter(sw, settings.MetricNameFormatter, settings.MetricNameMapping))
+                using (var packer = new MetricSnapshotInfluxDbLineProtocolWriter(sw, settings.MetricNameFormatter, settings.MetricNameMapping))
                 {
                     serializer.Serialize(packer, dataValueSource);
                 }

@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Logging;
-using App.Metrics.Reporting.InfluxDB.Internal;
 
 namespace App.Metrics.Reporting.InfluxDB.Client
 {
@@ -22,10 +21,10 @@ namespace App.Metrics.Reporting.InfluxDB.Client
         private static TimeSpan _backOffPeriod;
 
         private readonly HttpClient _httpClient;
-        private readonly InfluxDBOptions _influxDbOptions;
+        private readonly InfluxDbOptions _influxDbOptions;
 
         public DefaultLineProtocolClient(
-            InfluxDBOptions influxDbOptions,
+            InfluxDbOptions influxDbOptions,
             HttpPolicy httpPolicy,
             HttpClient httpClient)
         {

@@ -6,7 +6,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MetricsInfluxDBSandboxMvc.Controllers
+namespace MetricsInfluxDBSandboxMvc.JustForTesting
 {
     [Route("api/[controller]")]
     public class FileController : Controller

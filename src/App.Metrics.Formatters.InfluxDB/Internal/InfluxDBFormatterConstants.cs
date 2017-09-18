@@ -1,4 +1,4 @@
-﻿// <copyright file="InfluxDBFormatterConstants.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDbFormatterConstants.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ using System;
 
 namespace App.Metrics.Formatters.InfluxDB.Internal
 {
-    public static class InfluxDBFormatterConstants
+    public static class InfluxDbFormatterConstants
     {
         public class LineProtocol
         {

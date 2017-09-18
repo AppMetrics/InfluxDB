@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricsReportingInfluxDBOptions.cs" company="Allan Hardy">
+﻿// <copyright file="MetricsReportingInfluxDbOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -12,18 +12,18 @@ namespace App.Metrics.Reporting.InfluxDB
     /// <summary>
     ///     Provides programmatic configuration for InfluxDB Reporting in the App Metrics framework.
     /// </summary>
-    public class MetricsReportingInfluxDBOptions
+    public class MetricsReportingInfluxDbOptions
     {
-        public MetricsReportingInfluxDBOptions()
+        public MetricsReportingInfluxDbOptions()
         {
-            ReportInterval = TimeSpan.FromSeconds(10);
+            FlushInterval = TimeSpan.FromSeconds(10);
             HttpPolicy = new HttpPolicy
                          {
                              FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,
                              BackoffPeriod = Constants.DefaultBackoffPeriod,
                              Timeout = Constants.DefaultTimeout
                          };
-            InfluxDB = new InfluxDBOptions();
+            InfluxDb = new InfluxDbOptions();
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace App.Metrics.Reporting.InfluxDB
         ///     Gets or sets the available options for InfluxDB connectivity.
         /// </summary>
         /// <value>
-        ///     The <see cref="InfluxDBOptions" />.
+        ///     The <see cref="InfluxDbOptions" />.
         /// </value>
-        public InfluxDBOptions InfluxDB { get; set; }
+        public InfluxDbOptions InfluxDb { get; set; }
 
         /// <summary>
         ///     Gets or sets the <see cref="IMetricsOutputFormatter" /> used to write metrics.
@@ -68,6 +68,6 @@ namespace App.Metrics.Reporting.InfluxDB
         /// <value>
         ///     The <see cref="TimeSpan" /> to wait between reporting metrics
         /// </value>
-        public TimeSpan ReportInterval { get; set; }
+        public TimeSpan FlushInterval { get; set; }
     }
 }

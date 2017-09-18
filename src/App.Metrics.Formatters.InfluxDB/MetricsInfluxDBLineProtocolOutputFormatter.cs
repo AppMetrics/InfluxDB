@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricsInfluxDBLineProtocolOutputFormatter.cs" company="Allan Hardy">
+﻿// <copyright file="MetricsInfluxDbLineProtocolOutputFormatter.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -6,20 +6,23 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+#if !NETSTANDARD1_6
+using App.Metrics.Internal;
+#endif
 using App.Metrics.Serialization;
 
 namespace App.Metrics.Formatters.InfluxDB
 {
-    public class MetricsInfluxDBLineProtocolOutputFormatter : IMetricsOutputFormatter
+    public class MetricsInfluxDbLineProtocolOutputFormatter : IMetricsOutputFormatter
     {
-        private readonly MetricsInfluxDBLineProtocolOptions _options;
+        private readonly MetricsInfluxDbLineProtocolOptions _options;
 
-        public MetricsInfluxDBLineProtocolOutputFormatter()
+        public MetricsInfluxDbLineProtocolOutputFormatter()
         {
-            _options = new MetricsInfluxDBLineProtocolOptions();
+            _options = new MetricsInfluxDbLineProtocolOptions();
         }
 
-        public MetricsInfluxDBLineProtocolOutputFormatter(MetricsInfluxDBLineProtocolOptions options) { _options = options ?? throw new ArgumentNullException(nameof(options)); }
+        public MetricsInfluxDbLineProtocolOutputFormatter(MetricsInfluxDbLineProtocolOptions options) { _options = options ?? throw new ArgumentNullException(nameof(options)); }
 
         /// <inheritdoc/>
         public MetricsMediaTypeValue MediaType => new MetricsMediaTypeValue("text", "vnd.appmetrics.metrics.influxdb", "v1", "plain");
@@ -39,7 +42,7 @@ namespace App.Metrics.Formatters.InfluxDB
 
             using (var streamWriter = new StreamWriter(output))
             {
-                using (var textWriter = new MetricSnapshotInfluxDBLineProtocolWriter(
+                using (var textWriter = new MetricSnapshotInfluxDbLineProtocolWriter(
                     streamWriter,
                     _options.MetricNameFormatter,
                     _options.MetricNameMapping))
@@ -48,7 +51,11 @@ namespace App.Metrics.Formatters.InfluxDB
                 }
             }
 
+#if !NETSTANDARD1_6
+            return AppMetricsTaskHelper.CompletedTask();
+#else
             return Task.CompletedTask;
+#endif
         }
     }
 }

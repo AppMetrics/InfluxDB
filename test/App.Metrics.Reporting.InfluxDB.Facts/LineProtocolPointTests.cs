@@ -19,7 +19,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var fields = new Dictionary<string, object>();
             Action action = () =>
             {
-                var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
+                var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
             };
 
             action.ShouldThrow<ArgumentException>();
@@ -88,7 +88,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var fields = new Dictionary<string, object> { { string.Empty, "value" } };
             Action action = () =>
             {
-                var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
+                var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
             };
 
             action.ShouldThrow<ArgumentException>();
@@ -100,7 +100,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var fields = new Dictionary<string, object> { { "key", "value" } };
             Action action = () =>
             {
-                var point = new LineProtocolPoint(string.Empty, fields, MetricTags.Empty);
+                var unused = new LineProtocolPoint(string.Empty, fields, MetricTags.Empty);
             };
 
             action.ShouldThrow<ArgumentException>();
@@ -117,7 +117,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             Action action = () =>
             {
-                var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
+                var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
             };
 
             if (!expected)

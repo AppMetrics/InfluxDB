@@ -2,46 +2,46 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-using System;
-using App.Metrics.AspNetCore.Endpoints;
-using App.Metrics.AspNetCore.Reporting;
+using App.Metrics;
+using App.Metrics.AspNetCore;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
+using Serilog;
+using Serilog.Events;
 
 namespace MetricsInfluxDBSandboxMvc
 {
     public static class Host
     {
+        private static readonly string InfluxDbDatabase = "appmetricssandbox";
+        private static readonly string InfluxDbUri = "http://127.0.0.1:8086";
+
         public static IWebHost BuildWebHost(string[] args)
         {
-            return WebHost
-                .CreateDefaultBuilder(args)
-                .ConfigureServices(AddMetricsOptions)
-                .UseMetrics()
-                .UseMetricsReporting(ConfigureMetricsReportingOptions())
-                .UseStartup<Startup>()
-                .Build();
+            ConfigureLogging();
+
+            return WebHost.CreateDefaultBuilder(args)
+                          .ConfigureMetricsWithDefaults(
+                              builder =>
+                              {
+                                  builder.Report.ToInfluxDb(InfluxDbUri, InfluxDbDatabase); // TODO: allow load from config
+                              })
+                          .UseMetrics()
+                          .UseSerilog()
+                          .UseStartup<Startup>()
+                          .Build();
         }
 
         public static void Main(string[] args) { BuildWebHost(args).Run(); }
 
-        private static void AddMetricsOptions(IServiceCollection services)
+        private static void ConfigureLogging()
         {
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MetricsEndpointsOptions>, MetricsEndpointsOptionsSetup>());
-        }
-
-        private static Action<WebHostBuilderContext, MetricsReportingWebHostOptions> ConfigureMetricsReportingOptions()
-        {
-            return (context, options) =>
-            {
-                options.ReportingBuilder = reportingBuilder =>
-                {
-                    reportingBuilder.AddInfluxDB(context.Configuration);
-                };
-            };
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Verbose)
+                .WriteTo.LiterateConsole()
+                .WriteTo.Seq("http://localhost:5341")
+                .CreateLogger();
         }
     }
 }

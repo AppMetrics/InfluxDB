@@ -1,4 +1,4 @@
-﻿// <copyright file="InfluxDBSettingsTests.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDbSettingsTests.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -9,13 +9,13 @@ using Xunit;
 namespace App.Metrics.Reporting.InfluxDB.Facts
 {
     // ReSharper disable InconsistentNaming
-    public class InfluxDBSettingsTests
+    public class InfluxDbSettingsTests
         // ReSharper restore InconsistentNaming
     {
         [Fact]
         public void Can_generate_influx_write_endpoint()
         {
-            var settings = new InfluxDBOptions
+            var settings = new InfluxDbOptions
                            {
                                Database = "testdb",
                                BaseUri = new Uri("http://localhost"),

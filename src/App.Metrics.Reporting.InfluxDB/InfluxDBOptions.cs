@@ -1,4 +1,4 @@
-﻿// <copyright file="InfluxDBOptions.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDbOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace App.Metrics.Reporting.InfluxDB
     /// <summary>
     ///     Provides programmatic configuration for InfluxDB in the App Metrics framework.
     /// </summary>
-    public class InfluxDBOptions
+    public class InfluxDbOptions
     {
         /// <summary>
         ///     Gets or sets the number of InfluxDB notes that must confirm the write

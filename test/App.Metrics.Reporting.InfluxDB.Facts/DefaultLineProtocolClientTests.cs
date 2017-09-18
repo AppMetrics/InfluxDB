@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Reporting.InfluxDB.Client;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -24,36 +23,39 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [Fact]
         public async Task Can_write_payload_successfully()
         {
+            // Arrange
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
             httpMessageHandlerMock.Protected().Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
                 ItExpr.IsAny<HttpRequestMessage>(),
                 ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
 
-            var settings = new InfluxDBOptions
+            var settings = new InfluxDbOptions
                     {
                         BaseUri = new Uri("http://localhost"),
                         Database = "influx"
                     };
             var policy = new HttpPolicy();
-            var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
+            var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
+            // Act
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 
+            // Assert
             response.Success.Should().BeTrue();
         }
 
         [Fact]
         public async Task Can_write_payload_successfully_with_creds()
         {
+            // Arrange
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
             httpMessageHandlerMock.Protected().Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
                 ItExpr.IsAny<HttpRequestMessage>(),
                 ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
 
-            var settings = new InfluxDBOptions
+            var settings = new InfluxDbOptions
                            {
                                BaseUri = new Uri("http://localhost"),
                                Database = "influx",
@@ -62,45 +64,53 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                            };
 
             var policy = new HttpPolicy();
-            var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
+            var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
+            // Act
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 
+            // Assert
             response.Success.Should().BeTrue();
         }
 
         [Fact]
         public void Http_policy_is_required()
         {
+            // Arrange
             Action action = () =>
             {
-                var settings = new InfluxDBOptions
+                var settings = new InfluxDbOptions
                                {
                                    BaseUri = new Uri("http://localhost"),
                                    Database = "influx"
                                };
 
-                var client = new DefaultLineProtocolClient(settings, null, new HttpClient());
+                // Act
+                var unused = new DefaultLineProtocolClient(settings, null, new HttpClient());
             };
 
+            // Assert
             action.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
         public void Influxdb_settings_are_required()
         {
+            // Arrange
             Action action = () =>
             {
-                var client = new DefaultLineProtocolClient(null, new HttpPolicy(), new HttpClient());
+                // Act
+                var unused = new DefaultLineProtocolClient(null, new HttpPolicy(), new HttpClient());
             };
 
+            // Assert
             action.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
         public async Task Should_back_off_when_reached_max_failures()
         {
+            // Arrange
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
             httpMessageHandlerMock.Protected().Setup<Task<HttpResponseMessage>>(
                                        "SendAsync",
@@ -108,14 +118,14 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                                        ItExpr.IsAny<CancellationToken>()).
                                    Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.BadRequest)));
             var policy = new HttpPolicy { FailuresBeforeBackoff = 3, BackoffPeriod = TimeSpan.FromMinutes(1) };
-            var settings = new InfluxDBOptions
+            var settings = new InfluxDbOptions
                            {
                                BaseUri = new Uri("http://localhost"),
                                Database = "influx"
                            };
-            var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
+            var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
+            // Act
             foreach (var attempt in Enumerable.Range(0, 10))
             {
                 await influxClient.WriteAsync(Payload, CancellationToken.None);
@@ -124,6 +134,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 if (attempt <= policy.FailuresBeforeBackoff)
                 {
                     // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
+                    // Assert
                     httpMessageHandlerMock.Protected().Verify<Task<HttpResponseMessage>>(
                         "SendAsync",
                         Times.AtLeastOnce(),
@@ -132,6 +143,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 }
                 else
                 {
+                    // Assert
                     httpMessageHandlerMock.Protected().Verify<Task<HttpResponseMessage>>(
                         "SendAsync",
                         Times.AtMost(6), // TODO: Starting failing when running all tests with 2.0.0 upgrade, should be 3
@@ -151,13 +163,12 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                                        ItExpr.IsAny<CancellationToken>()).
                                    Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.BadRequest)));
             var policy = new HttpPolicy { FailuresBeforeBackoff = 3, BackoffPeriod = TimeSpan.FromSeconds(1) };
-            var settings = new InfluxDBOptions
+            var settings = new InfluxDbOptions
                            {
                                BaseUri = new Uri("http://localhost"),
                                Database = "influx"
                            };
-            var httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            var influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
+            var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
             foreach (var attempt in Enumerable.Range(0, 10))
             {
@@ -189,8 +200,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 ItExpr.IsAny<HttpRequestMessage>(),
                 ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
 
-            httpClient = MetricsReportingInfluxDBServiceCollectionExtensions.CreateHttpClient(settings, policy, httpMessageHandlerMock.Object);
-            influxClient = new DefaultLineProtocolClient(settings, policy, httpClient);
+            influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 

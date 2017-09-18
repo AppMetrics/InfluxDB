@@ -2,24 +2,19 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-using System;
 using System.Threading.Tasks;
-using App.Metrics;
-using MetricsInfluxDBSandboxMvc.JustForTesting;
+using MetricsInfluxDBSandboxMvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MetricsInfluxDBSandboxMvc.Controllers
+namespace MetricsInfluxDBSandboxMvc.JustForTesting
 {
     [Route("api/[controller]")]
     public class ToleratingController : Controller
     {
         private readonly RequestDurationForApdexTesting _durationForApdexTesting;
 
-        private readonly IMetrics _metrics;
-
-        public ToleratingController(IMetrics metrics, RequestDurationForApdexTesting durationForApdexTesting)
+        public ToleratingController(RequestDurationForApdexTesting durationForApdexTesting)
         {
-            _metrics = metrics ?? throw new ArgumentNullException(nameof(metrics));
             _durationForApdexTesting = durationForApdexTesting;
         }
 

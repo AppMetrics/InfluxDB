@@ -4,7 +4,7 @@
 
 using System;
 
-namespace MetricsInfluxDBSandboxMvc.JustForTesting
+namespace MetricsInfluxDBSandboxMvc.Controllers
 {
     public class RandomBufferGenerator
     {

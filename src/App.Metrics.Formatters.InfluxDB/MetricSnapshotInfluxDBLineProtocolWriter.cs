@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriter.cs" company="Allan Hardy">
+﻿// <copyright file="MetricSnapshotInfluxDbLineProtocolWriter.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -11,13 +11,13 @@ using App.Metrics.Serialization;
 
 namespace App.Metrics.Formatters.InfluxDB
 {
-    public class MetricSnapshotInfluxDBLineProtocolWriter : IMetricSnapshotWriter
+    public class MetricSnapshotInfluxDbLineProtocolWriter : IMetricSnapshotWriter
     {
         private readonly TextWriter _textWriter;
         private readonly Func<string, string, string> _metricNameFormatter;
         private readonly LineProtocolPoints _points;
 
-        public MetricSnapshotInfluxDBLineProtocolWriter(
+        public MetricSnapshotInfluxDbLineProtocolWriter(
             TextWriter textWriter,
             Func<string, string, string> metricNameFormatter = null,
             GeneratedMetricNameMapping dataKeys = null)
@@ -75,7 +75,9 @@ namespace App.Metrics.Formatters.InfluxDB
             if (disposing)
             {
                 _points.Write(_textWriter);
+#if !NETSTANDARD1_6
                 _textWriter?.Close();
+#endif
                 _textWriter?.Dispose();
             }
         }

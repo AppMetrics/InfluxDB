@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricsInfluxDBLineProtocolOptions.cs" company="Allan Hardy">
+﻿// <copyright file="MetricsInfluxDbLineProtocolOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -10,12 +10,12 @@ namespace App.Metrics.Formatters.InfluxDB
     /// <summary>
     ///     Provides programmatic configuration for InfluxDB's LineProtocole format in the App Metrics framework.
     /// </summary>
-    public class MetricsInfluxDBLineProtocolOptions
+    public class MetricsInfluxDbLineProtocolOptions
     {
-        public MetricsInfluxDBLineProtocolOptions()
+        public MetricsInfluxDbLineProtocolOptions()
         {
             MetricNameMapping = new GeneratedMetricNameMapping();
-            MetricNameFormatter = InfluxDBFormatterConstants.LineProtocol.MetricNameFormatter;
+            MetricNameFormatter = InfluxDbFormatterConstants.LineProtocol.MetricNameFormatter;
         }
 
         public Func<string, string, string> MetricNameFormatter { get; set; }
