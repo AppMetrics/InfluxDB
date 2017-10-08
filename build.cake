@@ -15,7 +15,7 @@
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
 var packageRelease				= HasArgument("packageRelease") ? Argument<bool>("packageRelease") :
-                                  EnvironmentVariable("packageRelease") != null ? Ebool.Parse(nvironmentVariable("packageRelease")) : false;
+                                  EnvironmentVariable("packageRelease") != null ? bool.Parse(nvironmentVariable("packageRelease")) : false;
 var target                      = Argument("target", "Default");
 var configuration               = HasArgument("BuildConfiguration") ? Argument<string>("BuildConfiguration") :
                                   EnvironmentVariable("BuildConfiguration") != null ? EnvironmentVariable("BuildConfiguration") : "Release";
