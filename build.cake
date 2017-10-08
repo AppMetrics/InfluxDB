@@ -8,13 +8,14 @@
 #tool "nuget:?package=ReSharperReports"
 #tool "nuget:?package=JetBrains.ReSharper.CommandLineTools"
 #tool "nuget:?package=coveralls.io"
-#tool "nuget:?package=gitreleasemanager"
+#tool "nuget:?package=gitreleasemanager"`
 #tool "nuget:?package=ReportGenerator"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
-var packageRelease				= HasArgument("packageRelease") ? Argument<bool>("packageRelease", false): true;
+var packageRelease				= HasArgument("packageRelease") ? Argument<bool>("packageRelease") :
+                                  EnvironmentVariable("packageRelease") != null ? EnvironmentVariable("packageRelease") : false;
 var target                      = Argument("target", "Default");
 var configuration               = HasArgument("BuildConfiguration") ? Argument<string>("BuildConfiguration") :
                                   EnvironmentVariable("BuildConfiguration") != null ? EnvironmentVariable("BuildConfiguration") : "Release";
