@@ -16,7 +16,7 @@ namespace App.Metrics
         ///     InfluxDB using the LineProtocol.
         /// </summary>
         /// <param name="metricFormattingBuilder">s
-        ///     The <see cref="IMetricsOutputFormattingBuilder" /> used to configure JSON formatting
+        ///     The <see cref="IMetricsOutputFormattingBuilder" /> used to configure InfluxDB Lineprotocol formatting
         ///     options.
         /// </param>
         /// <param name="setupAction">The InfluxDB LineProtocol formatting options to use.</param>
@@ -51,7 +51,7 @@ namespace App.Metrics
         ///     InfluxDB using the LineProtocol.
         /// </summary>
         /// <param name="metricFormattingBuilder">s
-        ///     The <see cref="IMetricsOutputFormattingBuilder" /> used to configure JSON formatting
+        ///     The <see cref="IMetricsOutputFormattingBuilder" /> used to configure InfluxDB Lineprotocol formatting
         ///     options.
         /// </param>
         /// <returns>

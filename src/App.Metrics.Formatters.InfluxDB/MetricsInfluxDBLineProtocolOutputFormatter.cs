@@ -31,7 +31,7 @@ namespace App.Metrics.Formatters.InfluxDB
         public Task WriteAsync(
             Stream output,
             MetricsDataValueSource metricsData,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             if (output == null)
             {
