@@ -1,9 +1,9 @@
-# App Metrics InfluxDB <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
+# App Metrics InfluxDB <img src="https://avatars0.githubusercontent.com/u/29864085?v=4&s=200" alt="App Metrics" width="50px"/> 
 [![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/influxdb.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
-This repo contains InfluxDB extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
+This repo contains InfluxDB extension packages to [App Metrics](https://github.com/AppMetrics/AppMetrics).
 
 ## Latest Builds, Packages & Repo Stats
 
@@ -15,18 +15,17 @@ This repo contains InfluxDB extension packages to [App Metrics](https://github.c
 |Package|Dev Release|PreRelease|Latest Release|
 |------|:--------:|:--------:|:--------:|
 |App.Metrics.Reporting.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Reporting.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Reporting.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Reporting.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Reporting.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.InfluxDB/)
-|App.Metrics.AspNetCore.Formatters.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.AspNetCore.Formatters.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.AspNetCore.Formatters.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.AspNetCore.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.AspNetCore.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.InfluxDB/)
 |App.Metrics.Formatters.InfluxDB|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Formatters.InfluxDB.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Formatters.InfluxDB)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.InfluxDB/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatters.InfluxDB.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.InfluxDB/)
 
 #### Grafana/InfluxDB Web Monitoring
 
-![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
+![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/AppMetrics/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
 > Grab the dashboard [here](https://grafana.com/dashboards/2125)
 
 #### Grafana/InfluxDB OAuth2 Client Monitoring on a Web API
 
-![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
+![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/AppMetrics/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
 > Grab the dashboard [here](https://grafana.com/dashboards/2137)
 
@@ -35,8 +34,7 @@ This repo contains InfluxDB extension packages to [App Metrics](https://github.c
 - Download and install [InfluxDB](https://docs.influxdata.com/influxdb/v1.2/introduction/installation/). *Runs well on Windows using* `Bash on Windows on Ubuntu`
 - Create a new [InfluxDB Database](https://docs.influxdata.com/influxdb/v1.2/introduction/getting_started/). *Keep note of this for configuring the InfluxDB reporter in your web application and configuring the InfluxDB Datasource in Grafana*
 - Download and install [Grafana](https://grafana.com/grafana/download), then create a new [InfluxDB Datasource](http://docs.grafana.org/features/datasources/influxdb/) pointing the the Database just created and [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard) App.Metrics [web dashboard](https://grafana.com/dashboards/2125)
-- Drop in the `App.Metrics.Extensions.Mvc` and `App.Metrics.Extensions.Reporting.InfluxDB` nuget packages into your web application. 
-- Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [InfluxDB reporter configuration](http://app-metrics.io/reporting/influxdb.html). *You might want to check out the [Sandbox](https://github.com/AppMetrics/InfluxDB/tree/master/sandbox/App.Metrics.InfluxDB.Sandbox) project if you get stuck*
+- See the [docs](https://www.app-metrics.io/reporting/reporters/influx-data/) on configurating InfluxDB reporting.
 - Run your app and Grafana at visit `http://localhost:3000`
 
 **There is also a more detailed step-by-step guide [here](https://al-hardy.blog/2017/04/28/asp-net-core-monitoring-with-influxdb-grafana/)**
