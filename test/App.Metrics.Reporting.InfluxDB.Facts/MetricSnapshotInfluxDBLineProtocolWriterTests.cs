@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricSnapshotInfluxDbLineProtocolWriterTests.cs" company="Allan Hardy">
+﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriterTests.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 

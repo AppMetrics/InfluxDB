@@ -1,4 +1,4 @@
-﻿// <copyright file="InfluxDbOptions.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDBOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 

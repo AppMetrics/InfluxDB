@@ -37,7 +37,7 @@ namespace App.Metrics.Reporting.InfluxDB.Client
 
         public async Task<LineProtocolWriteResult> WriteAsync(
             string payload,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(payload))
             {

@@ -16,9 +16,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "App.Metrics.Sandbox": {
+    "MetricsInfluxDBSandboxMvc": {
       "commandName": "Project",
-      "launchBrowser": false,      
+      "launchBrowser": false,
       "launchUrl": "metrics",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

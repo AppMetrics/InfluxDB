@@ -26,6 +26,31 @@ namespace App.Metrics
         /// <param name="metricReporterProviderBuilder">
         ///     The <see cref="IMetricsReportingBuilder" /> used to configure metrics reporters.
         /// </param>
+        /// <param name="options">The InfluxDB reporting options to use.</param>
+        /// <returns>
+        ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
+        /// </returns>
+        public static IMetricsBuilder ToInfluxDb(
+            this IMetricsReportingBuilder metricReporterProviderBuilder,
+            MetricsReportingInfluxDbOptions options)
+        {
+            if (metricReporterProviderBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(metricReporterProviderBuilder));
+            }
+
+            var httpClient = CreateClient(options.InfluxDb, options.HttpPolicy);
+            var reporter = new InfluxDbMetricsReporter(options, httpClient);
+
+            return metricReporterProviderBuilder.Using(reporter);
+        }
+
+        /// <summary>
+        ///     Add the <see cref="InfluxDbMetricsReporter" /> allowing metrics to be reported to InfluxDB.
+        /// </summary>
+        /// <param name="metricReporterProviderBuilder">
+        ///     The <see cref="IMetricsReportingBuilder" /> used to configure metrics reporters.
+        /// </param>
         /// <param name="setupAction">The InfluxDB reporting options to use.</param>
         /// <returns>
         ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.

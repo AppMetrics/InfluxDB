@@ -1,4 +1,4 @@
-﻿// <copyright file="InfluxDbFormatterConstants.cs" company="Allan Hardy">
+﻿// <copyright file="InfluxDBFormatterConstants.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 

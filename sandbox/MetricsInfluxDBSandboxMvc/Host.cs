@@ -2,10 +2,13 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
+using System.IO;
 using App.Metrics;
 using App.Metrics.AspNetCore;
+using App.Metrics.Reporting.InfluxDB;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
@@ -13,18 +16,23 @@ namespace MetricsInfluxDBSandboxMvc
 {
     public static class Host
     {
-        private static readonly string InfluxDbDatabase = "appmetricssandbox";
-        private static readonly string InfluxDbUri = "http://127.0.0.1:8086";
-
         public static IWebHost BuildWebHost(string[] args)
         {
             ConfigureLogging();
+
+            var configuration = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+                                .Build();
+
+            var influxOptions = new MetricsReportingInfluxDbOptions();
+            configuration.GetSection(nameof(MetricsReportingInfluxDbOptions)).Bind(influxOptions);
 
             return WebHost.CreateDefaultBuilder(args)
                           .ConfigureMetricsWithDefaults(
                               builder =>
                               {
-                                  builder.Report.ToInfluxDb(InfluxDbUri, InfluxDbDatabase); // TODO: allow load from config
+                                  builder.Report.ToInfluxDb(influxOptions);
                               })
                           .UseMetrics()
                           .UseSerilog()

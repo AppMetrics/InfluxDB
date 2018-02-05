@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricsReportingInfluxDbOptions.cs" company="Allan Hardy">
+﻿// <copyright file="MetricsReportingInfluxDBOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 

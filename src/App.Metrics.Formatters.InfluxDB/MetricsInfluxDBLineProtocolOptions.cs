@@ -1,4 +1,4 @@
-﻿// <copyright file="MetricsInfluxDbLineProtocolOptions.cs" company="Allan Hardy">
+﻿// <copyright file="MetricsInfluxDBLineProtocolOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
