@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\build\common.props" />
+
+  <PropertyGroup>
+    <Description>Provides InfluxDB reporting capability to App Metrics</Description>
+    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
+    <PackageTags>appmetrics;reporting;influxdb</PackageTags>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App.Metrics.Formatters.InfluxDB\App.Metrics.Formatters.InfluxDB.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.Abstractions" Version="$(AppMetricsCoreVersion)" />
+  </ItemGroup>
+
+</Project>

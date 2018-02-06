@@ -1,21 +1,29 @@
 <Project>
+  <Import Project="dependencies.props" />
+  <Import Project="..\version.props" />
+  
 	<PropertyGroup>
+    <Product>App Metrics</Product>
 		<Copyright>Allan Hardy 2016</Copyright>
 		<Authors>Allan Hardy</Authors>
 		<NoWarn>$(NoWarn);1701;1702;1705;CS1591;CS1570</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<PackageIconUrl>http://app-metrics.io/logo.png</PackageIconUrl>
-		<PackageProjectUrl>http://app-metrics.io/reporting/influxdb.html</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.InfluxDB/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageIconUrl>https://app-metrics.io/images/logo.png</PackageIconUrl>
+		<PackageProjectUrl>https://www.app-metrics.io/reporting/reporters/influx-data/</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/AppMetrics/InfluxDB/blob/master/LICENSE</PackageLicenseUrl>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>git://github.com/alhardy/AppMetrics.Extensions.InfluxDB</RepositoryUrl>
+		<RepositoryUrl>git://github.com/AppMetrics/InfluxDB</RepositoryUrl>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
 		<GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>		
-		<DebugType>full</DebugType>
+	  <LangVersion>latest</LangVersion>
+		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
+	  <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Key.snk</AssemblyOriginatorKeyFile>
+	  <SignAssembly>true</SignAssembly>
+	  <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
+	  <DebugType>embedded</DebugType>    
 	</PropertyGroup>
 
 	<ItemGroup>
