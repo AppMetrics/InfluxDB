@@ -22,7 +22,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
             };
 
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
             };
 
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                 var unused = new LineProtocolPoint(string.Empty, fields, MetricTags.Empty);
             };
 
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Theory]
@@ -122,11 +122,11 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             if (!expected)
             {
-                action.ShouldThrow<ArgumentException>();
+                action.Should().Throw<ArgumentException>();
             }
             else
             {
-                action.ShouldNotThrow();
+                action.Should().NotThrow();
             }
         }
     }
