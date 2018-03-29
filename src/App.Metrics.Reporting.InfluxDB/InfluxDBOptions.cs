@@ -11,6 +11,8 @@ namespace App.Metrics.Reporting.InfluxDB
     /// </summary>
     public class InfluxDbOptions
     {
+        public InfluxDbOptions() { CreateDataBaseIfNotExists = true; }
+
         /// <summary>
         ///     Gets or sets the number of InfluxDB notes that must confirm the write
         /// </summary>
@@ -89,5 +91,13 @@ namespace App.Metrics.Reporting.InfluxDB
         ///     The InfluxDB database username.
         /// </value>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to attempt to create the specified database if it does not exist
+        /// </summary>
+        /// <value>
+        ///  The flag indicating whether or not to create the specifried database if it does not exist
+        /// </value>
+        public bool CreateDataBaseIfNotExists { get; set; }
     }
 }

@@ -90,7 +90,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             };
 
             // Assert
-            action.ShouldThrow<ArgumentNullException>();
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             };
 
             // Assert
-            action.ShouldThrow<ArgumentNullException>();
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]

@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -55,6 +56,13 @@ namespace App.Metrics.Reporting.InfluxDB.Client
 
                 var response = await _httpClient.PostAsync(_influxDbOptions.Endpoint, content, cancellationToken);
 
+                if (response.StatusCode == HttpStatusCode.NotFound && _influxDbOptions.CreateDataBaseIfNotExists)
+                {
+                    await TryCreateDatabase(cancellationToken);
+
+                    response = await _httpClient.PostAsync(_influxDbOptions.Endpoint, content, cancellationToken);
+                }
+
                 if (!response.IsSuccessStatusCode)
                 {
                     Interlocked.Increment(ref _failureAttempts);
@@ -73,6 +81,35 @@ namespace App.Metrics.Reporting.InfluxDB.Client
             {
                 Interlocked.Increment(ref _failureAttempts);
                 Logger.Error(ex, "Failed to write to InfluxDB");
+                return new LineProtocolWriteResult(false, ex.ToString());
+            }
+        }
+
+        private async Task<LineProtocolWriteResult> TryCreateDatabase(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                Logger.Trace($"Attempting to create InfluxDB Database '{_influxDbOptions.Database}'");
+
+                var content = new StringContent(string.Empty, Encoding.UTF8);
+
+                var response = await _httpClient.PostAsync($"query?q=CREATE DATABASE \"{Uri.EscapeDataString(_influxDbOptions.Database)}\"", content, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorMessage = $"Failed to create InfluxDB Database '{_influxDbOptions.Database}' - StatusCode: {response.StatusCode} Reason: {response.ReasonPhrase}";
+                    Logger.Error(errorMessage);
+
+                    return new LineProtocolWriteResult(false, errorMessage);
+                }
+
+                Logger.Trace($"Successfully created InfluxDB Database '{_influxDbOptions.Database}'");
+
+                return new LineProtocolWriteResult(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Failed to create InfluxDB Database'{_influxDbOptions.Database}'");
                 return new LineProtocolWriteResult(false, ex.ToString());
             }
         }
