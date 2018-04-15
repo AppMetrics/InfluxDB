@@ -6,7 +6,7 @@
     <AspNetCoreMvcVersion>2.1.0-preview2-final</AspNetCoreMvcVersion>
     <MicrosoftExtensionsVersion>2.1.0-preview2-final</MicrosoftExtensionsVersion>
     <CoreFxVersion>4.4.0</CoreFxVersion>
-    <DependencyModelVersion>2.1.0-*</DependencyModelVersion>
+    <DependencyModelVersion>2.1.0</DependencyModelVersion>
     <MoqVersion>4.8.2</MoqVersion>
     <NewtonsoftVersion>11.0.2</NewtonsoftVersion>
     <TestSdkVersion>15.7.0</TestSdkVersion>
