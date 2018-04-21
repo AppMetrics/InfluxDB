@@ -42,11 +42,11 @@ namespace App.Metrics.Formatters.InfluxDB
         public GeneratedMetricNameMapping MetricNameMapping { get; }
 
         /// <inheritdoc />
-        public void Write(string context, string name, object value, MetricTags tags, DateTime timestamp)
+        public void Write(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
         {
             var measurement = _metricNameFormatter(context, name);
 
-            _points.Add(new LineProtocolPoint(measurement, new Dictionary<string, object> { { "value", value } }, tags, timestamp));
+            _points.Add(new LineProtocolPoint(measurement, new Dictionary<string, object> { { field, value } }, tags, timestamp));
         }
 
         /// <inheritdoc />
@@ -63,7 +63,6 @@ namespace App.Metrics.Formatters.InfluxDB
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>

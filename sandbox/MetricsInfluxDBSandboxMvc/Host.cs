@@ -5,6 +5,7 @@
 using System.IO;
 using App.Metrics;
 using App.Metrics.AspNetCore;
+using App.Metrics.Formatters.InfluxDB;
 using App.Metrics.Reporting.InfluxDB;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,8 @@ namespace MetricsInfluxDBSandboxMvc
 
             var influxOptions = new MetricsReportingInfluxDbOptions();
             configuration.GetSection(nameof(MetricsReportingInfluxDbOptions)).Bind(influxOptions);
+
+            influxOptions.MetricsOutputFormatter = new MetricsInfluxDbLineProtocolOutputFormatter();
 
             return WebHost.CreateDefaultBuilder(args)
                           .ConfigureMetricsWithDefaults(
