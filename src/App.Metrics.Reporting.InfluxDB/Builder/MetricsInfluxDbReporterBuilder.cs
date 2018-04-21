@@ -108,20 +108,27 @@ namespace App.Metrics
                 throw new InvalidOperationException($"{nameof(url)} must be a valid absolute URI");
             }
 
+            var lineProtocolOptions = new MetricsInfluxDbLineProtocolOptions();
+
+            lineProtocolOptionsSetup?.Invoke(lineProtocolOptions);
+
+            var formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions);
+
             var options = new MetricsReportingInfluxDbOptions
                           {
                               InfluxDb =
                               {
                                   BaseUri = uri,
                                   Database = database
-                              }
-                          };
+                              },
+                              MetricsOutputFormatter = formatter
+            };
 
             var httpClient = CreateClient(options.InfluxDb, options.HttpPolicy);
             var reporter = new InfluxDbMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptionsSetup);
+            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptions);
 
             return builder;
         }
@@ -164,6 +171,12 @@ namespace App.Metrics
                 throw new InvalidOperationException($"{nameof(url)} must be a valid absolute URI");
             }
 
+            var lineProtocolOptions = new MetricsInfluxDbLineProtocolOptions();
+
+            lineProtocolOptionsSetup?.Invoke(lineProtocolOptions);
+
+            var formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions);
+
             var options = new MetricsReportingInfluxDbOptions
                           {
                               FlushInterval = flushInterval,
@@ -171,7 +184,8 @@ namespace App.Metrics
                               {
                                   BaseUri = uri,
                                   Database = database
-                              }
+                              },
+                              MetricsOutputFormatter = formatter
                           };
 
             var httpClient = CreateClient(options.InfluxDb, options.HttpPolicy);
@@ -179,7 +193,7 @@ namespace App.Metrics
 
             var builder = metricReporterProviderBuilder.Using(reporter);
 
-            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptionsSetup);
+            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptions);
 
             return builder;
         }

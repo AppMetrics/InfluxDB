@@ -32,14 +32,35 @@ namespace App.Metrics
                 throw new ArgumentNullException(nameof(metricFormattingBuilder));
             }
 
-            if (setupAction == null)
-            {
-                throw new ArgumentNullException(nameof(setupAction));
-            }
-
             var options = new MetricsInfluxDbLineProtocolOptions();
 
-            setupAction.Invoke(options);
+            setupAction?.Invoke(options);
+
+            var formatter = new MetricsInfluxDbLineProtocolOutputFormatter(options);
+
+            return metricFormattingBuilder.Using(formatter, false);
+        }
+
+        /// <summary>
+        ///     Add the <see cref="MetricsInfluxDbLineProtocolOutputFormatter" /> allowing metrics to optionally be reported to
+        ///     InfluxDB using the LineProtocol.
+        /// </summary>
+        /// <param name="metricFormattingBuilder">s
+        ///     The <see cref="IMetricsOutputFormattingBuilder" /> used to configure InfluxDB Lineprotocol formatting
+        ///     options.
+        /// </param>
+        /// <param name="options">The InfluxDB LineProtocol formatting options to use.</param>
+        /// <returns>
+        ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
+        /// </returns>
+        public static IMetricsBuilder AsInfluxDbLineProtocol(
+            this IMetricsOutputFormattingBuilder metricFormattingBuilder,
+            MetricsInfluxDbLineProtocolOptions options)
+        {
+            if (metricFormattingBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(metricFormattingBuilder));
+            }
 
             var formatter = new MetricsInfluxDbLineProtocolOutputFormatter(options);
 

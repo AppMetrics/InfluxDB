@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics;
+using App.Metrics.Formatters.InfluxDB;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
@@ -19,7 +20,7 @@ namespace MetricsInfluxDBSandbox
     public static class Host
     {
         private const string InfluxDbDatabase = "metricsinfluxdbsandboxconsole";
-        private const string InfluxDbUri = "http://127.0.0.1:8086";
+        private const string InfluxDbUri = "http://127.0.0.1:32779";
         private static readonly Random Rnd = new Random();
 
         private static IConfigurationRoot Configuration { get; set; }
@@ -122,10 +123,17 @@ namespace MetricsInfluxDBSandbox
 
             var metricsConfigSection = Configuration.GetSection(nameof(MetricsOptions));
 
+            var fields = new GeneratedMetricNameMapping();
+            fields.OnlyIncludeMeterValues(MeterValueDataKeys.Rate1M);
+            fields.ExcludeApdexValues();
+            fields.OnlyIncludeCounterValues(CounterValueDataKeys.Value);
+            fields.ExcludeGaugeValues();
+            fields.ExcludeHistogramValues();
+
             Metrics = new MetricsBuilder()
                 .Configuration.Configure(metricsConfigSection.AsEnumerable())
                 // Adds LineProtocolFormatter with default options
-                .Report.ToInfluxDb(InfluxDbUri, InfluxDbDatabase, TimeSpan.FromSeconds(5))
+                .Report.ToInfluxDb(InfluxDbUri, InfluxDbDatabase, TimeSpan.FromSeconds(5), options => options.MetricNameMapping = fields)
                 .Build();
 
             Reporter = Metrics.ReportRunner;
