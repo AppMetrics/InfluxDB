@@ -14,12 +14,9 @@ namespace App.Metrics.Formatters.InfluxDB
     {
         public MetricsInfluxDbLineProtocolOptions()
         {
-            MetricNameMapping = new GeneratedMetricNameMapping();
             MetricNameFormatter = InfluxDbFormatterConstants.LineProtocol.MetricNameFormatter;
         }
 
         public Func<string, string, string> MetricNameFormatter { get; set; }
-
-        public GeneratedMetricNameMapping MetricNameMapping { get; set; }
     }
 }

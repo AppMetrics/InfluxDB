@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <AppMetricsCoreVersion>2.1.0-*</AppMetricsCoreVersion>
+    <AppMetricsCoreVersion>3.0.0-*</AppMetricsCoreVersion>
     <AppMetricsAspNetCoreVersion>2.1.0-*</AppMetricsAspNetCoreVersion>
     <AspNetCoreVersion>2.1.0-preview2-final</AspNetCoreVersion>
     <AspNetCoreMvcVersion>2.1.0-preview2-final</AspNetCoreMvcVersion>

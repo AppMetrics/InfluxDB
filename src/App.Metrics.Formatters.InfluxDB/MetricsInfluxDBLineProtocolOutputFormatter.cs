@@ -22,10 +22,28 @@ namespace App.Metrics.Formatters.InfluxDB
             _options = new MetricsInfluxDbLineProtocolOptions();
         }
 
-        public MetricsInfluxDbLineProtocolOutputFormatter(MetricsInfluxDbLineProtocolOptions options) { _options = options ?? throw new ArgumentNullException(nameof(options)); }
+        public MetricsInfluxDbLineProtocolOutputFormatter(MetricFields metricFields)
+        {
+            _options = new MetricsInfluxDbLineProtocolOptions();
+            MetricFields = metricFields;
+        }
+
+        public MetricsInfluxDbLineProtocolOutputFormatter(MetricsInfluxDbLineProtocolOptions options)
+        {
+            _options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
+        public MetricsInfluxDbLineProtocolOutputFormatter(MetricsInfluxDbLineProtocolOptions options, MetricFields metricFields)
+        {
+            _options = options ?? throw new ArgumentNullException(nameof(options));
+            MetricFields = metricFields;
+        }
 
         /// <inheritdoc/>
         public MetricsMediaTypeValue MediaType => new MetricsMediaTypeValue("text", "vnd.appmetrics.metrics.influxdb", "v1", "plain");
+
+        /// <inheritdoc />
+        public MetricFields MetricFields { get; set; }
 
         /// <inheritdoc/>
         public Task WriteAsync(
@@ -44,10 +62,9 @@ namespace App.Metrics.Formatters.InfluxDB
             {
                 using (var textWriter = new MetricSnapshotInfluxDbLineProtocolWriter(
                     streamWriter,
-                    _options.MetricNameFormatter,
-                    _options.MetricNameMapping))
+                    _options.MetricNameFormatter))
                 {
-                    serializer.Serialize(textWriter, metricsData);
+                    serializer.Serialize(textWriter, metricsData, MetricFields);
                 }
             }
 

@@ -19,8 +19,7 @@ namespace App.Metrics.Formatters.InfluxDB
 
         public MetricSnapshotInfluxDbLineProtocolWriter(
             TextWriter textWriter,
-            Func<string, string, string> metricNameFormatter = null,
-            GeneratedMetricNameMapping dataKeys = null)
+            Func<string, string, string> metricNameFormatter = null)
         {
             _textWriter = textWriter ?? throw new ArgumentNullException(nameof(textWriter));
             _points = new LineProtocolPoints();
@@ -34,12 +33,7 @@ namespace App.Metrics.Formatters.InfluxDB
             {
                 _metricNameFormatter = metricNameFormatter;
             }
-
-            MetricNameMapping = dataKeys ?? new GeneratedMetricNameMapping();
         }
-
-        /// <inheritdoc />
-        public GeneratedMetricNameMapping MetricNameMapping { get; }
 
         /// <inheritdoc />
         public void Write(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
