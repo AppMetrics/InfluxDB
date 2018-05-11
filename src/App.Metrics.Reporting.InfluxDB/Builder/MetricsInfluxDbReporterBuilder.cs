@@ -1,5 +1,5 @@
-﻿// <copyright file="MetricsInfluxDbReporterBuilder.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="MetricsInfluxDbReporterBuilder.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -193,6 +193,7 @@ namespace App.Metrics
             lineProtocolOptionsSetup?.Invoke(lineProtocolOptions);
 
             IMetricsOutputFormatter formatter;
+            MetricFields fields = null;
 
             if (fieldsSetup == null)
             {
@@ -200,7 +201,7 @@ namespace App.Metrics
             }
             else
             {
-                var fields = new MetricFields();
+                fields = new MetricFields();
                 fieldsSetup.Invoke(fields);
                 formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions, fields);
             }
@@ -221,7 +222,7 @@ namespace App.Metrics
 
             var builder = metricReporterProviderBuilder.Using(reporter);
 
-            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptions);
+            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptions, fields);
 
             return builder;
         }
