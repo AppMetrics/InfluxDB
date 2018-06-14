@@ -4,7 +4,7 @@
   <PropertyGroup>
     <DeveloperBuildTest>netcoreapp2.1</DeveloperBuildTest>
     <StandardTest>$(DeveloperBuildTest)</StandardTest>
-    <StandardTest Condition=" '$(DeveloperBuild)' != 'true' ">$(StandardTest);netcoreapp2.0</StandardTest>
+    <StandardTest Condition=" '$(DeveloperBuild)' != 'true' ">$(StandardTest);netcoreapp2.1</StandardTest>
     <StandardTest Condition=" '$(DeveloperBuild)' != 'true' AND '$(OS)' == 'Windows_NT' ">$(StandardTest);net461</StandardTest>
   </PropertyGroup>
 
