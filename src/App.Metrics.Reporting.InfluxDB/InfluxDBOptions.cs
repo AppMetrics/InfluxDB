@@ -38,9 +38,9 @@ namespace App.Metrics.Reporting.InfluxDB
 
                 var endpoint = $"write?db={Uri.EscapeDataString(Database)}";
 
-                if (!string.IsNullOrWhiteSpace(RetensionPolicy))
+                if (!string.IsNullOrWhiteSpace(RetentionPolicy))
                 {
-                    endpoint += $"&rp={Uri.EscapeDataString(RetensionPolicy)}";
+                    endpoint += $"&rp={Uri.EscapeDataString(RetentionPolicy)}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(Consistenency))
@@ -82,7 +82,7 @@ namespace App.Metrics.Reporting.InfluxDB
         /// <value>
         ///     The InfluxDB database's retention policy to target.
         /// </value>
-        public string RetensionPolicy { get; set; }
+        public string RetentionPolicy { get; set; }
 
         /// <summary>
         ///     Gets or sets the InfluxDB database username.
