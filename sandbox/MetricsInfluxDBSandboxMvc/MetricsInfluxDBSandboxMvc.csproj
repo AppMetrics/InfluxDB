@@ -8,8 +8,10 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>        
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="$(AppMetricsAspNetCoreHealthVersion)" />
     <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="$(AppMetricsAspNetCoreVersion)" />
+    <PackageReference Include="App.Metrics.Health.Reporting.Metrics" Version="$(AppMetricsHealthCoreVersion)" />
     <PackageReference Include="Microsoft.AspNetCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="$(AspNetCoreMvcVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(MicrosoftExtensionsVersion)" />
@@ -26,10 +28,6 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
