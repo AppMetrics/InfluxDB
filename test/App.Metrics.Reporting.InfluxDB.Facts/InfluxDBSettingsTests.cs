@@ -19,7 +19,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
                            {
                                Database = "testdb",
                                BaseUri = new Uri("http://localhost"),
-                               RetensionPolicy = "defaultrp",
+                               RetentionPolicy = "defaultrp",
                                Consistenency = "consistency"
                            };
 
