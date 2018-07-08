@@ -34,15 +34,8 @@ namespace MetricsInfluxDBSandboxMvc
             configuration.GetSection(nameof(MetricsReportingInfluxDbOptions)).Bind(influxOptions);
             influxOptions.MetricsOutputFormatter = new MetricsInfluxDbLineProtocolOutputFormatter();
 
-            // Samples with weight of less than 10% of average should be discarded when rescaling
-            const double minimumSampleWeight = 0.001;
-
             var metrics = AppMetrics.CreateDefaultBuilder()
                                     .Configuration.ReadFrom(configuration)
-                                    .SampleWith.ForwardDecaying(
-                                        AppMetricsReservoirSamplingConstants.DefaultSampleSize,
-                                        AppMetricsReservoirSamplingConstants.DefaultExponentialDecayFactor,
-                                        minimumSampleWeight: minimumSampleWeight)
                                     .Report.ToInfluxDb(influxOptions)
                                     .Build();
 
