@@ -99,5 +99,13 @@ namespace App.Metrics.Reporting.InfluxDB
         ///  The flag indicating whether or not to create the specifried database if it does not exist
         /// </value>
         public bool CreateDataBaseIfNotExists { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the InfluxDB retention policy options used during an attempt to create the specified database if it does not exist.
+        /// </summary>
+        /// <value>
+        ///     The InfluxDB retention policy options <see cref="RetentionPolicyOptions"/>.
+        /// </value>
+        public RetentionPolicyOptions CreateDatabaseRetentionPolicy { get; set; }
     }
 }
