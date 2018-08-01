@@ -93,7 +93,15 @@ namespace App.Metrics.Reporting.InfluxDB.Client
 
                 var content = new StringContent(string.Empty, Encoding.UTF8);
 
-                var response = await _httpClient.PostAsync($"query?q=CREATE DATABASE \"{Uri.EscapeDataString(_influxDbOptions.Database)}\"", content, cancellationToken);
+                string query = $"query?q=CREATE DATABASE \"{Uri.EscapeDataString(_influxDbOptions.Database)}\"";
+
+                if (_influxDbOptions.CreateDatabaseRetentionPolicy != null &&
+                    _influxDbOptions.CreateDatabaseRetentionPolicy.TryApply(out string withClause))
+                {
+                    query = query + " " + withClause;
+                }
+
+                var response = await _httpClient.PostAsync(query, content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
