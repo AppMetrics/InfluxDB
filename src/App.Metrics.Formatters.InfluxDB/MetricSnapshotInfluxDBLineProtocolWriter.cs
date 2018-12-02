@@ -1,5 +1,5 @@
-﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriter.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriter.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -19,8 +19,7 @@ namespace App.Metrics.Formatters.InfluxDB
 
         public MetricSnapshotInfluxDbLineProtocolWriter(
             TextWriter textWriter,
-            Func<string, string, string> metricNameFormatter = null,
-            GeneratedMetricNameMapping dataKeys = null)
+            Func<string, string, string> metricNameFormatter = null)
         {
             _textWriter = textWriter ?? throw new ArgumentNullException(nameof(textWriter));
             _points = new LineProtocolPoints();
@@ -34,19 +33,14 @@ namespace App.Metrics.Formatters.InfluxDB
             {
                 _metricNameFormatter = metricNameFormatter;
             }
-
-            MetricNameMapping = dataKeys ?? new GeneratedMetricNameMapping();
         }
 
         /// <inheritdoc />
-        public GeneratedMetricNameMapping MetricNameMapping { get; }
-
-        /// <inheritdoc />
-        public void Write(string context, string name, object value, MetricTags tags, DateTime timestamp)
+        public void Write(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
         {
             var measurement = _metricNameFormatter(context, name);
 
-            _points.Add(new LineProtocolPoint(measurement, new Dictionary<string, object> { { "value", value } }, tags, timestamp));
+            _points.Add(new LineProtocolPoint(measurement, new Dictionary<string, object> { { field, value } }, tags, timestamp));
         }
 
         /// <inheritdoc />
@@ -63,7 +57,6 @@ namespace App.Metrics.Formatters.InfluxDB
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>

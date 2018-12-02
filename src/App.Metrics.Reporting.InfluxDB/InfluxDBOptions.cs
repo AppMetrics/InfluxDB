@@ -1,5 +1,5 @@
-﻿// <copyright file="InfluxDBOptions.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="InfluxDBOptions.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -38,9 +38,9 @@ namespace App.Metrics.Reporting.InfluxDB
 
                 var endpoint = $"write?db={Uri.EscapeDataString(Database)}";
 
-                if (!string.IsNullOrWhiteSpace(RetensionPolicy))
+                if (!string.IsNullOrWhiteSpace(RetentionPolicy))
                 {
-                    endpoint += $"&rp={Uri.EscapeDataString(RetensionPolicy)}";
+                    endpoint += $"&rp={Uri.EscapeDataString(RetentionPolicy)}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(Consistenency))
@@ -82,7 +82,7 @@ namespace App.Metrics.Reporting.InfluxDB
         /// <value>
         ///     The InfluxDB database's retention policy to target.
         /// </value>
-        public string RetensionPolicy { get; set; }
+        public string RetentionPolicy { get; set; }
 
         /// <summary>
         ///     Gets or sets the InfluxDB database username.
@@ -99,5 +99,13 @@ namespace App.Metrics.Reporting.InfluxDB
         ///  The flag indicating whether or not to create the specifried database if it does not exist
         /// </value>
         public bool CreateDataBaseIfNotExists { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the InfluxDB retention policy options used during an attempt to create the specified database if it does not exist.
+        /// </summary>
+        /// <value>
+        ///     The InfluxDB retention policy options <see cref="RetentionPolicyOptions"/>.
+        /// </value>
+        public RetentionPolicyOptions CreateDatabaseRetentionPolicy { get; set; }
     }
 }

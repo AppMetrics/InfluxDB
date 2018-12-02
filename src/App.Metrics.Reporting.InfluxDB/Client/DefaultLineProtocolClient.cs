@@ -1,5 +1,5 @@
-﻿// <copyright file="DefaultLineProtocolClient.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="DefaultLineProtocolClient.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -93,7 +93,15 @@ namespace App.Metrics.Reporting.InfluxDB.Client
 
                 var content = new StringContent(string.Empty, Encoding.UTF8);
 
-                var response = await _httpClient.PostAsync($"query?q=CREATE DATABASE \"{Uri.EscapeDataString(_influxDbOptions.Database)}\"", content, cancellationToken);
+                string query = $"query?q=CREATE DATABASE \"{Uri.EscapeDataString(_influxDbOptions.Database)}\"";
+
+                if (_influxDbOptions.CreateDatabaseRetentionPolicy != null &&
+                    _influxDbOptions.CreateDatabaseRetentionPolicy.TryApply(out string withClause))
+                {
+                    query = query + " " + withClause;
+                }
+
+                var response = await _httpClient.PostAsync(query, content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

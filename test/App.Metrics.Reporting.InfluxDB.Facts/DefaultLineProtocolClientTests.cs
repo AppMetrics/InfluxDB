@@ -1,5 +1,5 @@
-﻿// <copyright file="DefaultLineProtocolClientTests.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="DefaultLineProtocolClientTests.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -205,6 +205,69 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
 
             response.Success.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Can_create_database_without_retention_policy()
+        {
+            // Arrange
+            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
+
+            httpMessageHandlerMock.Protected().Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound)));
+
+            var settings = new InfluxDbOptions
+                           {
+                               BaseUri = new Uri("http://localhost"),
+                               Database = "influx",
+                               CreateDataBaseIfNotExists = true
+                           };
+
+            var policy = new HttpPolicy();
+            var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
+
+            // Act
+            await influxClient.WriteAsync(Payload, CancellationToken.None);
+
+            httpMessageHandlerMock.Protected().Verify<Task<HttpResponseMessage>>(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(message => message.RequestUri.ToString().EndsWith("CREATE DATABASE \"influx\"")),
+                ItExpr.IsAny<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Can_create_database_with_retention_policy()
+        {
+            // Arrange
+            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
+
+            httpMessageHandlerMock.Protected().Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound)));
+
+            var settings = new InfluxDbOptions
+                           {
+                               BaseUri = new Uri("http://localhost"),
+                               Database = "influx",
+                               CreateDataBaseIfNotExists = true,
+                               CreateDatabaseRetentionPolicy = new RetentionPolicyOptions { Duration = TimeSpan.FromMinutes(70) }
+                           };
+
+            var policy = new HttpPolicy();
+            var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
+
+            // Act
+            await influxClient.WriteAsync(Payload, CancellationToken.None);
+
+            httpMessageHandlerMock.Protected().Verify<Task<HttpResponseMessage>>(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(message => message.RequestUri.ToString().EndsWith("CREATE DATABASE \"influx\" WITH DURATION 70m")),
+                ItExpr.IsAny<CancellationToken>());
         }
     }
 }

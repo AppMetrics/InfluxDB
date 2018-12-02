@@ -1,5 +1,5 @@
-﻿// <copyright file="InfluxDbMetricsReporter.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="InfluxDbMetricsReporter.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -45,7 +45,7 @@ namespace App.Metrics.Reporting.InfluxDB
 
             Filter = options.Filter;
 
-            Logger.Info($"Using Metrics Reporter {this}. Url: {options.InfluxDb.BaseUri + options.InfluxDb.Endpoint} FlushInterval: {FlushInterval}");
+            Logger.Debug($"Using Metrics Reporter {this}. Url: {options.InfluxDb.BaseUri + options.InfluxDb.Endpoint} FlushInterval: {FlushInterval}");
         }
 
         /// <inheritdoc />

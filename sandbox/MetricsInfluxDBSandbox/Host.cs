@@ -1,5 +1,5 @@
-﻿// <copyright file="Host.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="Host.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -19,7 +19,8 @@ namespace MetricsInfluxDBSandbox
     public static class Host
     {
         private const string InfluxDbDatabase = "metricsinfluxdbsandboxconsole";
-        private const string InfluxDbUri = "http://127.0.0.1:8086";
+        private const string InfluxDbUri = "http://127.0.0.1:32768";
+        private static readonly bool FilterMetricFields = false;
         private static readonly Random Rnd = new Random();
 
         private static IConfigurationRoot Configuration { get; set; }
@@ -124,7 +125,19 @@ namespace MetricsInfluxDBSandbox
 
             Metrics = new MetricsBuilder()
                 .Configuration.Configure(metricsConfigSection.AsEnumerable())
-                // Adds LineProtocolFormatter with default options
+                .MetricFields.Configure(
+                          fields =>
+                          {
+                              if (FilterMetricFields)
+                              {
+                                  fields.Meter.OnlyInclude(MeterFields.Rate1M);
+                                  fields.Apdex.Exclude();
+                                  fields.Counter.OnlyInclude(CounterFields.Value);
+                                  fields.Gauge.Exclude();
+                                  fields.Histogram.Exclude();
+                              }
+                          })
+                // Adds LineProtocolFormatter with default options, can override fields reported to influx using fields => fields...
                 .Report.ToInfluxDb(InfluxDbUri, InfluxDbDatabase, TimeSpan.FromSeconds(5))
                 .Build();
 

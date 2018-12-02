@@ -1,5 +1,5 @@
-﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriterTests.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="MetricSnapshotInfluxDBLineProtocolWriterTests.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -462,12 +462,13 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         {
             var settings = new MetricsInfluxDbLineProtocolOptions();
             var serializer = new MetricSnapshotSerializer();
+            var fields = new MetricFields();
 
             using (var sw = new StringWriter())
             {
-                using (var packer = new MetricSnapshotInfluxDbLineProtocolWriter(sw, settings.MetricNameFormatter, settings.MetricNameMapping))
+                using (var packer = new MetricSnapshotInfluxDbLineProtocolWriter(sw, settings.MetricNameFormatter))
                 {
-                    serializer.Serialize(packer, dataValueSource);
+                    serializer.Serialize(packer, dataValueSource, fields);
                 }
 
                 sw.ToString().Should().Be(expected);

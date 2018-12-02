@@ -1,5 +1,5 @@
-﻿// <copyright file="MetricsInfluxDbReporterBuilder.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="MetricsInfluxDbReporterBuilder.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using App.Metrics.Builder;
+using App.Metrics.Formatters;
+using App.Metrics.Formatters.InfluxDB;
 using App.Metrics.Reporting.InfluxDB;
 using App.Metrics.Reporting.InfluxDB.Client;
 
@@ -82,13 +84,17 @@ namespace App.Metrics
         /// </param>
         /// <param name="url">The base url where InfluxDB is hosted.</param>
         /// <param name="database">The InfluxDB where metrics should be flushed.</param>
+        /// <param name="fieldsSetup">The metric fields to report as well as thier names.</param>
+        /// <param name="lineProtocolOptionsSetup">The setup action to configure the <see cref="MetricsInfluxDbLineProtocolOptions"/> to use.</param>
         /// <returns>
         ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
         /// </returns>
         public static IMetricsBuilder ToInfluxDb(
             this IMetricsReportingBuilder metricReporterProviderBuilder,
             string url,
-            string database)
+            string database,
+            Action<MetricFields> fieldsSetup = null,
+            Action<MetricsInfluxDbLineProtocolOptions> lineProtocolOptionsSetup = null)
         {
             if (metricReporterProviderBuilder == null)
             {
@@ -105,20 +111,39 @@ namespace App.Metrics
                 throw new InvalidOperationException($"{nameof(url)} must be a valid absolute URI");
             }
 
+            var lineProtocolOptions = new MetricsInfluxDbLineProtocolOptions();
+
+            lineProtocolOptionsSetup?.Invoke(lineProtocolOptions);
+
+            IMetricsOutputFormatter formatter;
+            MetricFields fields = null;
+
+            if (fieldsSetup == null)
+            {
+                formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions);
+            }
+            else
+            {
+                fields = new MetricFields();
+                fieldsSetup.Invoke(fields);
+                formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions, fields);
+            }
+
             var options = new MetricsReportingInfluxDbOptions
                           {
                               InfluxDb =
                               {
                                   BaseUri = uri,
                                   Database = database
-                              }
-                          };
+                              },
+                              MetricsOutputFormatter = formatter
+            };
 
             var httpClient = CreateClient(options.InfluxDb, options.HttpPolicy);
             var reporter = new InfluxDbMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsInfluxDbLineProtocol();
+            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptions, fields);
 
             return builder;
         }
@@ -135,6 +160,8 @@ namespace App.Metrics
         ///     The <see cref="T:System.TimeSpan" /> interval used if intended to schedule metrics
         ///     reporting.
         /// </param>
+        /// <param name="fieldsSetup">The metric fields to report as well as thier names.</param>
+        /// <param name="lineProtocolOptionsSetup">The setup action to configure the <see cref="MetricsInfluxDbLineProtocolOptions"/> to use.</param>
         /// <returns>
         ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
         /// </returns>
@@ -142,7 +169,9 @@ namespace App.Metrics
             this IMetricsReportingBuilder metricReporterProviderBuilder,
             string url,
             string database,
-            TimeSpan flushInterval)
+            TimeSpan flushInterval,
+            Action<MetricFields> fieldsSetup = null,
+            Action<MetricsInfluxDbLineProtocolOptions> lineProtocolOptionsSetup = null)
         {
             if (metricReporterProviderBuilder == null)
             {
@@ -159,6 +188,24 @@ namespace App.Metrics
                 throw new InvalidOperationException($"{nameof(url)} must be a valid absolute URI");
             }
 
+            var lineProtocolOptions = new MetricsInfluxDbLineProtocolOptions();
+
+            lineProtocolOptionsSetup?.Invoke(lineProtocolOptions);
+
+            IMetricsOutputFormatter formatter;
+            MetricFields fields = null;
+
+            if (fieldsSetup == null)
+            {
+                formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions);
+            }
+            else
+            {
+                fields = new MetricFields();
+                fieldsSetup.Invoke(fields);
+                formatter = new MetricsInfluxDbLineProtocolOutputFormatter(lineProtocolOptions, fields);
+            }
+
             var options = new MetricsReportingInfluxDbOptions
                           {
                               FlushInterval = flushInterval,
@@ -166,14 +213,16 @@ namespace App.Metrics
                               {
                                   BaseUri = uri,
                                   Database = database
-                              }
+                              },
+                              MetricsOutputFormatter = formatter
                           };
 
             var httpClient = CreateClient(options.InfluxDb, options.HttpPolicy);
             var reporter = new InfluxDbMetricsReporter(options, httpClient);
 
             var builder = metricReporterProviderBuilder.Using(reporter);
-            builder.OutputMetrics.AsInfluxDbLineProtocol();
+
+            builder.OutputMetrics.AsInfluxDbLineProtocol(lineProtocolOptions, fields);
 
             return builder;
         }
