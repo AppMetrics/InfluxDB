@@ -10,9 +10,9 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
 {
     internal class LineProtocolPoints
     {
-        private readonly List<LineProtocolPoint> _points = new List<LineProtocolPoint>();
+        private readonly List<ILineProtocolPoint> _points = new List<ILineProtocolPoint>();
 
-        public void Add(LineProtocolPoint point)
+        public void Add(ILineProtocolPoint point)
         {
             if (point == null)
             {

@@ -40,23 +40,57 @@ namespace App.Metrics.Formatters.InfluxDB
         {
             var measurement = _metricNameFormatter(context, name);
 
-            _points.Add(new LineProtocolPoint(measurement, new Dictionary<string, object> { { field, value } }, tags, timestamp));
+            _points.Add(new LineProtocolPointSingleValue(measurement, field, value, tags, timestamp));
         }
 
         /// <inheritdoc />
         public void Write(string context, string name, IEnumerable<string> columns, IEnumerable<object> values, MetricTags tags, DateTime timestamp)
         {
-            var fields = columns.Zip(values, (column, data) => new { column, data }).ToDictionary(pair => pair.column, pair => pair.data);
-
             var measurement = _metricNameFormatter(context, name);
 
-            _points.Add(new LineProtocolPoint(measurement, fields, tags, timestamp));
+            _points.Add(new LineProtocolPointMultipleValues(measurement, columns, values, tags, timestamp));
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
+        }
+
+        /// <summary>
+        /// Writes the specific metrics and tags
+        /// </summary>
+        /// <param name="context">The metric's context</param>
+        /// <param name="name">The name of the metric</param>
+        /// <param name="field">The label for the metric value</param>
+        /// <param name="value">The value of the metrics</param>
+        /// <param name="tags">The metric's tags</param>
+        /// <param name="timestamp">The timestamp of the metrics snapshot</param>
+        [Obsolete("This method is not used anymore and is here only for baseline benchmarks. It will be removed in future versions")]
+        internal void WriteLegacy(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
+        {
+            var measurement = _metricNameFormatter(context, name);
+
+            _points.Add(new LineProtocolPointLegacy(measurement, new Dictionary<string, object> { { field, value } }, tags, timestamp));
+        }
+
+        /// <summary>
+        /// Writes the specific metrics and tags.
+        /// </summary>
+        /// <param name="context">The metric's context</param>
+        /// <param name="name">The name of the metric</param>
+        /// <param name="columns">The metric names</param>
+        /// <param name="values">The corresponding metrics values</param>
+        /// <param name="tags">The metric's tags</param>
+        /// <param name="timestamp">The timestamp of the metrics snapshot</param>
+        [Obsolete("This method is not used anymore and is here only for baseline benchmarks. It will be removed in future versions")]
+        internal void WriteLegacy(string context, string name, IEnumerable<string> columns, IEnumerable<object> values, MetricTags tags, DateTime timestamp)
+        {
+            var fields = columns.Zip(values, (column, data) => new { column, data }).ToDictionary(pair => pair.column, pair => pair.data);
+
+            var measurement = _metricNameFormatter(context, name);
+
+            _points.Add(new LineProtocolPointLegacy(measurement, fields, tags, timestamp));
         }
 
         /// <summary>
