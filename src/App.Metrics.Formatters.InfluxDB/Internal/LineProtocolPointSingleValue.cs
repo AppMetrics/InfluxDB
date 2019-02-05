@@ -7,6 +7,9 @@ using System.IO;
 
 namespace App.Metrics.Formatters.InfluxDB.Internal
 {
+    /// <summary>
+    /// Represents a line protocol point with a single field.
+    /// </summary>
     internal class LineProtocolPointSingleValue : LineProtocolPointBase, ILineProtocolPoint
     {
         public LineProtocolPointSingleValue(

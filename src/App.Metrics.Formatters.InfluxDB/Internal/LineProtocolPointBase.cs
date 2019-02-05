@@ -7,6 +7,9 @@ using System.IO;
 
 namespace App.Metrics.Formatters.InfluxDB.Internal
 {
+    /// <summary>
+    /// Base class for a <see cref="ILineProtocolPoint"/> which takes care of common properties (<see cref="Measurement"/>, <see cref="Tags"/> and <see cref="UtcTimestamp"/>).
+    /// </summary>
     internal abstract class LineProtocolPointBase
     {
         public LineProtocolPointBase(string measurement, MetricTags tags, DateTime? utcTimestamp)
@@ -32,6 +35,10 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
 
         public DateTime? UtcTimestamp { get; }
 
+        /// <summary>
+        /// Writes the common properties of the line procol points, which includes writing the measurement name and the different tags.
+        /// </summary>
+        /// <param name="textWriter">Writer to write the values to.</param>
         protected void WriteCommon(TextWriter textWriter)
         {
             textWriter.Write(LineProtocolSyntax.EscapeName(Measurement));
@@ -48,6 +55,10 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
             }
         }
 
+        /// <summary>
+        /// Writes the timestamp using the most precise unit.
+        /// </summary>
+        /// <param name="textWriter">Writer to write the values to.</param>
         protected void WriteTimestamp(TextWriter textWriter)
         {
             textWriter.Write(' ');

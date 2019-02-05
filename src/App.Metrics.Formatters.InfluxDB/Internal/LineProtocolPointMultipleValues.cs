@@ -9,6 +9,9 @@ using System.Linq;
 
 namespace App.Metrics.Formatters.InfluxDB.Internal
 {
+    /// <summary>
+    /// Represents a line procol point with multiple fields.
+    /// </summary>
     internal class LineProtocolPointMultipleValues : LineProtocolPointBase, ILineProtocolPoint
     {
         public LineProtocolPointMultipleValues(
