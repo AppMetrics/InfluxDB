@@ -124,7 +124,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [Fact]
         public void Measurement_is_required()
         {
-            var fieldName = string.Empty;
+            var fieldName = "key";
             var fieldValue = "value";
             Action action = () =>
             {
@@ -140,7 +140,7 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [InlineData(DateTimeKind.Utc, true)]
         public void Time_stamp_should_be_utc(DateTimeKind dateTimeKind, bool expected)
         {
-            var fieldName = string.Empty;
+            var fieldName = "key";
             var fieldValue = "value";
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, dateTimeKind);
 

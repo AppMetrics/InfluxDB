@@ -33,7 +33,7 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
             }
 
             FieldsNames = fieldsNames;
-            FieldsValues = FieldsValues;
+            FieldsValues = fieldsValues;
         }
 
         public IEnumerable<string> FieldsNames { get; }
