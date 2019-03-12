@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -37,10 +38,10 @@ namespace App.Metrics.Reporting.InfluxDB.Client
         }
 
         public async Task<LineProtocolWriteResult> WriteAsync(
-            string payload,
+            Stream payload,
             CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(payload))
+            if (payload == null)
             {
                 return new LineProtocolWriteResult(true);
             }
@@ -52,7 +53,7 @@ namespace App.Metrics.Reporting.InfluxDB.Client
 
             try
             {
-                var content = new StringContent(payload, Encoding.UTF8);
+                var content = new StreamContent(payload);
 
                 var response = await _httpClient.PostAsync(_influxDbOptions.Endpoint, content, cancellationToken);
 
