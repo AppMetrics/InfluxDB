@@ -1,35 +1,22 @@
-﻿// <copyright file="LineProtocolPoint.cs" company="App Metrics Contributors">
+﻿// <copyright file="LineProtocolPointBase.cs" company="App Metrics Contributors">
 // Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace App.Metrics.Formatters.InfluxDB.Internal
 {
-    internal class LineProtocolPoint
+    /// <summary>
+    /// Base class for a <see cref="ILineProtocolPoint"/> which takes care of common properties (<see cref="Measurement"/>, <see cref="Tags"/> and <see cref="UtcTimestamp"/>).
+    /// </summary>
+    internal abstract class LineProtocolPointBase
     {
-        public LineProtocolPoint(
-            string measurement,
-            IReadOnlyDictionary<string, object> fields,
-            MetricTags tags,
-            DateTime? utcTimestamp = null)
+        public LineProtocolPointBase(string measurement, MetricTags tags, DateTime? utcTimestamp)
         {
             if (string.IsNullOrEmpty(measurement))
             {
                 throw new ArgumentException("A measurement name must be specified");
-            }
-
-            if (fields == null || fields.Count == 0)
-            {
-                throw new ArgumentException("At least one field must be specified");
-            }
-
-            if (fields.Any(f => string.IsNullOrEmpty(f.Key)))
-            {
-                throw new ArgumentException("Fields must have non-empty names");
             }
 
             if (utcTimestamp != null && utcTimestamp.Value.Kind != DateTimeKind.Utc)
@@ -38,12 +25,9 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
             }
 
             Measurement = measurement;
-            Fields = fields;
             Tags = tags;
             UtcTimestamp = utcTimestamp;
         }
-
-        public IReadOnlyDictionary<string, object> Fields { get; }
 
         public string Measurement { get; }
 
@@ -51,13 +35,12 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
 
         public DateTime? UtcTimestamp { get; }
 
-        public void Write(TextWriter textWriter, bool writeTimestamp = true)
+        /// <summary>
+        /// Writes the common properties of the line procol points, which includes writing the measurement name and the different tags.
+        /// </summary>
+        /// <param name="textWriter">Writer to write the values to.</param>
+        protected void WriteCommon(TextWriter textWriter)
         {
-            if (textWriter == null)
-            {
-                throw new ArgumentNullException(nameof(textWriter));
-            }
-
             textWriter.Write(LineProtocolSyntax.EscapeName(Measurement));
 
             if (Tags.Count > 0)
@@ -70,23 +53,14 @@ namespace App.Metrics.Formatters.InfluxDB.Internal
                     textWriter.Write(LineProtocolSyntax.EscapeName(Tags.Values[i]));
                 }
             }
+        }
 
-            var fieldDelim = ' ';
-
-            foreach (var f in Fields)
-            {
-                textWriter.Write(fieldDelim);
-                fieldDelim = ',';
-                textWriter.Write(LineProtocolSyntax.EscapeName(f.Key));
-                textWriter.Write('=');
-                textWriter.Write(LineProtocolSyntax.FormatValue(f.Value));
-            }
-
-            if (!writeTimestamp)
-            {
-                return;
-            }
-
+        /// <summary>
+        /// Writes the timestamp using the most precise unit.
+        /// </summary>
+        /// <param name="textWriter">Writer to write the values to.</param>
+        protected void WriteTimestamp(TextWriter textWriter)
+        {
             textWriter.Write(' ');
 
             if (UtcTimestamp == null)

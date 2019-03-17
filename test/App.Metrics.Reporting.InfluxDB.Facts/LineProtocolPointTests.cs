@@ -14,12 +14,26 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
     public class LineProtocolPointTests
     {
         [Fact]
-        public void At_least_one_field_is_required()
+        public void At_least_one_field_is_required_for_multiple_values()
         {
-            var fields = new Dictionary<string, object>();
+            var fields = new List<string>();
+            var values = new List<object>();
             Action action = () =>
             {
-                var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
+                var unused = new LineProtocolPointMultipleValues("measurement", fields, values, MetricTags.Empty);
+            };
+
+            action.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void At_least_one_field_is_required_for_single_value()
+        {
+            var fieldName = string.Empty;
+            var fieldValue = "value";
+            Action action = () =>
+            {
+                var unused = new LineProtocolPointSingleValue("measurement", fieldName, fieldValue, MetricTags.Empty);
             };
 
             action.Should().Throw<ArgumentException>();
@@ -29,9 +43,10 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         public void Can_format_payload_correctly()
         {
             var textWriter = new StringWriter();
-            var fields = new Dictionary<string, object> { { "key", "value" } };
+            var fieldName = "key";
+            var fieldValue = "value";
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
+            var point = new LineProtocolPointSingleValue("measurement", fieldName, fieldValue, MetricTags.Empty, timestamp);
 
             point.Write(textWriter);
 
@@ -42,8 +57,9 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         public void Can_format_payload_correctly_without_providing_timestamp()
         {
             var textWriter = new StringWriter();
-            var fields = new Dictionary<string, object> { { "key", "value" } };
-            var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
+            var fieldName = "key";
+            var fieldValue = "value";
+            var point = new LineProtocolPointSingleValue("measurement", fieldName, fieldValue, MetricTags.Empty);
 
             point.Write(textWriter, false);
 
@@ -54,14 +70,10 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         public void Can_format_payload_with_multiple_fields_correctly()
         {
             var textWriter = new StringWriter();
-            var fields = new Dictionary<string, object>
-                         {
-                             { "field1key", "field1value" },
-                             { "field2key", 2 },
-                             { "field3key", false }
-                         };
+            var fieldsNames = new[] { "field1key", "field2key", "field3key" };
+            var fieldsValues = new object[] { "field1value", 2, false };
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
+            var point = new LineProtocolPointMultipleValues("measurement", fieldsNames, fieldsValues, MetricTags.Empty, timestamp);
 
             point.Write(textWriter);
 
@@ -72,10 +84,11 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         public void Can_format_payload_with_tags_correctly()
         {
             var textWriter = new StringWriter();
-            var fields = new Dictionary<string, object> { { "key", "value" } };
+            var fieldName = "key";
+            var fieldValue = "value";
             var tags = new MetricTags("tagkey", "tagvalue");
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new LineProtocolPoint("measurement", fields, tags, timestamp);
+            var point = new LineProtocolPointSingleValue("measurement", fieldName, fieldValue, tags, timestamp);
 
             point.Write(textWriter);
 
@@ -83,12 +96,26 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         }
 
         [Fact]
-        public void Field_key_cannot_be_empty()
+        public void Field_key_cannot_be_empty_for_single_value()
         {
-            var fields = new Dictionary<string, object> { { string.Empty, "value" } };
+            var fieldName = string.Empty;
+            var fieldValue = "value";
             Action action = () =>
             {
-                var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
+                var unused = new LineProtocolPointSingleValue("measurement", fieldName, fieldValue, MetricTags.Empty);
+            };
+
+            action.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Field_key_cannot_be_empty_for_multiple_values()
+        {
+            var fieldsNames = new[] { string.Empty };
+            var fieldsValues = new object[] { "values" };
+            Action action = () =>
+            {
+                var unused = new LineProtocolPointMultipleValues("measurement", fieldsNames, fieldsValues, MetricTags.Empty);
             };
 
             action.Should().Throw<ArgumentException>();
@@ -97,10 +124,11 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [Fact]
         public void Measurement_is_required()
         {
-            var fields = new Dictionary<string, object> { { "key", "value" } };
+            var fieldName = "key";
+            var fieldValue = "value";
             Action action = () =>
             {
-                var unused = new LineProtocolPoint(string.Empty, fields, MetricTags.Empty);
+                var unused = new LineProtocolPointSingleValue(string.Empty, fieldName, fieldValue, MetricTags.Empty);
             };
 
             action.Should().Throw<ArgumentException>();
@@ -112,12 +140,13 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
         [InlineData(DateTimeKind.Utc, true)]
         public void Time_stamp_should_be_utc(DateTimeKind dateTimeKind, bool expected)
         {
-            var fields = new Dictionary<string, object> { { "key", "value" } };
+            var fieldName = "key";
+            var fieldValue = "value";
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, dateTimeKind);
 
             Action action = () =>
             {
-                var unused = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
+                var unused = new LineProtocolPointSingleValue("measurement", fieldName, fieldValue, MetricTags.Empty, timestamp);
             };
 
             if (!expected)

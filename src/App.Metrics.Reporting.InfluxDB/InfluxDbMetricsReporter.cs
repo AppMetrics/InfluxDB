@@ -67,8 +67,8 @@ namespace App.Metrics.Reporting.InfluxDB
             using (var stream = new MemoryStream())
             {
                 await Formatter.WriteAsync(stream, metricsData, cancellationToken);
-
-                result = await _lineProtocolClient.WriteAsync(Encoding.UTF8.GetString(stream.ToArray()), cancellationToken);
+                stream.Position = 0;
+                result = await _lineProtocolClient.WriteAsync(stream, cancellationToken);
             }
 
             if (result.Success)

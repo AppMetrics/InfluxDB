@@ -3,9 +3,11 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Reporting.InfluxDB.Client;
@@ -39,7 +41,11 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
             // Act
-            var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
+            LineProtocolWriteResult response;
+            using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+            {
+                response = await influxClient.WriteAsync(payload, CancellationToken.None);
+            }
 
             // Assert
             response.Success.Should().BeTrue();
@@ -67,7 +73,11 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
             // Act
-            var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
+            LineProtocolWriteResult response;
+            using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+            {
+                response = await influxClient.WriteAsync(payload, CancellationToken.None);
+            }
 
             // Assert
             response.Success.Should().BeTrue();
@@ -128,7 +138,10 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             // Act
             foreach (var attempt in Enumerable.Range(0, 10))
             {
-                await influxClient.WriteAsync(Payload, CancellationToken.None);
+                using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+                {
+                   await influxClient.WriteAsync(payload, CancellationToken.None);
+                }
 
                 // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                 if (attempt <= policy.FailuresBeforeBackoff)
@@ -172,7 +185,10 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             foreach (var attempt in Enumerable.Range(0, 10))
             {
-                await influxClient.WriteAsync(Payload, CancellationToken.None);
+                using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+                {
+                    await influxClient.WriteAsync(payload, CancellationToken.None);
+                }
 
                 if (attempt <= policy.FailuresBeforeBackoff)
                 {
@@ -202,7 +218,11 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
 
             influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
-            var response = await influxClient.WriteAsync(Payload, CancellationToken.None);
+            LineProtocolWriteResult response;
+            using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+            {
+                response = await influxClient.WriteAsync(payload, CancellationToken.None);
+            }
 
             response.Success.Should().BeTrue();
         }
@@ -229,7 +249,10 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
             // Act
-            await influxClient.WriteAsync(Payload, CancellationToken.None);
+            using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+            {
+                await influxClient.WriteAsync(payload, CancellationToken.None);
+            }
 
             httpMessageHandlerMock.Protected().Verify<Task<HttpResponseMessage>>(
                 "SendAsync",
@@ -261,7 +284,10 @@ namespace App.Metrics.Reporting.InfluxDB.Facts
             var influxClient = MetricsInfluxDbReporterBuilder.CreateClient(settings, policy, httpMessageHandlerMock.Object);
 
             // Act
-            await influxClient.WriteAsync(Payload, CancellationToken.None);
+            using (var payload = new MemoryStream(Encoding.UTF8.GetBytes(Payload)))
+            {
+                await influxClient.WriteAsync(payload, CancellationToken.None);
+            }
 
             httpMessageHandlerMock.Protected().Verify<Task<HttpResponseMessage>>(
                 "SendAsync",
